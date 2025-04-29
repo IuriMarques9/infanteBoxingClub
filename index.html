@@ -3,21 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/infante-logo.jpg" type="image/x-icon">
 
-    <title>Infante Boxing Club</title>
+    <!-- Link para o Tailwind CSS via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!--Link de icones via CDN-->
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-brands/css/uicons-brands.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+    
+    <!-- Meta description para SEO -->
+    <meta name="description" content="Bem-vindo nosso clube de Boxe. Deixe-se de sedentarismo e lute pelo seu bem-estar. Vem treinar connosco!">
+
+    <title>Infante Boxing Club - Oficial Website</title>
 
 </head>
 <body>
-    <header>
-        <h1>Welcome to Infante Boxing Club</h1>
+    <!-- Cabeçalho -->
+    <header class="min-w-[300px] flex py-6 px-8 items-center justify-between bg-[#CCA158] shadow w-full">
+    
+        <!--Nav Desktop-->
+        <nav class="hidden sm:block w-full">
+            <ul class="flex justify-center md:justify-end space-x-4 h-full items-center">
+                <li class="underline text-white font-semibold decoration-3 decoration-[#99B1B5] hover:cursor-default">Início</li>
+                <li><a href="galeria.html" class="text-white font-semibold decoration-3 decoration-[#99B1B5] hover:underline">Galeria</a></li>
+                <li><a href="menu.html" class="text-white font-semibold decoration-3 decoration-[#99B1B5] hover:underline">Menu</a></li>
+            </ul>
+        </nav>
+            
+        <!--Nav Mobile-->
+        <nav class="sm:hidden">
+            <i class="fi fi-br-menu-burger text-white text-xl"></i>
+        </nav>
+
+        <!--Social-->
+        <div class="flex gap-3 items-center">
+            <a href="https://www.facebook.com/profile.php?id=100088583096544" class="h-fit ">
+                <i class="fi fi-brands-facebook text-white text-xl"></i>
+            </a>
+            <a href="https://www.instagram.com/infanteboxing_club/" class="h-fit">
+                <i class="fi fi-brands-instagram text-white text-xl"></i>     
+            </a>                
+            <a href="" class="h-fit">
+                <i class="fi fi-brands-youtube text-white text-xl"></i>
+            </a>
+        </div>
     </header>
+    <!-- Fim Cabeçalho -->
 
     <main>
         <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
+        <p>Your content goes here.</p>
     </main>
     
-    <footer>
-        <p>&copy; 2025 Infante Boxing Club. All rights reserved.</p>
+    <!-- Rodapé -->
+    <footer class="z-99 text-white bg-[#FCCE35] shadow px-10">
+        <div class="flex flex-col md:flex-row md:gap-3 py-5 max-w-[1280px] mx-auto">
+            <form action="https://formsubmit.co/iurimarcianom@hotmail.com" method="POST" class="w-full text-white flex flex-col gap-2" enctype="multipart/form-data">
+                <h4 class="!text-white">Envie-nos email</h4>
+                
+                <div class="flex flex-col gap-1"> <!-- Input Name -->
+                    <label for="nome">Nome</label>
+                    <input placeholder="Primeiro Nome" type="text" name="nome" required>
+                </div>
+                
+                <div class="flex flex-col gap-1"> <!-- Input Email -->
+                    <label for="email">Email</label>
+                    <input placeholder="exemplo@exemplo.com" type="email" name="email" required>
+                </div>
+        
+                <div class="flex flex-col gap-1"> <!-- Input Messsage -->
+                    <label for="mensagem">Mensagem</label>
+                    <textarea placeholder="Escreve aqui a tua mensagem" rows="3" name="mensagem" required></textarea>
+                </div>
+        
+                <div>
+                    <label class="container"> <!-- Input CheckBox -->                
+                        <input type="checkbox" class="h-fit" name="politica" required>
+                        <span class="checkmark"></span>
+                        Concordo com a
+                    </label>
+                    <a href="" class="font-[600] text-[12px] underline hover:text-[#99B1B5]">Politica de Privacidade</a>
+                </div>
+        
+                <button type="submit" value="Enviar" class="py-2 cursor-pointer hover:!border-[#99B1B5] font-semibold">Enviar</button> <!-- Submit Button -->
+        
+                <input type="hidden" name="_next" value="email.html"> <!-- Redirect page -->
+                <input type="hidden" name="_template" value="table"> <!-- Email Template-->
+                <input type="hidden" name="_captcha" value="false"> <!-- ReCaptcha Remove -->
+            </form>
+        
+            <div class="text-white border-1 my-5 md:my-0"></div>
+        
+            <div class=" text-white flex flex-col gap-4 items-center md:items-end md:text-end text-center w-full md:w-2/4 md:justify-evenly">
+                <h5>Telemovel: 96999999</h5>
+        
+                <h5>Email: infanteboxing@hotmail.com</h5>
+        
+                <h5>Para mais informações contacte-nos atraves do numero de telefone, envie-nos um email ou contacte-nos pelo formulario acima.</h5>
+                
+            </div>
+        </div>
+
+        <hr class="text-white border-t-2 max-w-[1280px] mx-auto">
+
+        <div class="flex flex-col md:flex-row justify-evenly items-center gap-5 py-5 max-w-[1280px] mx-auto">
+            <h6>
+                <a href="" class="w-fit block hover:underline hover:text-[#99B1B5]">Politica de Privacidade</a>
+            </h6>
+            <h6>
+                <a href="" class="w-fit block hover:underline hover:text-[#99B1B5]">Livro de Reclamações</a>
+            </h6>
+        </div>
+
+        <div class="text-white mx-auto text-center border-t-2 py-3 max-w-[1280px] mx-auto">
+        <p class="!text-xs !text-center">&copy; 2025 Todos os direitos reservados a Restaurante Frango da Ria - Fornecido por <a href="" class="underline hover:text-red-600">RedDune Solutions</a></p>
+        </div>
     </footer>
 </body>
 </html>

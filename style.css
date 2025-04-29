@@ -1,0 +1,20 @@
+/* Reset all tags to default styles */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    min-width: 300px;
+}
+
+img, video {
+    max-width: 100%;
+    height: auto;
+}
+
+ul, ol {
+    list-style: none;
+}
+
