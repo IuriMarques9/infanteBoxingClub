@@ -25,26 +25,27 @@ svg:hover{
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
-    width: 100%;
 }
 
 h1 {
-    font-size: 2em;
+    font-size: 2.3em;
 }
 h2 {
-    font-size: 1.5em;
+    font-size: 2em;
+    color: #CCA158;
+    font-weight: bold;
 }
 h3 {
-    font-size: 1.25em;
+    font-size: 1.5em;
 }
 h4 {
-    font-size: 1.125em;
+    font-size: 1.25em;
 }
 h5 {
-    font-size: 1em;
+    font-size: 1.125em;
 }
 h6 {
-    font-size: 0.875em;
+    font-size: 1em;
 }
 
 /* Decorations */
@@ -54,6 +55,17 @@ div#Hero::after{
     rotate: 90deg;
     bottom: 0;
     right: 0;
+    width: 0;
+    height: 0;
+    border-left: 120px solid transparent;
+    border-top: 120px solid #CCA158;
+}
+div#Sobre::after{
+    content: '';
+    position: absolute;
+    rotate: 270deg;
+    top: 0;
+    left: 0;
     width: 0;
     height: 0;
     border-left: 120px solid transparent;
