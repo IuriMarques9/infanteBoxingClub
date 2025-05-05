@@ -18,56 +18,76 @@ ul, ol {
     list-style: none;
 }
 
+
+
+
+
+
+
+
+div#SidePanelMobile ul li a{
+    display: flex;
+    gap: 10px;
+    color: #CCA158;
+}
+div#SidePanelMobile ul li:hover {
+    scale: 1.05;
+}
+div#SidePanelMobile ul li a svg:hover{
+    scale: 1;
+}
+
 svg:hover{
     cursor: pointer;
     scale: 1.1;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-weight: bold;
-}
+/* Titles */
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: bold;
+    }
 
-h1 {
-    font-size: 2.3em;
-}
-h2 {
-    font-size: 2em;
-    color: #CCA158;
-    font-weight: bold;
-}
-h3 {
-    font-size: 1.5em;
-}
-h4 {
-    font-size: 1.25em;
-}
-h5 {
-    font-size: 1.125em;
-}
-h6 {
-    font-size: 1em;
-}
+    h1 {
+        font-size: 2.3em;
+    }
+    h2 {
+        font-size: 2em;
+        color: #CCA158;
+        font-weight: bold;
+    }
+    h3 {
+        font-size: 1.5em;
+    }
+    h4 {
+        font-size: 1.25em;
+    }
+    h5 {
+        font-size: 1.125em;
+    }
+    h6 {
+        font-size: 1em;
+    }
 
 /* Decorations */
-div#Hero::after{
-    content: '';
-    position: absolute;
-    rotate: 90deg;
-    bottom: 0;
-    right: 0;
-    width: 0;
-    height: 0;
-    border-left: 120px solid transparent;
-    border-top: 120px solid #CCA158;
-}
-div#Sobre::after{
-    content: '';
-    position: absolute;
-    rotate: 270deg;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-left: 120px solid transparent;
-    border-top: 120px solid #CCA158;
-}
+    div#Hero::after{
+        content: '';
+        position: absolute;
+        rotate: 90deg;
+        bottom: 0;
+        right: 0;
+        width: 0;
+        height: 0;
+        border-left: 120px solid transparent;
+        border-top: 120px solid #CCA158;
+    }
+    div#Sobre::after{
+        content: '';
+        position: absolute;
+        rotate: 270deg;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 120px solid transparent;
+        border-top: 120px solid #CCA158;
+    }
