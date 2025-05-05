@@ -25,22 +25,23 @@ ul, ol {
 
 
 
-div#SidePanelMobile ul li a{
-    display: flex;
-    gap: 10px;
-    color: #CCA158;
-}
-div#SidePanelMobile ul li:hover {
-    scale: 1.05;
-}
-div#SidePanelMobile ul li a svg:hover{
-    scale: 1;
-}
+/*Customization to Navigation Side Panel Mobile*/
+    div#SidePanelMobile ul li a{
+        display: flex;
+        gap: 10px;
+        color: #CCA158;
+    }
+    div#SidePanelMobile ul li:hover {
+        scale: 1.05;
+    }
+    div#SidePanelMobile ul li a svg:hover{
+        scale: 1;
+    }
 
-svg:hover{
-    cursor: pointer;
-    scale: 1.1;
-}
+    svg:hover{
+        cursor: pointer;
+        scale: 1.1;
+    }
 
 /* Titles */
     h1, h2, h3, h4, h5, h6 {
