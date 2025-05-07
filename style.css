@@ -17,7 +17,7 @@ html, body {
 }
 
 img, video {
-    max-width: 100%;
+    max-width: 250px;
     height: auto;
 }
 
@@ -64,10 +64,12 @@ p{
     }
     h3 {
         font-size: 1.5em;
+        font-weight: bold;
     }
     h4 {
         font-size: 1.3em;
         font-weight: bold;
+        color: white;
     }
     h5 {
         font-size: 1.125em;
