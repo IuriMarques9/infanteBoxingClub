@@ -67,12 +67,15 @@ p{
         font-weight: bold;
     }
     h4 {
-        font-size: 1.3em;
+        font-size: 1.35em;
         font-weight: bold;
         color: white;
     }
     h5 {
         font-size: 1.125em;
+        color: #CCA158;
+        font-weight: bold;
+        line-height: 1.125em;
     }
     h6 {
         font-size: 0.8em;
