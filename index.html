@@ -439,12 +439,12 @@
                 </div>
             </section>
 
-            <section id="Galeria" class="h-fit p-[35px] py-15 max-w-[1280px] flex flex-col gap-15">
+            <section id="Galeria" class="relative h-fit p-[35px] py-15 max-w-[1280px] flex flex-col gap-15">
                 <div class="border-b-4 border-[#CCA158]">
                     <h2>Galeria de fotos</h2>
                 </div>
-
-                <div class="flex flex-col items-center gap-5">
+                
+                <div class="flex flex-col items-center gap-5"> <!--Imagens visiveis-->
                     <img src="assets/boxeImage.png" alt="Galeria 1" class="w-500">
                         
                     <img src="assets/chaves.png" alt="Galeria 2" class="w-full h-fit">
@@ -452,6 +452,23 @@
                     <img src="assets/jiujitsuImage.png" alt="Galeria 3" class="w-full h-fit">
                       
                     <img src="assets/infante-logo.png" alt="Galeria 4" class="w-full h-fit">
+
+                </div> 
+
+                <div class="hidden flex flex-col items-center gap-5"> <!--Imagens escondidas-->
+                    <img src="assets/chaves.png" alt="Galeria 2" class="w-full h-fit">
+                        
+                    <img src="assets/jiujitsuImage.png" alt="Galeria 3" class="w-full h-fit">
+                </div>
+
+                <div class="absolute inset-x-0 bottom-0 h-50 px-[35px]"> <!--Botão 'Ver Mais'-->
+                    <div class="flex flex-col justify-center items-center bg-gradient-to-b from-white/1 from-10% via-white via-70% to-white to-100% w-full h-50">
+                        <div class="cursor-pointer hover:scale-105">
+                            <h5>Ver mais</h5>
+
+                            <svg class="mx-auto hover:!scale-100" width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 10L12 15L17 10" stroke="#CCA158" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                        </div>
+                    </div>
                 </div>
             </section>
             
@@ -460,7 +477,7 @@
                     <h2>Merchandising</h2>
                 </div>
 
-                <div class="flex flex-col items-center gap-5 bg-[#CCA158]/30 p-4">
+                <div class="flex flex-col items-center gap-5 bg-[#CCA158]/30 p-6">
                     <div class="rounded-sm w-full shadow-[inset_0px_0px_50px_35px_rgba(204,_161,_88,_100)] p-5">
                         <img src="assets/jiujitsuImage.png" alt="" class="mx-auto w-full">
 

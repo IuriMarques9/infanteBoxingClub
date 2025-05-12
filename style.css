@@ -24,8 +24,18 @@ img, video {
 ul, ol {
     list-style: none;
 }
+
 p{
     font-size: 14px;
+}
+
+svg:hover{
+    cursor: pointer;
+    scale: 1.1;
+}
+
+svg{
+    min-width: 20px;
 }
 
 
@@ -47,14 +57,6 @@ p{
         scale: 1;
     }
 
-    svg:hover{
-        cursor: pointer;
-        scale: 1.1;
-    }
-
-    svg{
-        min-width: 20px;
-    }
 
 /* Titles */
 
