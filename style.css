@@ -38,6 +38,12 @@ svg{
     min-width: 20px;
 }
 
+svg.inactive{
+    cursor: default;
+}
+svg.inactive:hover{
+    scale: 1;
+}
 
 
 
