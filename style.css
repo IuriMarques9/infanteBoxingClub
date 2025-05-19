@@ -51,7 +51,7 @@ svg.inactive:hover{
 section#Horario table{
     width: 100%;
     border-collapse: separate;
-    border-spacing: 5px;
+    border-spacing: 7px;
 }
 section#Horario table td{
     color: black;
@@ -63,6 +63,7 @@ section#Horario table td{
     text-align: center;
     font-weight: bold;
     min-width: 80px;
+    max-width: 90px;
 }
 
 section#Horario table tr > td:nth-child(1){
@@ -73,7 +74,7 @@ section#Horario table tr > td:nth-child(1){
     font-weight: bold;
     font-size: 12px;
     min-width: 0px;
-
+    letter-spacing: 1.2px;
 }
 
 section#Horario table td.individuais{
