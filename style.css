@@ -47,7 +47,56 @@ svg.inactive:hover{
 
 
 
+/*Customization to table*/
+section#Horario table{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 5px;
+}
+section#Horario table td{
+    color: black;
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid white;
+    padding: 10px;
+    font-size: 10px;
+    text-align: center;
+    font-weight: bold;
+    min-width: 80px;
+}
 
+section#Horario table tr > td:nth-child(1){
+    padding: 0;
+    rotate: -90deg;
+    background-color: transparent;
+    border: none;
+    font-weight: bold;
+    font-size: 12px;
+    min-width: 0px;
+
+}
+
+section#Horario table td.individuais{
+    background-color: #A6A6A6;
+}
+section#Horario table td.adultos{
+    background-color: #FD914D;
+}
+section#Horario table td.suricatas{
+    background-color: #C2FE74;
+}
+section#Horario table td.leoes{
+    background-color: #FEE057;
+}
+section#Horario table td.gatinhos{
+    background-color: #F967C1;
+}
+section#Horario table td.competicao{
+    background-color: #FF5658;
+}
+section#Horario table td.jiujitsu{
+    background-color: #0DC0DE;
+}
 
 
 /*Customization to Navigation Side Panel Mobile*/
