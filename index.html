@@ -161,9 +161,17 @@
                 <h2>Sobre Nos</h2>
     
                 <p class="text-justify">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt consectetur asperiores ut ipsam tempore quidem quos deserunt enim velit expedita fugiat similique aliquam recusandae adipisci accusamus, ab nulla sit assumenda quisquam vitae! Assumenda modi, labore maxime accusamus fugiat earum accusantium odit vitae quod ea asperiores repellat ducimus veniam illum quae quaerat eaque numquam repellendus debitis porro facere quam? Culpa, iure. Libero expedita sint nihil, molestiae unde at alias dignissimos amet veritatis maiores dolorum esse, aliquid repudiandae adipisci aperiam voluptatibus corporis autem animi natus cum sapiente ipsa fugit earum! Facere dolores, magnam molestiae at deleniti quia illum distinctio voluptatem dicta iusto.</p>
+                
+
+                <!--Slider Pictures-->
+                <div id="SliderPictures" class="relative w-full flex justify-center overflow-hidden h-[300px]">
+                    <img class="!opacity-100" src="assets/images (1).jpg" alt="">
+                    <img src="assets/images.jpg" alt="">
+                    <img src="assets/images (1).jpg" alt="">
+                    <img src="assets/images.jpg" alt="">
+                </div>
             </section>
             
-            <!--CRIAR SLIDER DE IMAGENS-->
             
             <section id="Modalidade" class="h-fit p-5 max-w-[1280px] flex flex-col gap-15">
                 <div class="border-b-4 border-[#CCA158]">
@@ -679,6 +687,19 @@
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
         };
+
+
+        //Automatic image slider
+        const slides = document.querySelectorAll('div#SliderPictures img');
+        let current = 0;
+
+        function showNextSlide() {
+            slides[current].classList.remove('!opacity-100');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('!opacity-100');
+        }
+
+        setInterval(showNextSlide, 4000); // troca a cada 3 segundos
     </script>
 </body>
 </html>
