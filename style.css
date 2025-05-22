@@ -63,7 +63,10 @@ svg.inactive:hover{
         width: 100%;
         border-collapse: separate;
         border-spacing: 7px;
+        background: #000;
+        border-radius: 10px;
     }
+
     section#Horario table td{
         color: black;
         background-color: white;
@@ -77,6 +80,10 @@ svg.inactive:hover{
         max-width: 90px;
     }
 
+    section#Horario table tr th{
+        color: white;
+    }
+
     section#Horario table tr > td:nth-child(1){
         padding: 0;
         rotate: -90deg;
@@ -86,6 +93,7 @@ svg.inactive:hover{
         font-size: 12px;
         min-width: 0px;
         letter-spacing: 1.2px;
+        color: white;
     }
 
     section#Horario table td.individuais{
