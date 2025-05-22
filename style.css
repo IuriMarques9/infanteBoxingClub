@@ -17,7 +17,7 @@ html, body {
 }
 
 img, video {
-    max-width: 300px;
+    max-width: 250px;
     height: auto;
 }
 
@@ -174,7 +174,7 @@ svg.inactive:hover{
         border-left: 120px solid transparent;
         border-top: 120px solid #CCA158;
     }
-    section#Sobre::after{
+    section#Modalidade::after{
         content: '';
         position: absolute;
         rotate: 270deg;
