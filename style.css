@@ -136,7 +136,8 @@ svg.inactive:hover{
 /* Titles */
 
     h1 {
-        font-size: 2.3em;
+        font-size: 2.5em;
+        font-weight: bold;
     }
     h2 {
         font-size: 2em;
