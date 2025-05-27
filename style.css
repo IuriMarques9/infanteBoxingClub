@@ -63,7 +63,6 @@ svg.inactive:hover{
         width: 100%;
         border-collapse: separate;
         border-spacing: 7px;
-        background: #000;
         border-radius: 10px;
     }
 
