@@ -131,21 +131,47 @@
     <!--Content-->
     <main>
         <div class=" max-w-[1220px] mx-auto w-full"> <!--Conteiner-->
-            <section id="Hero" class="relative w-full px-5 pt-15 pb-30 flex flex-col gap-6 items-center">
-                <div class="bg-[url('assets/infante-logo.png')] bg-contain h-50 w-50 mx-auto rounded-full"></div>
-    
-                <h1 class="text-[#CCA158] self-start">Luta pelo teu bem-estar</h1>
-    
-                <div class="flex flex-col w-full justify-start gap-1">
-                    <p>Já não chega de desculpas e sedentarismo?</p>
-    
-                    <h3>Vem treinar connosco!</h3>
+            <!--Hero section-->
+            <section id="Hero" class="relative">
+                <!--Hero Desktop-->
+                <div class="hidden md:flex w-full items-center justify-between gap-5 pb-25">
+                    
+                    <div class="bg-black w-180 h-120" style="clip-path: polygon(0 0, 100% 0, 0 100%);">
+                        
+                    </div>
+                    
+                    <div class="flex flex-col gap-10 w-full">
+                        <h1 class="text-[#CCA158] self-start">Luta pelo teu bem-estar</h1>
+            
+                        <div class="flex flex-col w-full justify-start gap-1">
+                            <p>Já não chega de desculpas e sedentarismo?</p>
+            
+                            <h3>Vem treinar connosco!</h3>
+                        </div>
+                        
+                        <a href="#Contacto" class="w-full">
+                            <button class="hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-full text-white py-4 px-12 rounded-sm">Primeira aula grátis</button>
+                        </a>
+                    </div>
+
+                    <img class="w-1/4 translate-y-30" src="assets/boneco.png" alt="">
                 </div>
-                
-                <a href="#Contacto" class="w-full ">
-                    <button class="hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-full text-white py-4 px-12 rounded-sm">Primeira aula grátis</button>
-                </a>
-                
+                <!--Hero Mobile-->
+                <div class="md:hidden w-full px-5 pt-15 pb-30 flex flex-col gap-6 items-center ">
+                    <div class="bg-[url('assets/infante-logo.png')] bg-contain h-50 w-50 mx-auto rounded-full"></div>
+        
+                    <h1 class="text-[#CCA158] self-start">Luta pelo teu bem-estar</h1>
+        
+                    <div class="flex flex-col w-full justify-start gap-1">
+                        <p>Já não chega de desculpas e sedentarismo?</p>
+        
+                        <h3>Vem treinar connosco!</h3>
+                    </div>
+                    
+                    <a href="#Contacto" class="w-full ">
+                        <button class="hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-full text-white py-4 px-12 rounded-sm">Primeira aula grátis</button>
+                    </a>
+                </div>
             </section>
 
             <div class="h-30 w-full bg-[#CCA158]"></div>
@@ -276,7 +302,7 @@
                                         <div onclick="this.classList.toggle('hidden');" class="hidden absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/80">
                                             <img onclick="event.stopPropagation();" class="!max-w-none w-2/4" src="assets/images.jpg" alt="">
                                         </div>
-                                        
+
                                         
                                         <img onclick="this.nextElementSibling.classList.toggle('hidden')" class="w-full h-auto object-cover mx-auto cursor-pointer hover:scale-105" src="assets/images.jpg" alt="picture4">
                                         <div onclick="this.classList.toggle('hidden');" class="hidden absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black/80">
