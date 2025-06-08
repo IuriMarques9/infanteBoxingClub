@@ -212,42 +212,41 @@ svg.inactive:hover{
         font-size: 0.8em;
     }
 
-
-/*Checkbox costumization*/
-    /* The container */
-    .container {
-        display: inline;
-        width: fit-content;
+    /*Checkbox costumization*/
+        /* The container */
+        form .container {
+            display: inline;
+            width: fit-content;
+            position: relative;
+            padding-left: 25px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    
+    /* Hide the browser's default checkbox */
+    form .container input {
         position: relative;
-        padding-left: 25px;
+        opacity: 0;
         cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+        height: 0;
+        width: 0;
     }
-  
-  /* Hide the browser's default checkbox */
-  .container input {
-    position: relative;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
-    border: 3px solid white;
-  }
+    
+    /* Create a custom checkbox */
+    form .checkmark {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+        border: 3px solid white;
+    }
   
   /* On mouse-over, add a grey background color */
   .container:hover input ~ .checkmark {
