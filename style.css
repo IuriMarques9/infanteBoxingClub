@@ -85,7 +85,6 @@ svg.inactive:hover{
 
     section#Horario table tr > td:nth-child(1){
         padding: 0;
-        rotate: -90deg;
         background-color: transparent;
         border: none;
         font-weight: bold;
