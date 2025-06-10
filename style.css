@@ -6,8 +6,10 @@
         --white-color: #FFFFFF;
         --black-color: #000000;
     }
+
 * {
     box-sizing: border-box;
+    font-family: "Inter", sans-serif;
 }
 
 html, body {
@@ -136,11 +138,15 @@ svg.inactive:hover{
     h1 {
         font-size: 2.5em;
         font-weight: bold;
+        font-family: "Russo One", sans-serif;
+        letter-spacing: 1.2px;
     }
     h2 {
         font-size: 2em;
         color: #CCA158;
         font-weight: bold;
+        font-family: "Russo One", sans-serif;
+        letter-spacing: 1.2px;
     }
     h3 {
         font-size: 1.5em;
