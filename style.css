@@ -19,7 +19,7 @@ html, body {
 }
 
 img, video {
-    max-width: 250px;
+    max-width: 200px;
     height: auto;
 }
 
@@ -69,10 +69,10 @@ svg.inactive:hover{
     }
 
     section#Horario table td{
-        color: black;
-        background-color: white;
+        color: rgb(255, 255, 255);
+        background-color: #EAEAEA;
         border-radius: 15px;
-        border: 2px solid white;
+        border: 2px solid #EAEAEA;
         padding: 10px;
         font-size: 10px;
         text-align: center;
