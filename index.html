@@ -712,17 +712,17 @@
                 <h6>Preencha este formulario em caso de duvidas, sugestões ou se tiver interesse em marcar uma aula. Prometemos ser o mais breves possivel.</h6>
 
                 <div class="flex flex-col gap-1"> <!-- Input Name -->
-                    <label for="nome">Nome</label>
+                    <label for="nome">Nome *</label>
                     <input placeholder="Primeiro e último nome" type="text" name="nome" required>
                 </div>
                 
                 <div class="flex flex-col gap-1"> <!-- Input Email -->
-                    <label for="email">Email</label>
+                    <label for="email">Email *</label>
                     <input placeholder="exemplo@exemplo.com" type="email" name="email" required>
                 </div>
         
                 <div class="flex flex-col gap-1"> <!-- Input Messsage -->
-                    <label for="mensagem">Mensagem</label>
+                    <label for="mensagem">Mensagem *</label>
                     <textarea placeholder="Escreve aqui a tua mensagem" rows="3" name="mensagem" required></textarea>
                 </div>
         
@@ -730,13 +730,14 @@
                     <label class="container"> <!-- Input CheckBox -->                
                         <input id="CheckBox" type="checkbox" class="h-fit" name="politica" required>
                         <span class="checkmark"></span>
-                        <span class="text-[12px]">Concordo com a</span>
+                        <span class="text-[0.8em]">Concordo com a</span>
                     </label>
-                    <a href="" class="font-[600] text-[12px] underline hover:text-[#EAEAEA]">Politica de Privacidade</a>
+                    <a href="" class="font-[600] text-[0.8em] underline hover:text-[#EAEAEA]">Politica de Privacidade</a> *
                 </div>
         
                 <button type="submit" value="Enviar" class="py-2 cursor-pointer hover:!border-[#EAEAEA] font-semibold">Enviar</button> <!-- Submit Button -->
                 
+                <p class="!text-xs">* Campo obrigatório</p>
                 
                 <input type="hidden" name="_template" value="table"> <!-- Email Template-->
                 <input type="hidden" name="_captcha" value="false"> <!-- ReCaptcha Remove -->
@@ -744,7 +745,7 @@
         
             <div class="text-white border-1 my-5 md:my-0"></div>
         
-            <div class=" text-white flex flex-col gap-4 items-center md:items-end md:text-end text-center w-full md:w-2/4 md:justify-evenly">
+            <div class="text-white flex flex-col gap-4 items-center md:items-end md:text-end text-center w-full md:w-2/4 md:justify-evenly">
                 <h6>Telemovel: 96999999</h6>
         
                 <h6>Email: associacao.infante@gmail.com</h6>
