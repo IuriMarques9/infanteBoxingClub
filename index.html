@@ -706,14 +706,14 @@
     <!-- Footer -->
     <footer class="z-50 text-white bg-[#CCA158] shadow px-5 md:px-10 mx-auto">
         <div id="Contacto" class="flex flex-col md:flex-row md:gap-3 py-5 max-w-[1800px] mx-auto">
-            <form action="https://formsubmit.co/iurimarcianom70@gmail.com" method="post" class="w-full text-white flex flex-col gap-2" enctype="multipart/form-data">
+            <form class="w-full text-white flex flex-col gap-2">
                 <h4>Envie-nos email</h4>
                 
                 <h6>Preencha este formulario em caso de duvidas, sugestões ou se tiver interesse em marcar uma aula. Prometemos ser o mais breves possivel.</h6>
 
                 <div class="flex flex-col gap-1"> <!-- Input Name -->
                     <label for="nome">Nome</label>
-                    <input placeholder="Primeiro Nome" type="text" name="nome" required>
+                    <input placeholder="Primeiro e último nome" type="text" name="nome" required>
                 </div>
                 
                 <div class="flex flex-col gap-1"> <!-- Input Email -->
@@ -728,7 +728,7 @@
         
                 <div>
                     <label class="container"> <!-- Input CheckBox -->                
-                        <input type="checkbox" class="h-fit" name="politica" required>
+                        <input id="CheckBox" type="checkbox" class="h-fit" name="politica" required>
                         <span class="checkmark"></span>
                         <span class="text-[12px]">Concordo com a</span>
                     </label>
@@ -736,8 +736,8 @@
                 </div>
         
                 <button type="submit" value="Enviar" class="py-2 cursor-pointer hover:!border-[#EAEAEA] font-semibold">Enviar</button> <!-- Submit Button -->
-        
-                <input type="hidden" name="_next" value="email.html"> <!-- Redirect page -->
+                
+                
                 <input type="hidden" name="_template" value="table"> <!-- Email Template-->
                 <input type="hidden" name="_captcha" value="false"> <!-- ReCaptcha Remove -->
             </form>
@@ -748,6 +748,13 @@
                 <h6>Telemovel: 96999999</h6>
         
                 <h6>Email: associacao.infante@gmail.com</h6>
+            </div>
+
+            <div id="ModalErro" class="hidden">
+                <div class="conteudo">
+                    <p>Por favor, selecione uma opção antes de enviar.</p>
+                    <button id="FecharModal">OK</button>
+                </div>
             </div>
         </div>
 
@@ -774,6 +781,27 @@
     <!-- Finish Footer -->
 
     <script>
+        //Form redirect
+        const form = document.querySelector("div#Contacto form");
+    
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault(); // Impede o submit padrão
+
+            const formData = new FormData(form);
+
+            const response = await fetch("https://formsubmit.co/iurimarcianom70@gmail.com", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                window.location.href = "/email.html"; // redireciona só depois de sucesso
+            } else {
+                alert("Houve um erro. Tenta novamente.");
+                
+        });
+
+
         // Automatic scroll to merchandise caroussel
         const carousel = document.querySelector('section#Merchandise div:nth-child(2)');
         let direction = 1; // 1 = direita, -1 = esquerda
