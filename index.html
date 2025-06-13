@@ -132,19 +132,20 @@
     <main>
         <div class=" mx-auto w-full"> <!--Conteiner-->
             <!--Hero section-->
-            <section id="Hero" class="relative">
+            <section id="Hero" class="bg-[#EAEAEA] relative">
+                
                 <!--Hero Desktop-->
                 <div class="hidden md:flex 2xl:gap-80 w-full items-center justify-between pb-25 relative">
-                    
-                    <div class="absolute top-0 opacity-10 w-full h-full -z-1">
-                        <video autoplay muted loop playsinline src="assets/216568.mp4" class="w-full"></video>
+                    <div class="absolute top-0 w-full h-full opacity-10 z-0"> <!--Background video-->
+                        <video autoplay muted loop playsinline src="assets/216568.mp4" class="w-full h-full object-fill"></video>
                     </div>
+                    
 
-                    <div class="bg-black p-5 w-140 h-130" style="clip-path: polygon(0 0, 100% 0, 0 100%);">
+                    <div class="bg-black p-5 w-140 h-130 z-1" style="clip-path: polygon(0 0, 100% 0, 0 100%);">
                         <img src="assets/infante-logo.png" class="w-3/4" alt="">
                     </div>
                     
-                    <div class="flex flex-col gap-10 w-full">
+                    <div class="flex flex-col gap-10 w-full z-1">
                         <h1 class="text-[#CCA158] self-start">Luta pelo teu bem-estar</h1>
             
                         <div class="flex flex-col w-full justify-start gap-1">
