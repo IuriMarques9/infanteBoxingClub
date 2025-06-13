@@ -18,7 +18,7 @@ html, body {
     min-width: 340px;
 }
 
-img, video {
+img {
     max-width: 200px;
     height: auto;
 }
