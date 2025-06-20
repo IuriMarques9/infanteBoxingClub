@@ -75,7 +75,7 @@ function gallerySeeMore(){
 
 //Show collection of event pictures
 function ShowEventCollection(collection){    
-    switch(collection){
+    switch(collection){ //Add more cases for other collections
         case 0: //January 24-26
             const januaryCollection = document.querySelector('#Collection0');
             januaryCollection.classList.toggle('hidden');
