@@ -6,7 +6,7 @@ form.addEventListener("submit", async function (e) {
 
     const formData = new FormData(form);
 
-    const response = await fetch("https://formsubmit.co/iurimarcianom70@gmail.com", {
+    const response = await fetch("https://formsubmit.co/e5147151c2d64e4ceaf0a9c445101848", {
         method: "POST",
         body: formData,
     });
