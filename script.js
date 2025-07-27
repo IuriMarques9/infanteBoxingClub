@@ -76,12 +76,13 @@ function gallerySeeMore(){
 //Show collection of event pictures
 function ShowEventCollection(collection){    
     switch(collection){ //Add more cases for other collections
-        case 0: //January 24-26
-            const januaryCollection = document.querySelector('#Collection0');
-            januaryCollection.classList.toggle('hidden');
-            document.body.classList.toggle('overflow-hidden');
+        case 0: 
+        
             break;
-        case 1:   
+        case 1: //Fevereiro 24-26  
+            const fevereiroCollection = document.querySelector('#Collection0');
+            fevereiroCollection.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden');
             break;
         case 2:
             break;
