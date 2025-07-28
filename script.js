@@ -64,27 +64,21 @@ function showNextSlide() {
 
 setInterval(showNextSlide, 4000); // troca a cada 3 segundos
 
-// Show more images in gallery
-function gallerySeeMore(){
-    const hiddenPictures = document.querySelector('#HiddenPictures');
-    hiddenPictures.classList.remove('hidden');
-
-    const seeMoreButton = document.querySelector('#SeeMoreButton');
-    seeMoreButton.classList.add('hidden');
-}
-
 //Show collection of event pictures
 function ShowEventCollection(collection){    
     switch(collection){ //Add more cases for other collections
-        case 0: 
-        
-            break;
-        case 1: //Fevereiro 24-26  
+        case 0: //Fevereiro 24-26  
             const fevereiroCollection = document.querySelector('#Collection0');
             fevereiroCollection.classList.toggle('hidden');
             document.body.classList.toggle('overflow-hidden');
             break;
+        case 1: //Abril 2  
+            const abrilCollection = document.querySelector('#Collection1');
+            abrilCollection.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden');
+            break;
         case 2:
+            
             break;
     }
 }
