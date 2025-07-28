@@ -77,8 +77,10 @@ function ShowEventCollection(collection){
             abrilCollection.classList.toggle('hidden');
             document.body.classList.toggle('overflow-hidden');
             break;
-        case 2:
-            
+        case 2://Junho 28 e 29
+            const junhoCollection = document.querySelector('#Collection2');
+            junhoCollection.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden');
             break;
     }
 }
