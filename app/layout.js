@@ -1,6 +1,6 @@
 import { Russo_One } from "next/font/google";
 import { Inter } from "next/font/google";
-import "../styles/globals.css";
+import "@/styles/globals.css";
 import Footer from "@/components/rootlayout/footers/RightsReserved";
 import Header from "@/components/rootlayout/headers/Header";
 
