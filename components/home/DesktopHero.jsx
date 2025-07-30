@@ -9,7 +9,7 @@ export default function MobileHero() {
 			{/*Hero Desktop*/}
                 <div className="hidden md:flex w-full items-center justify-between pb-25 relative">
                     <div className="absolute top-0 w-full h-full opacity-20 z-0"> {/*Background video*/}
-                        <video autoPlay muted loop playsInline src="/videoHero.mp4" className="w-full h-full object-fill"></video>
+                        <video autoPlay muted loop playsInline src="/videoHero.webm" className="w-full h-full object-fill"></video>
                     </div>
                     
 

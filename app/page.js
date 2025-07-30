@@ -6,6 +6,8 @@ export default function Home() {
         <>
             <Hero />
 
+            <div className="h-30 w-full bg-[#CCA158]"></div>
+
             <Modalidades />
         </>
     );

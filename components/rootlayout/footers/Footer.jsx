@@ -81,7 +81,7 @@ export default function Footer() {
                     <Image className="w-full" src="/fisiomedLogo.jpg" alt="Logo Cabeçalho" width={120} height={60}/>
                 </a>
 
-                <a href="https://www.livroreclamacoes.pt/inicio/" className="w-fit block hover:underline hover:text-[#EAEAEA]">
+                <a href="https://www.livroreclamacoes.pt/Inicio/" className="w-fit block hover:underline hover:text-[#EAEAEA]">
                     <h6>Livro de Reclamações</h6>
                 </a>
             </div>
