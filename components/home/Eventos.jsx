@@ -3,30 +3,31 @@ import Image from "next/image";
 export default function Eventos() {
 
     return (
-        <section id="Eventos" className="max-w-[1800px] mx-auto h-fit p-5 md:px-10 flex flex-col gap-15">
+        <>
+        {/*<section id="Eventos" className="max-w-[1800px] mx-auto h-fit p-5 md:px-10 flex flex-col gap-15">
                 <div className="border-b-4 border-[#CCA158]">
                     <h2>Proximos Eventos</h2>
                 </div>
 
                 <div className="flex flex-col items-center md:flex-row gap-15 md:gap-5 w-full">
                     <div className="md:sticky md:self-start md:w-full md:order-1 md:top-[25%] max-w-[300px] lg:max-w-[500px]"> {/*Next event*/}
-                        <a href="" className="w-full">
+       {/*                 <a href="" className="w-full">
                             <Image src="assets/taca.jpg" className="w-full md:!max-w-none" alt="NextEvent" />
                         </a>
                     </div>
                     
                     <div className="flex self-start w-full">{/*Year Events*/}
     
-                        <div className="w-1 bg-[#CCA158] flex items-end translate-y-2"> {/*Linha vertical*/}
-                            <div className="bg-white w-1 h-16"></div>
+        {/*                <div className="w-1 bg-[#CCA158] flex items-end translate-y-2"> {/*Linha vertical*/}
+         {/*                   <div className="bg-white w-1 h-16"></div>
                         </div>
                         
                         <div className="w-fit h-fit flex flex-col gap-10">
                             
                             <div className="flex w-full">{/*Janeiro*/}
-                                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
+         {/*                       <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
         
-                                <div className="flex flex-col gap-4">
+         {/*                       <div className="flex flex-col gap-4">
                                     <h5>Janeiro</h5>
         
                                     <div className="flex gap-3 items-center">
@@ -39,9 +40,9 @@ export default function Eventos() {
                             </div>
     
                             <div className="flex w-full">{/*Fevereiro*/}
-                                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
+             {/*                   <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
         
-                                <div className="flex flex-col gap-4">
+               {/*                 <div className="flex flex-col gap-4">
                                     <h5>Fevereiro</h5>
         
                                     <div className="flex gap-3 items-center">
@@ -51,11 +52,11 @@ export default function Eventos() {
                                     </div>
 
                                     {/*24 - 26*/}
-                                    <div id="Collection0" className="hidden md:py-20 pt-10 pb-40 sm:px-40 bg-black/70 backdrop-blur-xs fixed top-0 left-0 z-60 w-full h-screen"> {/*Picture Display*/}
-                                        <svg onclick="ShowEventCollection(1)" className="w-8 hover:scale-110 absolute right-3 top-3" viewBox="0 -0.5 25 25" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z" fill="#EAEAEA"></path> </g></svg>
+              {/*                      <div id="Collection0" className="hidden md:py-20 pt-10 pb-40 sm:px-40 bg-black/70 backdrop-blur-xs fixed top-0 left-0 z-60 w-full h-screen"> {/*Picture Display*/}
+               {/*                         <svg onclick="ShowEventCollection(1)" className="w-8 hover:scale-110 absolute right-3 top-3" viewBox="0 -0.5 25 25" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z" fill="#EAEAEA"></path> </g></svg>
     
                                         {/*Collection*/}
-                                        <div className="mb-5 overflow-auto w-full h-full mx-auto grid content-start md:content-center gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+                    {/*                    <div className="mb-5 overflow-auto w-full h-full mx-auto grid content-start md:content-center gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
                                             
                                             <Image onclick="this.nextElementSibling.classNameList.toggle('hidden')" className="w-full h-auto object-cover mx-auto cursor-pointer hover:scale-105" src="assets/marvila/Open Marvila.pdf-image-000.jpg" alt="picture0">
                                             <div onclick="this.classNameList.toggle('hidden');" className="hidden absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black/80 p-10">
@@ -153,8 +154,8 @@ export default function Eventos() {
                             </div>
         
                             <div className="flex w-full">{/*Março*/}
-                                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
-        
+                 {/*               <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
+        {/*
                                 <div className="flex flex-col gap-4 ">
                                     <h5 className="!text-[#B8B3AB]">Março</h5>
         
@@ -165,9 +166,9 @@ export default function Eventos() {
                             </div>
         
                             <div className="flex w-full">{/*Abril*/}
-                                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
+              {/*                  <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
         
-                                <div className="flex flex-col gap-4">
+              {/*                  <div className="flex flex-col gap-4">
                                     <h5>Abril</h5>
         
                                     <div className="flex gap-3 items-center">
@@ -177,11 +178,11 @@ export default function Eventos() {
                                     </div>
                                     
                                     {/* 2 */}
-                                    <div id="Collection1" className="hidden md:py-20 pt-10 pb-40 sm:px-40 bg-black/70 backdrop-blur-xs fixed top-0 left-0 z-60 w-full h-screen"> {/*Picture Display*/}
-                                        <svg onclick="ShowEventCollection(1)" className="w-8 hover:scale-110 absolute right-3 top-3" viewBox="0 -0.5 25 25" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z" fill="#EAEAEA"></path> </g></svg>
+                 {/*                   <div id="Collection1" className="hidden md:py-20 pt-10 pb-40 sm:px-40 bg-black/70 backdrop-blur-xs fixed top-0 left-0 z-60 w-full h-screen"> {/*Picture Display*/}
+                  {/*                        <svg onclick="ShowEventCollection(1)" className="w-8 hover:scale-110 absolute right-3 top-3" viewBox="0 -0.5 25 25" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z" fill="#EAEAEA"></path> </g></svg>
     
                                         {/*Collection*/}
-                                        <div className="mb-5 overflow-auto w-full h-full mx-auto grid content-start md:content-center gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+                   {/*                     <div className="mb-5 overflow-auto w-full h-full mx-auto grid content-start md:content-center gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
                                             
                                             <Image onclick="this.nextElementSibling.classNameList.toggle('hidden')" className="w-full h-auto object-cover mx-auto cursor-pointer hover:scale-105" src="assets/passeioBicicleta/12.jpg" alt="picture0">
                                             <div onclick="this.classNameList.toggle('hidden');" className="hidden absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black/80 p-10">
@@ -242,9 +243,9 @@ export default function Eventos() {
                             </div>
         
                             <div className="flex w-full">{/*Maio*/}
-                                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
+                {/*                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
         
-                                <div className="flex flex-col gap-4">
+                 {/*               <div className="flex flex-col gap-4">
                                     <h5>Maio</h5>
         
                                     <div className="flex gap-3 items-center">
@@ -256,9 +257,9 @@ export default function Eventos() {
                             </div>
         
                             <div className="flex w-full">{/*Junho*/}
-                                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
+                 {/*               <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
         
-                                <div className="flex flex-col gap-4">
+                    {/*            <div className="flex flex-col gap-4">
                                     <h5>Junho</h5>
         
                                     <div className="flex gap-3 items-center">
@@ -279,11 +280,11 @@ export default function Eventos() {
                                         <svg onclick="ShowEventCollection(2)" className="hover:scale-110" fill="#CCA158" width="20" height="20" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>image-gallery-line</title> <path d="M32.12,10H3.88A1.88,1.88,0,0,0,2,11.88V30.12A1.88,1.88,0,0,0,3.88,32H32.12A1.88,1.88,0,0,0,34,30.12V11.88A1.88,1.88,0,0,0,32.12,10ZM32,30H4V12H32Z" className="clr-i-outline clr-i-outline-path-1"></path><path d="M8.56,19.45a3,3,0,1,0-3-3A3,3,0,0,0,8.56,19.45Zm0-4.6A1.6,1.6,0,1,1,7,16.45,1.6,1.6,0,0,1,8.56,14.85Z" className="clr-i-outline clr-i-outline-path-2"></path><path d="M7.9,28l6-6,3.18,3.18L14.26,28h2l7.46-7.46L30,26.77v-2L24.2,19a.71.71,0,0,0-1,0l-5.16,5.16L14.37,20.5a.71.71,0,0,0-1,0L5.92,28Z" className="clr-i-outline clr-i-outline-path-3"></path><path d="M30.14,3h0a1,1,0,0,0-1-1h-22a1,1,0,0,0-1,1h0V4h24Z" className="clr-i-outline clr-i-outline-path-4"></path><path d="M32.12,7V7a1,1,0,0,0-1-1h-26a1,1,0,0,0-1,1h0V8h28Z" className="clr-i-outline clr-i-outline-path-5"></path> <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect> </g></svg>
                                     </div>
                                     {/* 28 e 29 */}
-                                    <div id="Collection2" className="hidden md:py-20 pt-10 pb-40 sm:px-40 bg-black/70 backdrop-blur-xs fixed top-0 left-0 z-60 w-full h-screen"> {/*Picture Display*/}
-                                        <svg onclick="ShowEventCollection(2)" className="w-8 hover:scale-110 absolute right-3 top-3" viewBox="0 -0.5 25 25" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z" fill="#EAEAEA"></path> </g></svg>
+                   {/*                 <div id="Collection2" className="hidden md:py-20 pt-10 pb-40 sm:px-40 bg-black/70 backdrop-blur-xs fixed top-0 left-0 z-60 w-full h-screen"> {/*Picture Display*/}
+                   {/*                     <svg onclick="ShowEventCollection(2)" className="w-8 hover:scale-110 absolute right-3 top-3" viewBox="0 -0.5 25 25" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.96967 16.4697C6.67678 16.7626 6.67678 17.2374 6.96967 17.5303C7.26256 17.8232 7.73744 17.8232 8.03033 17.5303L6.96967 16.4697ZM13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697L13.0303 12.5303ZM11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303L11.9697 11.4697ZM18.0303 7.53033C18.3232 7.23744 18.3232 6.76256 18.0303 6.46967C17.7374 6.17678 17.2626 6.17678 16.9697 6.46967L18.0303 7.53033ZM13.0303 11.4697C12.7374 11.1768 12.2626 11.1768 11.9697 11.4697C11.6768 11.7626 11.6768 12.2374 11.9697 12.5303L13.0303 11.4697ZM16.9697 17.5303C17.2626 17.8232 17.7374 17.8232 18.0303 17.5303C18.3232 17.2374 18.3232 16.7626 18.0303 16.4697L16.9697 17.5303ZM11.9697 12.5303C12.2626 12.8232 12.7374 12.8232 13.0303 12.5303C13.3232 12.2374 13.3232 11.7626 13.0303 11.4697L11.9697 12.5303ZM8.03033 6.46967C7.73744 6.17678 7.26256 6.17678 6.96967 6.46967C6.67678 6.76256 6.67678 7.23744 6.96967 7.53033L8.03033 6.46967ZM8.03033 17.5303L13.0303 12.5303L11.9697 11.4697L6.96967 16.4697L8.03033 17.5303ZM13.0303 12.5303L18.0303 7.53033L16.9697 6.46967L11.9697 11.4697L13.0303 12.5303ZM11.9697 12.5303L16.9697 17.5303L18.0303 16.4697L13.0303 11.4697L11.9697 12.5303ZM13.0303 11.4697L8.03033 6.46967L6.96967 7.53033L11.9697 12.5303L13.0303 11.4697Z" fill="#EAEAEA"></path> </g></svg>
     
                                         {/*Collection*/}
-                                        <div className="mb-5 overflow-auto w-full h-full mx-auto grid content-start md:content-center gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+                    {/*                    <div className="mb-5 overflow-auto w-full h-full mx-auto grid content-start md:content-center gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
                                             
                                             <Image onclick="this.nextElementSibling.classNameList.toggle('hidden')" className="w-full h-auto object-cover mx-auto cursor-pointer hover:scale-105" src="assets/1galaInfante/0.png" alt="picture0">
                                             <div onclick="this.classNameList.toggle('hidden');" className="hidden absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black/80 p-10">
@@ -721,9 +722,9 @@ export default function Eventos() {
                             </div>
         
                             <div className="flex w-full">{/*Julho*/}
-                                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
+                   {/*            <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
         
-                                <div className="flex flex-col gap-4">
+                     {/*           <div className="flex flex-col gap-4">
                                     <h5>Julho</h5>
         
                                     <div className="flex gap-3 items-center">
@@ -735,9 +736,9 @@ export default function Eventos() {
                             </div>
         
                             <div className="flex w-full">{/*Agosto*/}
-                                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
+                 {/*               <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
         
-                                <div className="flex flex-col gap-4">
+                 {/*               <div className="flex flex-col gap-4">
                                     <h5>Agosto</h5>
         
                                     <div className="flex gap-3 items-center">
@@ -749,9 +750,9 @@ export default function Eventos() {
                             </div>
         
                             <div className="flex w-full">{/*Setembro*/}
-                                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
+                  {/*              <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
         
-                                <div className="flex flex-col gap-4">
+                  {/*              <div className="flex flex-col gap-4">
                                     <h5>Setembro</h5>
         
                                     <div className="flex gap-3 items-center">
@@ -763,9 +764,9 @@ export default function Eventos() {
                             </div>
         
                             <div className="flex w-full">{/*Outubro*/}
-                                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
+                     {/*           <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
         
-                                <div className="flex flex-col gap-4">
+                       {/*         <div className="flex flex-col gap-4">
                                     <h5>Outubro</h5>
         
                                     <div className="flex gap-3 items-center">
@@ -777,9 +778,9 @@ export default function Eventos() {
                             </div>
         
                             <div className="flex w-full ">{/*Novebro*/}
-                                <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
+                     {/*           <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
         
-                                <div className="flex flex-col gap-4">
+                      {/*          <div className="flex flex-col gap-4">
                                     <h5>Novembro</h5>
         
                                     <div className="flex gap-3 items-center">
@@ -799,7 +800,7 @@ export default function Eventos() {
                             <div className="flex w-full">
                                 <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4 -translate-x-2.5 translate-y-1.5"></div> {/* Circulo */}
         
-                                <div className="flex flex-col gap-4">
+                      {/*          <div className="flex flex-col gap-4">
                                     <h5>Dezembro</h5>
         
                                     <div className="flex gap-3 items-center">
@@ -813,6 +814,7 @@ export default function Eventos() {
                         </div>                    
                     </div>
                 </div>
-    </section>
+    </section>*/}
+        </>
 );
 }

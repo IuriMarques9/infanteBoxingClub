@@ -15,8 +15,8 @@ export default function ToTopButton() {
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
     return (
-        <button id="ToTop" class="z-50 hidden cursor-pointer hover:scale-115 fixed bottom-5 right-5 bg-[#EAEAEA] rounded-full p-2 shadow-lg">
-            <ArrowUp class="!hover:scale-100" width="25" height="25"/>
+        <button id="ToTop" className="z-50 hidden cursor-pointer hover:scale-115 fixed bottom-5 right-5 bg-[#EAEAEA] rounded-full p-2 shadow-lg">
+            <ArrowUp className="!hover:scale-100" width="25" height="25"/>
         </button>
     )
 }
