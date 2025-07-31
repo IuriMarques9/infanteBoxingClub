@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import Footer from "@/components/rootlayout/footers/Footer";
 import Header from "@/components/rootlayout/headers/Header";
+import ToTopButton from "@/components/rootlayout/ToTopButton";
 
 // Fonte principal (Inter)
 const inter = Inter({
@@ -29,10 +30,15 @@ export default function RootLayout({ children }) {
   	return (
 		<html lang="pt-pt">
 			<body className={`${inter.variable} ${russoOne.variable} antialiased`}>
-        <Header />
+				{/* Header */}                    
+				<Header />
 				
 				{children}
-
+				
+				{/* Botão para voltar ao topo */}
+				<ToTopButton />
+        
+        		{/* Footer */}
 				<Footer />
 			</body>
 		</html>

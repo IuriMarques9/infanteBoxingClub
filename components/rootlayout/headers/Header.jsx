@@ -11,7 +11,7 @@ export default function Header() {
 	const isMobile = IsMobile();
 	
     return (
-    	<header className="min-w-[300px] flex py-8 px-5 items-center justify-between bg-[#CCA158] shadow w-full">
+    	<header className="min-w-[300px] flex py-6 px-5 items-center justify-between bg-[#CCA158] shadow w-full">
 			<div className="w-full flex justify-between items-center mx-auto"> {/*Conteiner*/}
 				{
 					isMobile ? <MobileHeader /> : <DesktopHeader />
@@ -22,11 +22,11 @@ export default function Header() {
 				{/*Social*/}
 				<div className="flex gap-2 items-center">
 					<a href="https://www.facebook.com/profile.php?id=100088583096544" target="_blank" rel="noopener noreferrer" className="hover:scale-110">
-						<Facebook width={30} height={30}/>
+						<Facebook width={25} height={25}/>
 					</a>
 					
 					<a href="https://www.instagram.com/infanteboxing_club/" target="_blank" rel="noopener noreferrer" className="hover:scale-110">
-						<Instagram width={30} height={30}/>
+						<Instagram width={25} height={25}/>
 					</a>
 				</div>
 			</div>

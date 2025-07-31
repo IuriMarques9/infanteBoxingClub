@@ -9,8 +9,8 @@ export default function Hero() {
     return (
 		<section id="Hero" className="relative">
 			{
-                isMobile ? <MobileHero /> : <DesktopHero />
-            }
+        		isMobile ? <MobileHero /> : <DesktopHero />
+      		}
 		</section>
     );
 }

@@ -209,9 +209,7 @@ h6 {
 
 
 
-
-/*
-Customization to table
+/*Customization to table*/
     section#Horario table{
         width: 100%;
         border-collapse: separate;
@@ -269,7 +267,7 @@ Customization to table
         background-color: #0DC0DE;
     }
 
-    /*Picture Slider
+    /*Picture Slider*/
     div#SliderPictures img{
         position: absolute;
         width: 100%;
@@ -280,6 +278,3 @@ Customization to table
         transition: opacity 1s ease-in-out;
         max-width: none;
     }
-
-
-    */
