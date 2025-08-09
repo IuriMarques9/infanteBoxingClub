@@ -1,45 +1,24 @@
-"use client";
-import { Card, Image, Text, Badge, Button, Group, useMantineTheme } from '@mantine/core';
-
+import Image from "next/image";
 export default function ModalidadesCard() {
-  const theme = useMantineTheme();
-
-  const secondaryColor =
-    theme.colorScheme === 'dark'
-      ? theme.colors.dark[1]
-      : theme.colors.gray[7];
 
   return (
-    <div style={{ width: 340, margin: 'auto' }}>
-      <Card shadow="sm" padding="lg" radius="md" withBorder>
-        <Card.Section>
-          <Image
-            src="https://placekitten.com/340/160"
-            height={160}
-            alt="Imagem do card"
-          />
-          <Badge
-            color="pink"
-            variant="light"
-            size="sm"
-            style={{ position: 'absolute', top: 8, right: 8 }}
-          >
-            Promoção
-          </Badge>
-        </Card.Section>
+    <div className="flex flex-col bg-[#1F1F1F]/40 rounded-xl w-full h-full p-3 max-w-100">
+    	<div className="relative overflow-hidden w-full rounded-lg">
+            <div className="w-full h-fit">
+                <Image width={150} height={150} src="/boxeEducativo.png" alt="Boxe Educativo" className="w-full !max-w-none max-h-80" />
+            </div>
 
-        <Group position="apart" mt="md" mb="xs">
-          <Text weight={500}>Título do card</Text>
-        </Group>
+            <div className="absolute bottom-10 left-0 rounded-r-lg bg-black/70 py-2 px-8">
+                <h4 className="text-white font-semibold">Boxe Educativo</h4>
+            </div>
+            
+        </div>
 
-        <Text size="sm" color="dimmed">
-          Aqui vai uma breve descrição do produto, serviço ou conteúdo que o card representa.
-        </Text>
-
-        <Button color="blue" fullWidth mt="md" radius="xs">
-          Ver Mais
-        </Button>
-      </Card>
+        <div className="py-3 flex-grow">
+            <p className="!text-white">
+                Boxe Educativo é uma metodologia reconhecida pela Federação Portuguesa de Boxe e por instituições internacionais como um meio eficaz de iniciação à modalidade. Sem contacto pleno, promove o ensino técnico, motor e comportamental, sendo adaptado a diferentes faixas etárias. Utilizado em escolas, clubes e academias, é uma prática segura, acessível e com benefícios amplos na formação global dos praticantes.
+            </p>
+        </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import Eventos from "@/components/home/Eventos";
 import Sobre from "@/components/home/Sobre";
 import Horario from "@/components/home/Horario";
 import Loc from "@/components/home/Loc";
+import Galeria from "@/components/home/Galeria";
 export default function Home() {
 
     return (
@@ -17,7 +18,7 @@ export default function Home() {
             <Eventos />
 
 
-
+            <Galeria />
 
 
             <Sobre />
