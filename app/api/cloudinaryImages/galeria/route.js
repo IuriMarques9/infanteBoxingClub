@@ -3,7 +3,10 @@ import cloudinary from "@/lib/cloudinary";
 
 export async function GET() {
     try {
-        const result = await cloudinary.api.resources_by_asset_folder('Trabalho/Infante Boxing Club/fotos/galeria');
+        const result = await cloudinary.api.resources_by_asset_folder(
+            'Trabalho/Infante Boxing Club/fotos/galeria',
+            {max_results: 100}
+        );
 
         const images = result.resources.map((image) => ({
             id: image.public_id,

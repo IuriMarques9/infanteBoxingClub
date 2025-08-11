@@ -1,8 +1,17 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import ImagemGaleria from "./ImagemGaleria";
+import { ArrowDown,ArrowUp } from "lucide-react";
+
 export default function Galeria() {
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState([]);// Estado para guardar imagens
+    const [showAll, setShowAll] = useState(false);
+
+    const toggleShowAll = () => {
+        setShowAll((prev) => !prev);
+    };
+    const imagesToShow = showAll ? images : images.slice(0, 10);
 
     useEffect(() => {
         fetch('api/cloudinaryImages/galeria')
@@ -13,39 +22,44 @@ export default function Galeria() {
 
     if (!images.length) return <p>Carregando imagens...</p>;
 
-    console.log(images);
     return (
         <section id="Galeria" className="max-w-[1800px] mx-auto relative h-fit p-5 md:px-10 flex flex-col gap-15">
                 <div className="border-b-4 border-[#CCA158]">
                     <h2>Galeria de fotos</h2>
                 </div>
                 
-                <div className="flex flex-col md:flex-row w-full items-center justify-center gap-5"> {/*Imagens visiveis*/}
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mx-auto"> {/*Imagens visiveis*/}
                     {
-                        images.map(img => (
-                            <Image
-                                key={img.id}
-                                src={img.url}
-                                alt={img.id}
-                                width={150}
-                                height={150}
-                                className="rounded shadow"
-                            />
+                        imagesToShow.map(img => (
+                            <ImagemGaleria key={img.id} id={img.id} url={img.url} width={img.width} height={img.height} />
                         ))
                     }
                 </div> 
+                
+                {
+                    images.length > 10 && (
+                        <div id="SeeMoreButton" className={` ${showAll ? 'bottom-0' : 'absolute bottom-50 h-50'} inset-x-0  px-[35px]`}> {/*Botão 'Ver Mais'*/}
+                            <div className={`flex flex-col justify-center items-center bg-gradient-to-b from-white/1 from-10% via-white via-70% to-white to-100% w-full ${showAll ? 'h-10': 'h-100'}`}>
+                                <div onClick={toggleShowAll} className="flex flex-col items-center cursor-pointer hover:scale-105">
 
-                <div id="SeeMoreButton" className="absolute inset-x-0 bottom-0 h-50 px-[35px]"> {/*Botão 'Ver Mais'*/}
-                    <div className="flex flex-col justify-center items-center bg-gradient-to-b from-white/1 from-10% via-white via-70% to-white to-100% w-full h-50">
-                        <div className="cursor-pointer hover:scale-105">
-                            <h5>Ver mais</h5>
-
-                            <a href="/galeria.html">
-                                <svg className="mx-auto hover:!scale-100" width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7 10L12 15L17 10" stroke="#CCA158" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
-                            </a>
+                                    {showAll ? 
+                                       (
+                                            <>
+                                                <h5>Esconder</h5>
+                                                <ArrowUp stroke="#CCA158" />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <h5>Ver mais</h5>
+                                                <ArrowDown stroke="#CCA158" />
+                                            </>
+                                        )
+                                    }
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    )
+                }
             </section>
     );
 }
