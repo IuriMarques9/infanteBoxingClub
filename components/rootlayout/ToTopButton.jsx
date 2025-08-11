@@ -19,7 +19,7 @@ export default function ToTopButton() {
             {
                 isVisible &&    ( 
                     <button id="ToTop" onClick={scrollToTop} className="z-50 cursor-pointer hover:scale-115 fixed bottom-5 right-5 bg-[#EAEAEA] rounded-full p-2 shadow-lg">
-                        <ArrowUp className="!hover:scale-100" width="25" height="25" stroke="#CCA158"/>
+                        <ArrowUp width="25" height="25" stroke="#CCA158"/>
                     </button>
                 )   
             }
