@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import ImagemGaleria from "./ImagemGaleria";
-import { ArrowDown,ArrowUp } from "lucide-react";
+import { ArrowDown,ArrowUp, LoaderCircle } from "lucide-react";
 
 export default function Galeria() {
     const [images, setImages] = useState([]);// Estado para guardar imagens
@@ -20,8 +20,6 @@ export default function Galeria() {
             .catch(err => console.error("Failed to fetch galary images:", err));
     }, []);
 
-    if (!images.length) return <p>Carregando imagens...</p>;
-
     return (
         <section id="Galeria" className="max-w-[1800px] mx-auto relative h-fit p-5 md:px-10 flex flex-col gap-15">
                 <div className="border-b-4 border-[#CCA158]">
@@ -29,6 +27,8 @@ export default function Galeria() {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mx-auto"> {/*Imagens visiveis*/}
+                    
+                    {!images.length && <LoaderCircle className="animate-spin text-[#CCA158] w-10 h-10 mx-auto mt-20" /> }{/*Loader das imagens*/}
                     {
                         imagesToShow.map(img => (
                             <ImagemGaleria key={img.id} id={img.id} url={img.url} width={img.width} height={img.height} />
