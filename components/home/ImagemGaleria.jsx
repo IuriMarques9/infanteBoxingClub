@@ -28,7 +28,6 @@ export default function ImagemGaleria(props) {
         };
     }, [isOpen]);
     
-    console.log("URL:", downloadUrl);
     return (
         <div className="overflow-hidden w-full h-fit place-self-center">
             <Image
