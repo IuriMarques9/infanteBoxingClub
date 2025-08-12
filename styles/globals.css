@@ -267,8 +267,8 @@ h6 {
         background-color: #0DC0DE;
     }
 
-    /*Picture Slider*/
-    div#SliderPictures img{
+    /*Slider Sobre*/
+    div#SliderSobre img{
         position: absolute;
         width: 100%;
         height: 100%;
