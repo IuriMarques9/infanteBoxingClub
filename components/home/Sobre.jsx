@@ -40,8 +40,8 @@ export default function Sobre() {
             key={i}
             src={img.src}
             alt={img.alt}
-            width={400}
-            height={400}
+            width={300}
+            height={300}
             className={`absolute transition-opacity duration-700 ease-in-out ${
               i === current ? "opacity-100" : "opacity-0"
             }`}
