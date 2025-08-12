@@ -31,9 +31,6 @@ export default function RootLayout({ children }) {
   	return (
 		<html lang="pt-pt">
 			<body className={`${inter.variable} ${russoOne.variable} antialiased`}>
-				<MantineProvider>
-					{/* Header */}                    
-					<Header />
 					
 					{children}
 
@@ -42,8 +39,6 @@ export default function RootLayout({ children }) {
 			
 					{/* Footer */}
 					<Footer />
-
-				</MantineProvider>
 			</body>
 		</html>
   );

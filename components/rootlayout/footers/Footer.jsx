@@ -1,5 +1,6 @@
 import Image from "next/image";
 import RightsReserved from "./RightsReserved";
+import Link from "next/link";
 
 export default function Footer() {
     return (
@@ -73,9 +74,9 @@ export default function Footer() {
             <hr className="text-white border-t-2 max-w-[1800px] mx-auto" />
 
             <div className="flex flex-col md:flex-row justify-evenly items-center gap-5 py-5 max-w-[1800px] mx-auto">
-                <a href="/privicy.html" className="w-fit block hover:underline hover:text-[#EAEAEA]">
+                <Link href="/privicy" className="w-fit block hover:underline hover:text-[#EAEAEA]">
                     <h6>Politica de Privacidade</h6>
-                </a>
+                </Link>
                 
                 <a href="https://www.instagram.com/fisiomed_cc/" className="hover:grayscale-30 w-2/4 max-w-[150px]">
                     <Image className="w-full" src="/fisiomedLogo.jpg" alt="Logo Cabeçalho" width={120} height={60}/>

@@ -28,7 +28,7 @@ export default function Galeria() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mx-auto"> {/*Imagens visiveis*/}
                     
-                    {!images.length && <LoaderCircle className="animate-spin text-[#CCA158] w-10 h-10 mx-auto mt-20" /> }{/*Loader das imagens*/}
+                    {!images.length && <LoaderCircle className="col-start-3 animate-spin text-[#CCA158] w-10 h-10 mx-auto mt-20" /> }{/*Loader das imagens*/}
                     {
                         imagesToShow.map(img => (
                             <ImagemGaleria key={img.id} id={img.id} url={img.url} width={img.width} height={img.height} />

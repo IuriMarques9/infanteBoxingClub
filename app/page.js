@@ -5,27 +5,36 @@ import Sobre from "@/components/home/Sobre";
 import Horario from "@/components/home/Horario";
 import Loc from "@/components/home/Loc";
 import Galeria from "@/components/home/Galeria";
+import Header from "@/components/rootlayout/headers/Header";
+import Loja from "@/components/home/Loja";
 export default function Home() {
 
     return (
-        <main>
-            <Hero />
+        <>
+            {/* Header */}                    
+            <Header />
 
-            <div className="h-30 w-full bg-[#CCA158]"></div>
+            <main>
 
-            <Modalidades />
+                <Hero />
 
-            <Eventos />
+                <div className="h-30 w-full bg-[#CCA158]"></div>
+
+                <Modalidades />
+
+                <Eventos />
 
 
-            <Galeria />
+                <Galeria />
 
+                <Loja />
 
-            <Sobre />
+                <Sobre />
 
-            <Horario />
+                <Horario />
 
-            <Loc />
-        </main>
+                <Loc />
+            </main>
+        </>
     );
 }
