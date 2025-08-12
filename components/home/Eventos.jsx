@@ -4,14 +4,15 @@ export default function Eventos() {
 
     return (
         <>
-        {/*<section id="Eventos" className="max-w-[1800px] mx-auto h-fit p-5 md:px-10 flex flex-col gap-15">
+            <section id="Eventos" className="max-w-[1800px] mx-auto h-fit p-5 md:px-10 flex flex-col gap-15">
                 <div className="border-b-4 border-[#CCA158]">
                     <h2>Proximos Eventos</h2>
                 </div>
-
-                <div className="flex flex-col items-center md:flex-row gap-15 md:gap-5 w-full">
+                <h2>Eventos em Manutenção</h2>
+            </section>
+        {/*        <div className="flex flex-col items-center md:flex-row gap-15 md:gap-5 w-full">
                     <div className="md:sticky md:self-start md:w-full md:order-1 md:top-[25%] max-w-[300px] lg:max-w-[500px]"> {/*Next event*/}
-       {/*                 <a href="" className="w-full">
+           {/*             <a href="" className="w-full">
                             <Image src="assets/taca.jpg" className="w-full md:!max-w-none" alt="NextEvent" />
                         </a>
                     </div>
@@ -816,5 +817,5 @@ export default function Eventos() {
                 </div>
     </section>*/}
         </>
-);
+    );
 }
