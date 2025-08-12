@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { LoaderCircle } from "lucide-react";
-import Produto from "./Produto";
-
+import Produto from "./Produto"; import { Swiper, SwiperSlide } from 'swiper/react'; 
+import { Autoplay } from 'swiper/modules'; // Importe o módulo Autoplay
 export default function Loja() {
     // This component will render the products available in the store
     const [produtos, setProdutos] = useState([]);// Estado para guardar imagens
@@ -23,13 +23,24 @@ export default function Loja() {
             </div>
 
             <div className="flex flex-col md:flex-row overflow-hidden items-center gap-5 bg-[#CCA158]/30 p-6">
-                    
-                {!produtos.length && <LoaderCircle className="col-start-3 animate-spin text-[#CCA158] w-10 h-10 mx-auto mt-20" /> }{/*Loader dos produtos*/}
-                {
-                    produtos.map(prod => (
-                        <Produto key={prod.id} id={prod.id} url={prod.url} width={prod.width} height={prod.height} context={prod.context} />
-                    ))
-                }
+
+                <Swiper modules={[Autoplay]}
+                        spaceBetween={30}
+                        slidesPerView={3}
+                        autoplay={{ delay: 1000, pauseOnMouseEnter: true}}
+                        loop={true}
+                        onSlideChange={() => console.log('slide change')}
+                        onSwiper={(swiper) => console.log(swiper)}
+                >
+                    {!produtos.length && <LoaderCircle className="col-start-3 animate-spin text-[#CCA158] w-10 h-10 mx-auto mt-20" /> }{/*Loader dos produtos*/}
+                    {
+                        produtos.map(prod => (
+                            <SwiperSlide>
+                                <Produto key={prod.id} id={prod.id} url={prod.url} width={prod.width} height={prod.height} context={prod.context} />
+                            </SwiperSlide>
+                        ))
+                    }
+                </Swiper>
             </div> 
         </section>
     );
