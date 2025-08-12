@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import Produto from "./Produto"; import { Swiper, SwiperSlide } from 'swiper/react'; 
 import { Autoplay } from 'swiper/modules'; // Importe o módulo Autoplay
+
 export default function Loja() {
     // This component will render the products available in the store
     const [produtos, setProdutos] = useState([]);// Estado para guardar imagens
@@ -29,6 +30,7 @@ export default function Loja() {
                         slidesPerView={3}
                         autoplay={{ delay: 1000, pauseOnMouseEnter: true}}
                         loop={true}
+                        speed={1000}
                         onSlideChange={() => console.log('slide change')}
                         onSwiper={(swiper) => console.log(swiper)}
                 >

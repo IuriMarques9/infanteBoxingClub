@@ -45,10 +45,10 @@ export default function ImagemGaleria(props) {
                 (<div className="fixed top-0 right-0 w-full h-screen bg-black/80 z-99 flex flex-col justify-center items-center">
                     <X onClick={() => setIsOpen(false)} stroke="#837d7dff" className="absolute hover:scale-110 top-4 right-4 text- text-3xl hover:cursor-pointer" />
 
-                    <Image width={300} height={300} src={props.url} alt={props.id} className={`object-contain h-full ${isLandscape ? "rotate-90 md:rotate-0" : ""} `}/>
+                    <Image width={props.width} height={props.height} src={props.url} alt={props.id} className={`object-contain h-full ${isLandscape ? "rotate-90 md:rotate-0" : ""} `}/>
                     
-                    <a download href={downloadUrl} className="absolute bottom-8 p-2 bg-[#EAEAEA] hover:opacity-90 cursor-pointer mx-auto flex gap-2 items-center text-[#CCA158]">
-                        Baixar Imagem <Download />
+                    <a download href={downloadUrl} className="absolute bottom-8 left-8 p-2 bg-white rounded-full hover:opacity-80 cursor-pointer mx-auto flex gap-2 items-center text-[#CCA158]">
+                        <Download size={30}/>
                     </a>
                 
                 </div>)
