@@ -2,9 +2,7 @@ import { Russo_One } from "next/font/google";
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import Footer from "@/components/rootlayout/footers/Footer";
-import Header from "@/components/rootlayout/headers/Header";
 import ToTopButton from "@/components/rootlayout/ToTopButton";
-import { MantineProvider } from "@mantine/core";
 
 // Fonte principal (Inter)
 const inter = Inter({

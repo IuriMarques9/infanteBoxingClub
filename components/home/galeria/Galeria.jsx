@@ -1,8 +1,7 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import ImagemGaleria from "./ImagemGaleria";
-import { ArrowDown,ArrowUp, LoaderCircle } from "lucide-react";
+import { ArrowDown, ArrowUp, LoaderCircle } from "lucide-react";
 
 export default function Galeria() {
     const [images, setImages] = useState([]);// Estado para guardar imagens
@@ -38,8 +37,8 @@ export default function Galeria() {
                 
                 {
                     images.length > 10 && (
-                        <div id="SeeMoreButton" className={` ${showAll ? 'bottom-0' : 'absolute md:bottom-5 bottom-30 h-50'} inset-x-0  px-[35px]`}> {/*Botão 'Ver Mais'*/}
-                            <div className={`flex flex-col justify-center items-center bg-gradient-to-b from-white/1 from-10% via-white via-70% to-white to-100% w-full ${showAll ? 'h-10': 'md:h-50 h-80'}`}>
+                        <div id="SeeMoreButton" className={` ${showAll ? 'bottom-0' : 'absolute md:bottom-0 xl:bottom-60 bottom-30 h-50'} inset-x-0  px-[35px]`}> {/*Botão 'Ver Mais'*/}
+                            <div className={`flex flex-col justify-center items-center bg-gradient-to-b from-white/1 from-10% via-white via-70% to-white to-100% w-full ${showAll ? 'h-10': 'md:h-45 xl:h-110 h-80'}`}>
                                 <div onClick={toggleShowAll} className="flex flex-col items-center cursor-pointer hover:scale-105">
 
                                     {showAll ? 

@@ -1,7 +1,7 @@
 "use client";
 import IsMobile from "@/hooks/isMobile";
-import MobileHero from "@/components/home/MobileHero";
-import DesktopHero from "@/components/home/DesktopHero";
+import MobileHero from "@/components/home/hero/MobileHero";
+import DesktopHero from "@/components/home/hero/DesktopHero";
 
 export default function Hero() {
 	const isMobile = IsMobile();
