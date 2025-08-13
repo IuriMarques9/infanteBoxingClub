@@ -3,7 +3,7 @@ export default function Produto(props) {
     // This component will display individual product details
 
     return (
-            <div className="rounded-sm w-full md:min-w-1/3 shadow-[inset_0px_0px_50px_35px_rgba(204,_161,_88,_100)] p-5">
+            <div className="rounded-sm w-full h-full md:min-w-1/3 shadow-[inset_0px_0px_50px_35px_rgba(204,_161,_88,_100)] p-5">
                 {/* Product details will be displayed here */}
                 <Image src={props.url} alt={props.id} width={props.width} height={props.height} />
 
