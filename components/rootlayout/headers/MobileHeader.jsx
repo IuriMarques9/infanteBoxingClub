@@ -30,12 +30,12 @@ export default function MobileHeader() {
 			{
 				isSidePanelOpen && (
 					<div id="SidePanelMobile" className="z-99 fixed top-0 left-0 w-full h-screen backdrop-blur-xs text-[#CCA158]">
-						<div className="absolute top-0 left-0 w-2/4 h-screen bg-[#EAEAEA]">
+						<div className="absolute top-0 left-0 w-full sm:w-3/5 h-screen bg-[#EAEAEA]">
 								<div className="m-2">
 									<div className="flex items-center justify-between w-full px-2">
-										<h3 className="!text-[#CCA158]">Navegação</h3>
+										<h4 className="!text-[#CCA158]">Navegação</h4>
 										
-										<X onClick={toggleSidePanel} className="hover:cursor-pointer hover:scale-110" width="25" height="25" fill="transparent" stroke="#837d7dff" />							
+										<X onClick={toggleSidePanel} className="flex-none hover:cursor-pointer hover:scale-110" width="25" height="25" fill="transparent" stroke="#837d7dff" />							
 									</div>
 									
 									<nav className="flex flex-col gap-5 p-3">
