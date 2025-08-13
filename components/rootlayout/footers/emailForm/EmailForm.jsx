@@ -96,7 +96,7 @@ export default function EmailForm() {
                 pauseOnFocusLoss
                 draggable
                 pauseOnHover
-                theme="dark" // "light" | "dark" | "colored"
+                theme="light" // "light" | "dark" | "colored"
             />
         </form>
     );
