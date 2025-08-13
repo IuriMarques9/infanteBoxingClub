@@ -27,7 +27,7 @@ export default function MobileHero() {
                         </div>
                         
                         <a href="#Contacto" className="w-2/4 max-w-[700px]">
-                            <button className="text-nowrap hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-full text-white py-4 px-12 rounded-sm">Primeira aula grátis</button>
+                            <button className="text-nowrap hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-full text-white py-4 px-8 rounded-sm">Primeira aula grátis</button>
                         </a>
                     </div>
                 </div>
