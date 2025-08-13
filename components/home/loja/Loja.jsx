@@ -31,7 +31,6 @@ export default function Loja() {
                         autoplay={{ delay: 1000, pauseOnMouseEnter: true}}
                         loop={true}
                         speed={1000}
-                        onSlideChange={() => console.log('slide change')}
                         onSwiper={(swiper) => console.log(swiper)}
                 >
                     {!produtos.length && <LoaderCircle className="col-start-3 animate-spin text-[#CCA158] w-10 h-10 mx-auto mt-20" /> }{/*Loader dos produtos*/}
