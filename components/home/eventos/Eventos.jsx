@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Meses from "./Meses";
 
 export default function Eventos() {
 
@@ -13,7 +14,7 @@ export default function Eventos() {
                     <div className="flex self-start w-full">{/*Year Events*/}
                         {/*Linha vertical*/}
                         <div className="w-1 border-3 border-[#CCA158] flex items-end translate-y-2"> 
-                            -----CRIAR BOLAS COM MESES DO ANO-----
+                            <Meses />
                         </div>
                     </div>
                 </div>
