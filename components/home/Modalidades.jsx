@@ -13,7 +13,7 @@ export default function Modalidades() {
                     
                     <div className="flex flex-col md:flex-row gap-5 w-full items-center md:justify-evenly md:items-start">
                         
-                        <div className="flex flex-col bg-[#1F1F1F]/40 rounded-xl w-full h-full p-3 max-w-100">
+                        <div className="flex flex-col bg-[#CCA158]/80 rounded-xl w-full h-full p-3 max-w-100">
                             <div className="relative overflow-hidden w-full rounded-lg">
                                 <div className="w-full h-fit">
                                     <Image width={150} height={150} src="/boxeEducativo.png" alt="Boxe Educativo" className="w-full !max-w-none max-h-80" />
@@ -32,7 +32,7 @@ export default function Modalidades() {
                             </div>
                         </div>
 
-                        <div className="flex flex-col bg-[#1F1F1F]/40 rounded-xl w-full h-full p-3 max-w-100">
+                        <div className="flex flex-col bg-[#CCA158]/80 rounded-xl w-full h-full p-3 max-w-100">
                             <div className="relative overflow-hidden w-full rounded-lg">
                                 <div className="w-full h-fit">
                                     <Image width={150} height={150} src="/boxeManutencao.png" alt="Boxe Educativo" className="w-full !max-w-none max-h-80" />
@@ -52,7 +52,7 @@ export default function Modalidades() {
                         </div>
                             
 
-                        <div className="flex flex-col bg-[#1F1F1F]/40 rounded-xl w-full h-full p-3 max-w-100">
+                        <div className="flex flex-col bg-[#CCA158]/80 rounded-xl w-full h-full p-3 max-w-100">
                             <div className="relative overflow-hidden w-full rounded-lg">
                                 <div className="w-full h-fit">
                                     <Image width={150} height={150} src="/boxeCompeticao.png" alt="Boxe Educativo" className="w-full !max-w-none max-h-80" />

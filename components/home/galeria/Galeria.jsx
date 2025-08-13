@@ -9,7 +9,11 @@ export default function Galeria() {
 
     const toggleShowAll = () => {
         setShowAll((prev) => !prev);
+        if (showAll) {
+            document.getElementById("Galeria")?.scrollIntoView({ behavior: "instant" });
+        }
     };
+
     const imagesToShow = showAll ? images : images.slice(0, 10);
 
     useEffect(() => {

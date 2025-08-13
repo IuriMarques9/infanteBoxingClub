@@ -1,5 +1,5 @@
 import Hero from "@/components/home/hero/Hero";
-import Modalidades from "@/components/home/modalidades/Modalidades";
+import Modalidades from "@/components/home/Modalidades";
 import Eventos from "@/components/home/Eventos";
 import Sobre from "@/components/home/Sobre";
 import Horario from "@/components/home/Horario";
