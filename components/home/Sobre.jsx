@@ -34,7 +34,7 @@ export default function Sobre() {
         <br /><br />Cada treino é uma oportunidade. Cada pessoa é valorizada. E cada conquista, por mais pequena que pareça, é celebrada em conjunto. Aqui não formamos apenas atletas. Formamos pessoas.
       </p>
 
-      <div className="relative w-full flex justify-center overflow-hidden h-[400px]">
+      <div className="relative w-full flex justify-center h-[400px]">
         {images.map((img, i) => (
           <Image
             key={i}
@@ -42,7 +42,7 @@ export default function Sobre() {
             alt={img.alt}
             width={300}
             height={300}
-            className={`absolute transition-opacity duration-700 ease-in-out ${
+            className={`border-3 border-[#CCA158] border-offset rounded-xs absolute transition-opacity duration-700 ease-in-out ${
               i === current ? "opacity-100" : "opacity-0"
             }`}
           />
