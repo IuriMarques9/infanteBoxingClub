@@ -35,7 +35,7 @@ export default function ImagemGaleria(props) {
                 alt={props.id}
                 width={400}
                 height={400}
-                className=" w-full h-full object-contain hover:cursor-pointer hover:brightness-70"
+                className="max-w-80 w-full h-full object-contain hover:cursor-pointer hover:brightness-70"
                 onClick={() => setIsOpen(true)}
             />
 

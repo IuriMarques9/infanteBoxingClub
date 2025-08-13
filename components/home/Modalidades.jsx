@@ -9,12 +9,12 @@ export default function Modalidades() {
                         <h2>Boxe para Todos: Do Bem-Estar à Alta Competição</h2>
                     </div>
                     
-                    <p className="mb-10 !text-xl">No nosso clube, todos têm a oportunidade de praticar boxe, seja com o objetivo de melhorar a forma física e manter um estilo de vida saudável, ou com a ambição de competir e evoluir no desporto. Adaptamos os treinos às tuas metas, oferecendo um ambiente acolhedor para iniciantes e desafiante para quem procura superar limites no ringue.</p>
+                    <p className="mb-10 md:!text-xl">No nosso clube, todos têm a oportunidade de praticar boxe, seja com o objetivo de melhorar a forma física e manter um estilo de vida saudável, ou com a ambição de competir e evoluir no desporto. Adaptamos os treinos às tuas metas, oferecendo um ambiente acolhedor para iniciantes e desafiante para quem procura superar limites no ringue.</p>
                     
                     <div className="flex flex-col md:flex-row gap-5 w-full items-center md:justify-evenly md:items-start">
                         
                         <div className="flex flex-col bg-[#CCA158]/80 rounded-xl w-full h-full p-3 max-w-100">
-                            <div className="relative overflow-hidden w-full rounded-lg">
+                            <div className="relative overflow-hidden w-full rounded-lg ">
                                 <div className="w-full h-fit">
                                     <Image width={150} height={150} src="/boxeEducativo.png" alt="Boxe Educativo" className="w-full !max-w-none max-h-80" />
                                 </div>
