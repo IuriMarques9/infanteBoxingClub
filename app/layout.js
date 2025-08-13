@@ -2,6 +2,7 @@ import { Russo_One } from "next/font/google";
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import 'swiper/css'; // Importe o CSS básico do Swiper
+import 'react-toastify/dist/ReactToastify.css'; 
 import Footer from "@/components/rootlayout/footers/Footer";
 import ToTopButton from "@/components/rootlayout/ToTopButton";
 
