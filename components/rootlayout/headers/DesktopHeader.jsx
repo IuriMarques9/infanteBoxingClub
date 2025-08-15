@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { navLinks } from "@/data/navigation";
+import { navLinks } from "@/data/navegacao";
 export default function DesktopHeader() {
 	
     return (

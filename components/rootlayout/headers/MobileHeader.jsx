@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import { navLinks } from "@/data/navigation";
+import { navLinks } from "@/data/navegacao";
 
 export default function MobileHeader() {
 	const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);

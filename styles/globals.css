@@ -14,7 +14,6 @@ body, html {
   color: var(--white-color);
   font-family: "Inter", sans-serif;
   min-width: 300px;
-  scroll-behavior: smooth;
 }
 
 p{

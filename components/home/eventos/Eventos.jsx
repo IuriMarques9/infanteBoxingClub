@@ -13,7 +13,7 @@ export default function Eventos() {
                 <div className="flex flex-col items-center md:flex-row gap-15 md:gap-5 w-full">
                     <div className="flex self-start w-full">{/*Year Events*/}
                         {/*Linha vertical*/}
-                        <div className="w-1 border-3 border-[#CCA158] flex items-end translate-y-2"> 
+                        <div className="w-1 border-3 border-[#CCA158] flex flex-col justify-between"> 
                             <Meses />
                         </div>
                     </div>
