@@ -10,13 +10,11 @@ export default function Eventos() {
                     <h2>Proximos Eventos</h2>
                 </div>
 
-                <div className="flex flex-col items-center md:flex-row gap-15 md:gap-5 w-full">
-                    <div className="flex self-start w-full">{/*Year Events*/}
-                        {/*Linha vertical*/}
-                        <div className="w-1 border-3 border-[#CCA158] flex flex-col justify-between"> 
-                            <Meses />
-                        </div>
-                    </div>
+                {/*Linha vertical*/}
+                <div className="w-1 border-3 border-[#CCA158] h-200">
+                    <div className="flex flex-col justify-start gap-[45px]">
+                        <Meses />    
+                    </div> 
                 </div>
             </section>
         </>

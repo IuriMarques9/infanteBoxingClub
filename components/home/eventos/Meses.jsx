@@ -6,8 +6,8 @@ export default function Meses () {
         <>
             {
                 meses.map(mes => (
-                   <div key={mes.mes} className={`flex items-center indent-2`}>
-                        <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4"></div>
+                    <div key={mes.mes} className={`flex items-center indent-2 -translate-x-2 -translate-y-4 w-fit`}>
+                        <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4"></div> {/* Circulo */}
                         
                         {mes.evento 
                             ? 
@@ -15,6 +15,8 @@ export default function Meses () {
                             : 
                             (<h5 className={`${mesAtual == mes && 'underline'} !text-[#EAEAEA]`}>{mes.mes}</h5>)
                         }
+
+                        
                    </div>
                 ))
             }
