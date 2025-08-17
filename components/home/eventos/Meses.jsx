@@ -6,7 +6,7 @@ export default function Meses () {
         <>
             {
                 meses.map(mes => (
-                   <div key={mes} className={` flex items-center indent-2`}>
+                   <div key={mes.mes} className={`flex items-center indent-2`}>
                         <div className="min-w-4 rounded-full bg-[#CCA158] w-4 h-4"></div>
                         
                         {mes.evento 

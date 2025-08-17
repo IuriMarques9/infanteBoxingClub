@@ -2,7 +2,17 @@ import Image from "next/image";
 
 
 export default function MobileHero() {
-	
+	const hardScroll = () => {
+        const html = document.documentElement;
+        // Desativa smooth
+        html.style.scrollBehavior = 'auto';
+        // Vai para a seção "Contacto"
+        document.getElementById('Contacto')?.scrollIntoView({ behavior: 'auto' });
+        // Restaura smooth após a rolagem
+        setTimeout(() => {
+            html.style.scrollBehavior = '';
+        }, 0)}
+
     return (
 		<>
 
@@ -26,9 +36,8 @@ export default function MobileHero() {
                             <h3>Vem treinar connosco!</h3>
                         </div>
                         
-                        <a href="#Contacto" className="w-2/4 max-w-[700px]">
-                            <button className="text-nowrap hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-full text-white py-4 px-8 rounded-sm">Primeira aula grátis</button>
-                        </a>
+                        <button onClick={hardScroll} className="text-nowrap hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-2/4 max-w-[700px] text-white py-4 px-8 rounded-sm">Primeira aula grátis</button>
+
                     </div>
                 </div>
 

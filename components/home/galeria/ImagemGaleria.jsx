@@ -47,7 +47,7 @@ export default function ImagemGaleria(props) {
 
                     <Image width={props.width} height={props.height} src={props.url} alt={props.id} className={`object-contain h-full ${isLandscape ? "rotate-90 md:rotate-0" : ""} `}/>
                     
-                    <a download href={downloadUrl} className="absolute bottom-8 left-8 p-2 bg-white rounded-full hover:opacity-80 cursor-pointer mx-auto flex gap-2 items-center text-[#CCA158]">
+                    <a download href={downloadUrl} className="absolute top-8 left-8 p-2 bg-white rounded-full hover:opacity-80 cursor-pointer mx-auto flex gap-2 items-center text-[#CCA158]">
                         <Download size={30}/>
                     </a>
                 

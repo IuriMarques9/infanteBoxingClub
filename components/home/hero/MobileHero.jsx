@@ -1,7 +1,18 @@
 
 
 export default function MobileHero() {
-	
+	const hardScroll = () => {
+        const html = document.documentElement;
+        // Desativa smooth
+        html.style.scrollBehavior = 'auto';
+        // Vai para a seção "Contacto"
+        document.getElementById('Contacto')?.scrollIntoView({ behavior: 'auto' });
+        // Restaura smooth após a rolagem
+        setTimeout(() => {
+            html.style.scrollBehavior = '';
+        }, 0)}
+    
+
     return (
 		<>
                 <div className="md:hidden w-full px-5 pt-15 pb-30 flex flex-col gap-6 items-center ">
@@ -15,9 +26,10 @@ export default function MobileHero() {
                         <h3>Vem treinar connosco!</h3>
                     </div>
                     
-                    <a href="#Contacto" className="w-full ">
-                        <button className="hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-full text-white py-4 px-12 rounded-sm">Primeira aula grátis</button>
-                    </a>
+                 
+                    <button 
+                        onClick={hardScroll}
+                        className="hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-full text-white py-4 px-12 rounded-sm">Primeira aula grátis</button>
                 </div>
 		</>
     );
