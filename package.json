@@ -10,20 +10,24 @@
   },
   "dependencies": {
     "@mantine/core": "^8.2.2",
+    "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.7.0",
+    "clsx": "^2.1.1",
     "git-filter-repo": "^0.0.30",
     "lucide-react": "^0.533.0",
     "next": "15.4.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-toastify": "^11.0.5",
-    "swiper": "^11.2.10"
+    "swiper": "^11.2.10",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.4.4",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "tw-animate-css": "^1.3.7"
   }
 }

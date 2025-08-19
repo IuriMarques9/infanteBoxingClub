@@ -5,7 +5,7 @@ export default function Modalidades() {
         <section id="Modalidade" className="w-full relative h-full">
                 <div className="max-w-[1800px] h-full text-justify mx-auto p-5 md:px-10 md:pb-10 pt-30">
 
-                    <div className="border-b-4 border-[#CCA158] text-left mb-10">
+                    <div className="border-b-4 border-[#CCA158] text-left mb-10 w-fit pr-20">
                         <h2>Boxe para Todos: Do Bem-Estar à Alta Competição</h2>
                     </div>
                     

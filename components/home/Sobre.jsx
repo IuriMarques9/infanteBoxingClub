@@ -23,7 +23,7 @@ export default function Sobre() {
       id="Sobre"
       className="max-w-[1800px] mx-auto flex flex-col gap-10 h-fit p-5 md:px-10 w-full bg-white"
     >
-      <div className="border-b-4 border-[#CCA158]">
+      <div className="border-b-4 border-[#CCA158] w-fit pr-20">
         <h2>Sobre o Clube</h2>
       </div>
 

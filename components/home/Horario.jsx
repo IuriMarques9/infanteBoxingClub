@@ -3,7 +3,7 @@ export default function Horario() {
     return (
             <section id="Horario" className="w-full bg-[#CCA158] flex flex-col gap-3 items-start h-fit p-5 md:px-10">  
                 <div className="max-w-[1800px] mx-auto bg-white/30 p-6 w-full">
-                    <div className="border-b-4 border-[#CCA158] mb-10">
+                    <div className="border-b-4 border-[#CCA158] mb-10 w-fit pr-20">
                         <h2 className="!text-white">Horário</h2>
                     </div>
 

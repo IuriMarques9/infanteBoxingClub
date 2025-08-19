@@ -4,7 +4,7 @@ import cloudinary from "@/lib/cloudinary";
 export async function GET() {
     try {
         const result = await cloudinary.api.sub_folders(
-            'Trabalho/Infante Boxing Club/fotos/eventos',
+            'Trabalho/Infante Boxing Club/fotos/galeriaEventos',
             {max_results: 20}
         );
 

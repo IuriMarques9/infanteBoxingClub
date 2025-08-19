@@ -20,7 +20,7 @@ export default function Loja() {
 
     return (
         <section id="Loja" className="max-w-[1800px] mx-auto h-fit p-5 md:px-10 flex flex-col gap-15">
-            <div className="border-b-4 border-[#CCA158]">
+            <div className="border-b-4 border-[#CCA158] w-fit pr-20">
                 <h2>Loja Infante</h2>
             </div>
 

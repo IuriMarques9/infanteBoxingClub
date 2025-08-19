@@ -1,6 +1,6 @@
 import Hero from "@/components/home/hero/Hero";
 import Modalidades from "@/components/home/Modalidades";
-import Eventos from "@/components/home/eventos/Eventos";
+import Destaques from "@/components/home/eventos/Destaques";
 import Sobre from "@/components/home/Sobre";
 import Horario from "@/components/home/Horario";
 import Loc from "@/components/home/Loc";
@@ -22,7 +22,7 @@ export default function Home() {
 
                 <Modalidades />
 
-                <Eventos />
+                <Destaques />
 
                 <Galeria />
 

@@ -25,7 +25,7 @@ export default function Galeria() {
 
     return (
         <section id="Galeria" className="max-w-[1800px] mx-auto relative h-fit p-5 md:px-10 flex flex-col gap-15">
-                <div className="border-b-4 border-[#CCA158]">
+                <div className="border-b-4 border-[#CCA158] w-fit pr-20">
                     <h2>Galeria de fotos</h2>
                 </div>
                 
