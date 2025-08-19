@@ -13,9 +13,9 @@ export default function Destaques() {
 
                 <ProximoEvento />
 
-                <div class=" md:inline-block h-0.5 w-full bg-[#EAEAEA] mx-6"></div>
+                <div class="max-w-100 md:max-w-none md:inline-block h-0.5 w-full bg-[#EAEAEA] mx-6"></div>
                 
-                
+
             </section>
         </>
     );
