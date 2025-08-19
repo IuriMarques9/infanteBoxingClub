@@ -71,7 +71,7 @@ export default function EmailForm() {
                     <span className="checkmark"></span>
                     <span className="text-[0.8em]">Concordo com a </span>
                 </label>
-                <a href="/privicy.html" className="font-[600] text-[0.8em] underline hover:text-[#EAEAEA]">Politica de Privacidade</a> *
+                <a href="/privicy" className="font-[600] text-[0.8em] underline hover:text-[#EAEAEA]">Politica de Privacidade</a> *
             </div>
     
             {/* Submit Button */}

@@ -19,7 +19,7 @@ export default function ProximoEvento() {
     const [nextEvent, setNextEvents] = useState(null);// Estado para guardar proximo evento
        
     useEffect(() => {
-        fetch('api/cloudinaryImages/proximoEvento')
+        fetch('api/cloudinaryImages/eventos/proximoEvento')
             .then(res => res.json())
             .then(data => { 
                 const img = data.resources[0]
@@ -53,11 +53,11 @@ export default function ProximoEvento() {
                 <CardHeader className="flex flex-col md:flex-row items-center">
                     <Image src={nextEvent.url} height={nextEvent.height/4} width={nextEvent.width/4} alt={nextEvent.context.title} className=""/>
                     <div className="flex flex-col gap-8 p-3 w-full">
-                        <div className="">
-                            <CardTitle className="text-3xl">{nextEvent.context.title}</CardTitle>
+                        <div>
+                            <CardTitle className="text-3xl text-[#CCA158]">{nextEvent.context.title}</CardTitle>
                             <CardDescription>{nextEvent.context.date}</CardDescription>
                         </div>
-                        <p className="!text-sm md:!text-none text-justify">{nextEvent.context.paragrafo}</p>
+                        <p className="!text-sm lg:!text-base !text-black text-justify">{nextEvent.context.paragrafo}</p>
                     </div>
                 </CardHeader>
             </Card> 

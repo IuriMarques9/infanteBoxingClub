@@ -1,5 +1,6 @@
 "use client"
 import ProximoEvento from "./ProximoEvento";
+import GaleriaEventos from "./GaleriaEventos";
 
 export default function Destaques() {
     
@@ -13,9 +14,9 @@ export default function Destaques() {
 
                 <ProximoEvento />
 
-                <div class="max-w-100 md:max-w-none md:inline-block h-0.5 w-full bg-[#EAEAEA] mx-6"></div>
+                <div className="max-w-100 md:max-w-none mx-auto md:inline-block h-0.5 w-full bg-[#EAEAEA] mx-6"></div>
                 
-
+                <GaleriaEventos />
             </section>
         </>
     );
