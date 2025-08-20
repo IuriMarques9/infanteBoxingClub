@@ -17,12 +17,32 @@ export default function GaleriaEventos() {
             fetch('api/cloudinaryImages/eventos/galeriaEventos')
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
-                    const folders = data.folders.map((folder) => ({
-                        id: folder.external_id,
-                        title: folder.name,
-                        path: folder.path,
-                    }));
+                    
+                    const folders = data.folders.map((folder) => {
+                        
+                        const [titlePart, dateString] = folder.name.split('-', 2);
+
+                        let formattedDate = '';
+                        if (dateString && dateString.length === 8) {
+                            const day = Number(dateString.slice(0, 2));
+                            const month = Number(dateString.slice(2, 4)) - 1; // meses são baseados em 0
+                            const year = Number(dateString.slice(4));
+
+                            const dateObj = new Date(year, month, day);
+
+                            formattedDate = dateObj.toLocaleDateString('pt-PT', {
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric',
+                            });
+
+                        return {
+                            id: folder.external_id,
+                            title: titlePart,
+                            date: formattedDate,
+                            path: folder.path,
+                        }
+                    }});
 
                     setCollections(folders)
                 })
@@ -33,6 +53,7 @@ export default function GaleriaEventos() {
             return <LoaderCircle className="col-start-3 animate-spin text-[#CCA158] w-10 h-10 mx-auto mt-20" /> 
         };
 
+        console.log(collections)
 
     return (
         <div className="rounded-xs bg-[#EAEAEA] p-6">

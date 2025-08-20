@@ -40,7 +40,7 @@ export default function Colecao(collection) {
 
                     <div className="flex flex-col w-fit">
                         <h5 className="!text-[#CCA158]">{folderCollection.title}</h5>
-                        <p>{folderCollection.date}123</p>
+                        <p>{folderCollection.date}</p>
 
                         <div className="flex items-center gap-4 w-full mt-8">
                             <Button className="bg-[#CCA158]">Ver Coleção</Button>
