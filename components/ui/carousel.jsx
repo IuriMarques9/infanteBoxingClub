@@ -155,7 +155,7 @@ function CarouselPrevious({
       data-slot="carousel-previous"
       variant={variant}
       size={size}
-      className={cn("size-8 rounded-full", orientation === "horizontal"
+      className={cn("size-8 rounded-full bg-[#CCA158]", orientation === "horizontal"
         ? "top-0 -left-0 -translate-y-0"
         : "-top-0 left-0 -translate-x-0 rotate-90", className)}
       disabled={!canScrollPrev}
@@ -180,7 +180,7 @@ function CarouselNext({
       data-slot="carousel-next"
       variant={variant}
       size={size}
-      className={cn("size-8 rounded-full", orientation === "horizontal"
+      className={cn("size-8 rounded-full bg-[#CCA158]", orientation === "horizontal"
         ? "top-0 -right-0 -translate-y-0"
         : "-bottom-0 left-0 -translate-x-0 rotate-90", className)}
       disabled={!canScrollNext}

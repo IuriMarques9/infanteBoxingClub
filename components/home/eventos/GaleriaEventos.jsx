@@ -17,6 +17,7 @@ export default function GaleriaEventos() {
             fetch('api/cloudinaryImages/eventos/galeriaEventos')
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data)
                     const folders = data.folders.map((folder) => ({
                         id: folder.external_id,
                         title: folder.name,
@@ -37,11 +38,11 @@ export default function GaleriaEventos() {
         <div className="rounded-xs bg-[#EAEAEA] p-6">
             <h3 className="!text-[#CCA158] mb-8">Galeria de Eventos</h3>
 
-            <Carousel opts={{loop: true, }} className="w-full">
+            <Carousel className="w-full">
 
                 <CarouselContent className="mb-2">
                     {collections.map((folderCollection) => (
-                        <CarouselItem key={folderCollection.id} className="md:basis-1/3">
+                        <CarouselItem key={folderCollection.id} className="sm:basis-2/3 lg:basis-1/3">
                             
                             <Colecao colecao={folderCollection} />
                             
