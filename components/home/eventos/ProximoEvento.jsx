@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { LoaderCircle } from "lucide-react";
+import { Link, LoaderCircle } from "lucide-react";
 import {
   Card,
   CardAction,
@@ -11,9 +11,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 export default function ProximoEvento() {
-    
+    const router = useRouter();
     
     // This component will render the products available in the store
     const [nextEvent, setNextEvents] = useState(null);// Estado para guardar proximo evento
@@ -29,6 +30,7 @@ export default function ProximoEvento() {
                         title: img.context?.custom.caption || "Titulo do Evento",
                         date: img.context?.custom.Data || "Data indisponivel",
                         paragrafo: img.context?.custom.Paragrafo || "Descrição do evento indisponivel",
+                        linkEvento: img.context?.custom.LinkEvento
                     },
                     url: img.url,
                     id: img.public_id,
@@ -48,19 +50,18 @@ export default function ProximoEvento() {
         };
     
     return (
-        <>
-            <Card className="max-w-100 md:max-w-none mx-auto md:mx-none w-full">
-                <CardHeader className="flex flex-col md:flex-row items-center">
-                    <Image src={nextEvent.url} height={nextEvent.height/4} width={nextEvent.width/4} alt={nextEvent.context.title} className=""/>
-                    <div className="flex flex-col gap-8 p-3 w-full">
-                        <div>
-                            <CardTitle className="text-3xl text-[#CCA158]">{nextEvent.context.title}</CardTitle>
-                            <CardDescription>{nextEvent.context.date}</CardDescription>
-                        </div>
-                        <p className="!text-sm lg:!text-base !text-black text-justify">{nextEvent.context.paragrafo}</p>
+        
+        <Card onClick={() => (router.push(nextEvent.context.linkEvento))} className="hover:scale-105 hover:cursor-pointer max-w-100 md:max-w-none mx-auto md:mx-none w-full">
+            <CardHeader className="flex flex-col md:flex-row items-center">
+                <Image src={nextEvent.url} height={nextEvent.height/4} width={nextEvent.width/4} alt={nextEvent.context.title} className=""/>
+                <div className="flex flex-col gap-8 p-3 w-full">
+                    <div>
+                        <CardTitle className="text-3xl text-[#CCA158]">{nextEvent.context.title}</CardTitle>
+                        <CardDescription>{nextEvent.context.date}</CardDescription>
                     </div>
-                </CardHeader>
-            </Card> 
-        </>
+                    <p className="!text-sm lg:!text-base !text-black text-justify">{nextEvent.context.paragrafo}</p>
+                </div>
+            </CardHeader>
+        </Card>
     );
 }

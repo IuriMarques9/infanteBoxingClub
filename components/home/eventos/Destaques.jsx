@@ -1,4 +1,4 @@
-"use client"
+
 import ProximoEvento from "./ProximoEvento";
 import GaleriaEventos from "./GaleriaEventos";
 

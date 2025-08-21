@@ -23,7 +23,7 @@ export default function MobileHero() {
                     </div>
                     
 
-                    <div className="bg-black p-5 w-140 h-130 z-1" style={{clipPath: 'polygon(0 0, 100% 0, 0 100%)'}}>
+                    <div className="bg-black p-5 w-70 h-80 lg:w-140 lg:h-130 z-1" style={{clipPath: 'polygon(0 0, 100% 0, 0 100%)'}}>
                         <Image src="/infanteLogo.png" width={200} height={200} className="w-3/5" alt="Logo" priority/>
                     </div>
                     
