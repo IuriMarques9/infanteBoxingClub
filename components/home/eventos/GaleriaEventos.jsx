@@ -59,7 +59,7 @@ export default function GaleriaEventos() {
         <div className="rounded-xs bg-[#EAEAEA] p-6">
             <h3 className="!text-[#CCA158] mb-8">Galeria de Eventos</h3>
 
-            <Carousel className="w-full">
+            <Carousel opts={{draggable: false,}} className="w-full">
 
                 <CarouselContent className="mb-2">
                     {collections.map((folderCollection) => (

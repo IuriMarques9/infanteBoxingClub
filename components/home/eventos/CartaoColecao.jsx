@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
@@ -63,7 +63,7 @@ export default function CartaoColecao(collection) {
 
     return(
         <div className="">
-            <Card opts={{draggable: false,}} className="py-0">
+            <Card className="py-0">
                 <CardContent className="flex flex-col md:flex-row items-center justify-evenly gap-5 p-6">
                     {imagesCollection?.length > 0 && ( 
                         <div className="aspect-square max-w-40 max-h-40 w-2/3 overflow-hidden sm:size-35">
