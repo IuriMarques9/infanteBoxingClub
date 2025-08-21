@@ -8,7 +8,7 @@ import {
     CarouselPrevious,
 } from "@/components/ui/carousel";
 import { LoaderCircle } from "lucide-react";
-import Colecao from "./Colecao";
+import CartaoColecao from "./CartaoColecao";
 
 export default function GaleriaEventos() {
     const [collections, setCollections] = useState(null);// Estado para guardar proximo coleções
@@ -38,6 +38,7 @@ export default function GaleriaEventos() {
 
                         return {
                             id: folder.external_id,
+                            folderName: folder.name,
                             title: titlePart,
                             date: formattedDate,
                             path: folder.path,
@@ -53,7 +54,6 @@ export default function GaleriaEventos() {
             return <LoaderCircle className="col-start-3 animate-spin text-[#CCA158] w-10 h-10 mx-auto mt-20" /> 
         };
 
-        console.log(collections)
 
     return (
         <div className="rounded-xs bg-[#EAEAEA] p-6">
@@ -63,17 +63,19 @@ export default function GaleriaEventos() {
 
                 <CarouselContent className="mb-2">
                     {collections.map((folderCollection) => (
-                        <CarouselItem key={folderCollection.id} className="sm:basis-2/3 lg:basis-1/3">
+                        <CarouselItem key={folderCollection.id} className="sm:basis-2/3 xl:basis-1/3">
                             
-                            <Colecao colecao={folderCollection} />
+                            <CartaoColecao colecao={folderCollection} />
                             
                         </CarouselItem>
                     ))
                     }
                 </CarouselContent>
 
-                <CarouselPrevious />
-                <CarouselNext />
+            <div className="flex gap-1">
+                <CarouselPrevious className="hover:bg-[#CCA158]"/>
+                <CarouselNext className="hover:bg-[#CCA158]"/>
+            </div>
 
             </Carousel>
         </div>

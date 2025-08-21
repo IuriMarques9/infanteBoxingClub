@@ -155,13 +155,13 @@ function CarouselPrevious({
       data-slot="carousel-previous"
       variant={variant}
       size={size}
-      className={cn("size-8 rounded-full bg-[#CCA158]", orientation === "horizontal"
+      className={cn("size-8 rounded-full bg-[#CCA158] hover:scale-110", orientation === "horizontal"
         ? "top-0 -left-0 -translate-y-0"
         : "-top-0 left-0 -translate-x-0 rotate-90", className)}
       disabled={!canScrollPrev}
       onClick={scrollPrev}
       {...props}>
-      <ArrowLeft />
+      <ArrowLeft stroke="white"/>
       <span className="sr-only">Previous slide</span>
     </Button>
   );
@@ -180,13 +180,13 @@ function CarouselNext({
       data-slot="carousel-next"
       variant={variant}
       size={size}
-      className={cn("size-8 rounded-full bg-[#CCA158]", orientation === "horizontal"
+      className={cn("size-8 rounded-full bg-[#CCA158] hover:scale-110", orientation === "horizontal"
         ? "top-0 -right-0 -translate-y-0"
         : "-bottom-0 left-0 -translate-x-0 rotate-90", className)}
       disabled={!canScrollNext}
       onClick={scrollNext}
       {...props}>
-      <ArrowRight />
+      <ArrowRight stroke="white"/>
       <span className="sr-only">Next slide</span>
     </Button>
   );

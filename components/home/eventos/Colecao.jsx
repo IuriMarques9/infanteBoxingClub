@@ -1,54 +1,29 @@
+"use client"
+import { X } from "lucide-react";
+import { createPortal } from "react-dom";
+import { useEffect } from "react";
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card"
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
-export default function Colecao(collection) {
+export default function Colecao({imagens, onClose}) {
     
-    const folderCollection = collection.colecao;
-    
-    const [imagesCollection,  setImagesCollection] = useState([]);
+    console.log(imagens)
 
-    useEffect(() => {
-        fetch(`api/cloudinaryImages/eventos/colecaoImagens?folder=${folderCollection.title}`)
-            .then(res => res.json())
-            .then(data => {
-                
-                const imagem = data.resources.map(data => ({
-                    id: data.public_id,
-                    url: data.url,
-                    width: data.width,
-                    height: data.height
-                }));
-                
-                setImagesCollection(imagem)})
-            .catch(err => console.error("Failed to fetch images:", err));
+    useEffect(() => { //Evita o scroll
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = "auto"; // repõe quando fecha
+        };
     }, []);
 
-    console.log(imagesCollection)
-    
+    return createPortal(
+        <div className="md:py-20 pt-10 pb-40 sm:px-40 bg-black/70 backdrop-blur-xs fixed top-0 left-0 z-99 w-full h-screen">
+            <div className="mb-5 overflow-auto w-full h-full mx-auto grid content-start md:content-center gap-5 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
+                {imagens.map((img) => {
+                    <Image src={img.url} height={img.height} width={img.width}/>
+                })}
+            </div>
 
-    return(
-        <div className="">
-            <Card className="py-0">
-                <CardContent className="flex items-center justify-evenly gap-5 p-6">
-                    {imagesCollection?.length > 0 && ( 
-                        <div className="aspect-square size-35">
-                            <Image className="object-fill h-full" src={imagesCollection[0].url} alt={folderCollection.title} height={imagesCollection[0].height} width={imagesCollection[0].width} />
-                        </div>
-                    )}
-
-                    <div className="flex flex-col w-fit">
-                        <h5 className="!text-[#CCA158]">{folderCollection.title}</h5>
-                        <p>{folderCollection.date}</p>
-
-                        <div className="flex items-center gap-4 w-full mt-8">
-                            <Button className="bg-[#CCA158]">Ver Coleção</Button>
-                            <Download stroke="#CCA158"/>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-        </div>
+            <X onClick={onClose} className="flex-none hover:cursor-pointer hover:scale-110" width="25" height="25" fill="transparent" stroke="#837d7dff" />							
+        </div>,
+        document.body
     );
 }

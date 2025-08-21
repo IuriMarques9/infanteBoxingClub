@@ -27,7 +27,7 @@ export default function Sobre() {
         <h2>Sobre o Clube</h2>
       </div>
 
-      <p className="text-justify md:!text-xl">
+      <p className="text-justify ">
         A nossa associação nasceu da paixão de Ricardo Infante pelo boxe e pelo impacto positivo que este pode ter na vida das pessoas. Com o apoio incondicional da sua mulher, da família e de amigos próximos, o projeto ganhou forma, cresceu com propósito e tornou-se numa referência local e nacional.
         <br /><br />Mais do que um clube de boxe, somos uma comunidade que acredita na força da entreajuda, no respeito mútuo e no desenvolvimento pessoal através do desporto. Aqui acolhemos pessoas de todas as idades — desde crianças a seniores — oferecendo uma abordagem segura, técnica e adaptada a cada fase da vida criando assim um espaço onde o boxe seja acessível, respeitado e valorizado como ferramenta de crescimento humano.
         <br /><br />A nossa ligação com a Federação Portuguesa de Boxe reforça o nosso compromisso com a qualidade, rigor e profissionalismo. Mas é a relação próxima com a comunidade que nos distingue: juntos, construímos um espaço onde o boxe é mais do que uma modalidade — é um instrumento de transformação, inclusão e união.
