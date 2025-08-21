@@ -6,14 +6,14 @@ import EmailForm from "./emailForm/EmailForm";
 export default function Footer() {
     return (
         <footer className="z-50 text-white bg-[#CCA158] shadow px-5 md:px-10 mx-auto">
-            <div id="Contacto" className="flex flex-col md:flex-row md:gap-3 py-5 max-w-[1800px] mx-auto">
+            <div id="Contacto" className="flex flex-col md:flex-row md:gap-8 py-5 max-w-[1800px] mx-auto">
                 <EmailForm />
                 
                 <div className="text-white border-1 my-5 md:my-0"></div>
             
-                <div className="text-white flex flex-col gap-4 items-center md:items-end md:text-end text-center w-full md:w-2/4 md:justify-evenly">
+                <div className="text-white flex flex-col gap-4 items-center md:items-end md:text-end text-center w-full md:w-3/4 md:justify-evenly">
                     <div className="flex justify-between gap-5 items-center">
-                        <Image src="/escudo.png" alt="Escudo" className="w-1/4" width={100} height={60}/>
+                        <Image src="/escudo.png" alt="Escudo" className="w-1/4 max-w-20" width={100} height={100}/>
                             
                         <h4>Respeitamos a sua privacidade</h4>
                     </div>
