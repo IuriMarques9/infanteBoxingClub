@@ -75,7 +75,7 @@ export default function CartaoColecao(collection) {
                         <h5 className="!text-[#CCA158]">{folderCollection.title}</h5>
                         <p className="!text-xs">{folderCollection.date}</p>
 
-                        <div className="flex items-center justify-between gap-4 w-full mt-8 ">
+                        <div className="flex items-center justify-start gap-4 w-full mt-8 ">
                             <Button onClick={() => setIsCollectionOpen(true)} className="bg-[#CCA158] text-xs">Ver Coleção</Button>
                             
                             {isCollectionOpen && (
