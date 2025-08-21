@@ -17,6 +17,7 @@ export default function Colecao({imagens, onClose}) {
         };
     }, []);
 
+    console.log(selectedImage)
     return createPortal(
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-16">
             <X onClick={onClose} className="absolute top-6 right-6 hover:cursor-pointer hover:scale-110" width="25" height="25" fill="transparent" stroke="#837d7dff" />							
@@ -33,7 +34,7 @@ export default function Colecao({imagens, onClose}) {
                 </div>
             </div>
             {/*Modal da imagem selecionada */}
-            {isImageOpen && <ModalImagem imagem={selectedImage} onClose={() => setIsImageOpen(false)}/>}
+            {isImageOpen && <ModalImagem imagem={selectedImage} onClose={() => {setIsImageOpen(false); setSelectedImage(null)}}/>}
         </div>,
         document.body
     );

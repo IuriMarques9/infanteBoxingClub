@@ -63,20 +63,20 @@ export default function CartaoColecao(collection) {
 
     return(
         <div className="">
-            <Card className="py-0">
-                <CardContent className="flex items-center justify-evenly gap-5 p-6">
+            <Card opts={{draggable: false,}} className="py-0">
+                <CardContent className="flex flex-col md:flex-row items-center justify-evenly gap-5 p-6">
                     {imagesCollection?.length > 0 && ( 
-                        <div className="aspect-square size-35">
+                        <div className="aspect-square max-w-40 max-h-40 w-2/3 overflow-hidden sm:size-35">
                             <Image className="object-fill h-full" src={imagesCollection[0].url} alt={folderCollection.title} height={imagesCollection[0].height} width={imagesCollection[0].width} />
                         </div>
                     )}
 
                     <div className="flex flex-col w-fit">
                         <h5 className="!text-[#CCA158]">{folderCollection.title}</h5>
-                        <p>{folderCollection.date}</p>
+                        <p className="!text-xs">{folderCollection.date}</p>
 
-                        <div className="flex items-center gap-4 w-full mt-8">
-                            <Button onClick={() => setIsCollectionOpen(true)} className="bg-[#CCA158]">Ver Coleção</Button>
+                        <div className="flex items-center justify-between gap-4 w-full mt-8 ">
+                            <Button onClick={() => setIsCollectionOpen(true)} className="bg-[#CCA158] text-xs">Ver Coleção</Button>
                             
                             {isCollectionOpen && (
                                 <Colecao imagens={imagesCollection} onClose={() => setIsCollectionOpen(false)}/>

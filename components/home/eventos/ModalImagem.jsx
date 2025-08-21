@@ -5,8 +5,10 @@ export default function ModalImagem({imagem, onClose}) {
     
     const [isLandscape, setIsLandscape] = useState(false);
         
-    const downloadUrl = imagem.url.replace(`/upload/`, `/upload/fl_attachment:${imagem.id}/`);
+    const cleanId = imagem.id.replace(/[^a-zA-Z0-9_-]/g, "");
+    const downloadUrl = imagem.url.replace(`/upload/`, `/upload/fl_attachment:${cleanId}/`);
 
+    console.log(imagem)
     useEffect(() => {
         if (imagem.width && imagem.height) {
         setIsLandscape(imagem.width > imagem.height);
