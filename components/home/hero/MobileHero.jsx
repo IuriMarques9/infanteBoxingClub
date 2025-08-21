@@ -1,4 +1,4 @@
-
+import { Button } from "@/components/ui/button";
 
 export default function MobileHero() {
 	const hardScroll = () => {
@@ -27,9 +27,10 @@ export default function MobileHero() {
                     </div>
                     
                  
-                    <button 
+                    <Button 
                         onClick={hardScroll}
-                        className="hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-full text-white py-4 px-12 rounded-sm">Primeira aula grátis</button>
+                        className="hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-full text-white py-4 px-12 rounded-sm">Primeira aula grátis
+                    </Button>
                 </div>
 		</>
     );

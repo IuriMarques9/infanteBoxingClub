@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import { Button } from "@/components/ui/button";
 
 export default function MobileHero() {
 	const hardScroll = () => {
@@ -36,7 +36,7 @@ export default function MobileHero() {
                             <h3>Vem treinar connosco!</h3>
                         </div>
                         
-                        <button onClick={hardScroll} className="text-nowrap hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-2/4 max-w-[700px] text-white py-4 px-8 rounded-sm">Primeira aula grátis</button>
+                        <Button onClick={hardScroll} className="text-nowrap hover:bg-[#EAEAEA] hover:text-black hover:cursor-pointer bg-black w-2/4 max-w-[700px] text-white py-4 px-8 rounded-sm">Primeira aula grátis</Button>
 
                     </div>
                 </div>

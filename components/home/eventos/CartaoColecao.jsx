@@ -76,7 +76,7 @@ export default function CartaoColecao(collection) {
                         <p className="!text-xs">{folderCollection.date}</p>
 
                         <div className="flex items-center justify-start gap-4 w-full mt-8 ">
-                            <Button onClick={() => setIsCollectionOpen(true)} className="bg-[#CCA158] text-xs">Ver Coleção</Button>
+                            <Button onClick={() => setIsCollectionOpen(true)} className="bg-[#CCA158] text-xs hover:bg-[#EAEAEA] hover:!text-black">Ver Coleção</Button>
                             
                             {isCollectionOpen && (
                                 <Colecao imagens={imagesCollection} onClose={() => setIsCollectionOpen(false)}/>
