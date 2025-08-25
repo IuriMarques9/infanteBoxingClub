@@ -20,7 +20,7 @@ export default function GaleriaEventos() {
                     
                     const folders = data.folders.map((folder) => {
                         
-                        const [titlePart, dateString] = folder.name.split('-', 2);
+                        const [titlePart, dateString] = folder.name.split(':', 2);
 
                         let formattedDate = '';
                         if (dateString && dateString.length === 8) {
@@ -36,14 +36,37 @@ export default function GaleriaEventos() {
                                 year: 'numeric',
                             });
 
-                        return {
-                            id: folder.external_id,
-                            folderName: folder.name,
-                            title: titlePart,
-                            date: formattedDate,
-                            path: folder.path,
+                            return {
+                                id: folder.external_id,
+                                folderName: folder.name,
+                                title: titlePart,
+                                date: formattedDate,
+                                path: folder.path,
+                            }
+                        } else if (dateString && dateString.length === 10){
+                            const daySince = Number(dateString.slice(0, 2));
+                            const dayAt = dateString.slice(2, 4);
+                            const month = Number(dateString.slice(4, 6)) - 1; // meses são baseados em 0
+                            const year = Number(dateString.slice(6));
+
+                            const dateObj = new Date(year, month, dayAt);
+
+                            formattedDate = dateObj.toLocaleDateString('pt-PT', {
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric',
+                            });
+
+                            return {
+                                id: folder.external_id,
+                                folderName: folder.name,
+                                title: titlePart,
+                                date: daySince +' - '+ formattedDate,
+                                path: folder.path,
+                            }
                         }
-                    }});
+                        
+                    });
 
                     setCollections(folders)
                 })
