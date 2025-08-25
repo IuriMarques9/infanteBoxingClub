@@ -51,7 +51,7 @@ export default function ProximoEvento() {
     
     return (
         
-        <Card onClick={() => (router.push(nextEvent.context.linkEvento))} className="hover:scale-105 hover:cursor-pointer max-w-100 md:max-w-none mx-auto md:mx-none w-full">
+        <Card onClick={() => (router.push(nextEvent.context.linkEvento))} className="hover:scale-103 hover:cursor-pointer transtition-all duration-200 ease-in-out max-w-100 md:max-w-none mx-auto md:mx-none w-full">
             <CardHeader className="flex flex-col md:flex-row items-center">
                 <Image src={nextEvent.url} height={nextEvent.height/4} width={nextEvent.width/4} alt={nextEvent.context.title} className=""/>
                 <div className="flex flex-col gap-8 p-3 w-full">
