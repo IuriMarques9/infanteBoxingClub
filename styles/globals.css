@@ -278,11 +278,14 @@ h6 {
     section#Horario table td.individuais{
         background-color: #A6A6A6;
     }
+    section#Horario table td.livre{
+        background-color: #0DC0DE;
+    }
     section#Horario table td.adultos{
         background-color: #FD914D;
     }
     section#Horario table td.suricatas{
-        background-color: #C2FE74;
+        background-color: #88e015;
     }
     section#Horario table td.leoes{
         background-color: #FEE057;
@@ -292,9 +295,6 @@ h6 {
     }
     section#Horario table td.competicao{
         background-color: #FF5658;
-    }
-    section#Horario table td.jiujitsu{
-        background-color: #0DC0DE;
     }
 
     /*Slider Sobre*/

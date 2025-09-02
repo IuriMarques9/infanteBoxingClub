@@ -23,11 +23,11 @@ export default function Horario() {
 
                             <tbody>
                                 <tr>
-                                    <td>09:00<br/>10:00</td>
+                                    <td>10:00<br/>12:30</td>
                                     <td className="individuais">Aulas Individuais</td>
-                                    <td className="adultos">Adultos Boxe</td>
+                                    <td className="livre">Acesso Livre</td>
                                     <td className="individuais">Aulas Individuais</td>
-                                    <td className="adultos">Adultos Boxe</td>
+                                    <td className="livre">Acesso Livre</td>
                                     <td className="individuais">Aulas Individuais</td>
                                     <td className="competicao">Treino de Competição</td>
                                 </tr>
@@ -44,9 +44,9 @@ export default function Horario() {
                                 <tr>
                                     <td>18:00<br/>18:50</td>
                                     <td className="suricatas">Suricatas (6-11 anos)</td>
-                                    <td className="gatinhos">Gatinhos (6-7 anos)<br/>Women's className</td>
+                                    <td className="gatinhos">Gatinhos (6-7 anos)<br/>Women's class</td>
                                     <td className="suricatas">Suricatas (6-11 anos)</td>
-                                    <td className="gatinhos">Gatinhos (6-7 anos)<br/>Women's className</td>
+                                    <td className="gatinhos">Gatinhos (6-7 anos)<br/>Women's class</td>
                                     <td className="suricatas">Suricatas (6-11 anos)</td>
                                     <td></td>
                                 </tr>
@@ -62,9 +62,9 @@ export default function Horario() {
                                 <tr>
                                     <td>20:00<br/>21:00</td>
                                     <td className="adultos">Adultos Boxe</td>
-                                    <td className="jiujitsu">Jiu-Jitsu</td>
+                                    <td></td>
                                     <td className="adultos">Adultos Boxe</td>
-                                    <td className="jiujitsu">Jiu-Jitsu</td>
+                                    <td></td>
                                     <td className="adultos">Adultos Boxe</td>
                                     <td></td>
                                 </tr>
