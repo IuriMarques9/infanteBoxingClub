@@ -42,7 +42,7 @@ export default function Horario() {
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>18:00<br/>18:50</td>
+                                    <td>18:00<br/>19:00</td>
                                     <td className="suricatas">Suricatas (6-11 anos)</td>
                                     <td className="gatinhos">Gatinhos (6-7 anos)<br/>Women's class</td>
                                     <td className="suricatas">Suricatas (6-11 anos)</td>
@@ -51,7 +51,7 @@ export default function Horario() {
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td>19:00<br/>19:50</td>
+                                    <td>19:00<br/>20:00</td>
                                     <td className="leoes">Leões (12-14 anos)</td>
                                     <td className="adultos">Adultos Boxe</td>
                                     <td className="leoes">Leões (12-14 anos)</td>
