@@ -24,11 +24,11 @@ export default function Horario() {
                             <tbody>
                                 <tr>
                                     <td>10:00<br/>12:30</td>
-                                    <td className="individuais">Aulas Individuais</td>
+                                    <td></td>
                                     <td className="livre">Acesso Livre</td>
-                                    <td className="individuais">Aulas Individuais</td>
+                                    <td></td>
                                     <td className="livre">Acesso Livre</td>
-                                    <td className="individuais">Aulas Individuais</td>
+                                    <td></td>
                                     <td className="competicao">Treino de Competição</td>
                                 </tr>
 
