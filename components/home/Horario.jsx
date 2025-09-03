@@ -70,6 +70,7 @@ export default function Horario() {
                                 </tr>
                             </tbody>
                         </table>
+                    <p className="!text-sm !text-white indent-8">* Encerrado ao domingo </p>
                     </div>
                 </div>
             </section>
