@@ -17,7 +17,6 @@ export default function Horario() {
                                     <th>Quarta</th>
                                     <th>Quinta</th>
                                     <th>Sexta</th>
-                                    <th>Sábado</th>
                                 </tr>
                             </thead>
 
@@ -29,7 +28,6 @@ export default function Horario() {
                                     <td></td>
                                     <td className="livre">Acesso Livre</td>
                                     <td></td>
-                                    <td className="competicao">Treino de Competição</td>
                                 </tr>
 
                                 <tr>
@@ -39,7 +37,6 @@ export default function Horario() {
                                     <td></td>
                                     <td className="adultos">Adultos Boxe</td>
                                     <td></td>
-                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>18:00<br/>19:00</td>
@@ -48,7 +45,6 @@ export default function Horario() {
                                     <td className="suricatas">Suricatas (6-11 anos)</td>
                                     <td className="gatinhos">Gatinhos (6-7 anos)<br/>Women's class</td>
                                     <td className="suricatas">Suricatas (6-11 anos)</td>
-                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>19:00<br/>20:00</td>
@@ -57,7 +53,6 @@ export default function Horario() {
                                     <td className="leoes">Leões (12-14 anos)</td>
                                     <td className="adultos">Adultos Boxe</td>
                                     <td className="leoes">Leões (12-14 anos)</td>
-                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>20:00<br/>21:00</td>
@@ -66,11 +61,10 @@ export default function Horario() {
                                     <td className="adultos">Adultos Boxe</td>
                                     <td></td>
                                     <td className="adultos">Adultos Boxe</td>
-                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
-                    <p className="!text-sm !text-white indent-8">* Encerrado ao domingo </p>
+                    <p className="!text-sm !text-white indent-8">* Encerrado aos sábados e domingos </p>
                     </div>
                 </div>
             </section>
