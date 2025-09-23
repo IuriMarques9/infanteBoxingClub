@@ -13,6 +13,7 @@ export async function GET() {
             url: image.secure_url,
             width: image.width,
             height: image.height,
+            title: image.context?.custom.caption || 'Sem titulo',
         }));
 
         return NextResponse.json(images);

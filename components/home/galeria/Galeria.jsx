@@ -34,7 +34,7 @@ export default function Galeria() {
                     {!images.length && <LoaderCircle className="col-start-3 animate-spin text-[#CCA158] w-10 h-10 mx-auto mt-20" /> }{/*Loader das imagens*/}
                     {
                         imagesToShow.map(img => (
-                            <ImagemGaleria key={img.id} id={img.id} url={img.url} width={img.width} height={img.height} />
+                            <ImagemGaleria key={img.id} id={img.id} url={img.url} width={img.width} height={img.height} title={img.title}/>
                         ))
                     }
                 </div> 

@@ -42,14 +42,21 @@ export default function ImagemGaleria(props) {
             {/* Modal para exibir a imagem em tamanho maior */}
             {
                 isOpen && 
-                (<div className="fixed top-0 right-0 w-full h-screen bg-black/80 z-99 flex flex-col justify-center items-center">
-                    <X onClick={() => setIsOpen(false)} stroke="#837d7dff" className="absolute hover:scale-110 top-4 right-4 hover:cursor-pointer" />
+                (<div className="fixed top-0 right-0 w-full h-screen bg-black/80 z-99 flex flex-col justify-start items-center">
+                    <div className="min-h-[10vh] flex justify-between items-center w-full px-5">
+                        <a download href={downloadUrl} className="p-2 bg-white rounded-full hover:opacity-80 cursor-pointer flex gap-2 items-center text-[#CCA158]">
+                            <Download size={24}/>
+                        </a>
 
-                    <Image width={props.width} height={props.height} src={props.url} alt={props.id} className={`object-contain h-full ${isLandscape ? "rotate-90 md:rotate-0" : ""} `}/>
+                        <h5>{props.title}</h5>
+
+                        <X onClick={() => setIsOpen(false)} stroke="#837d7dff" className=" hover:scale-110 top-4 right-4 hover:cursor-pointer" />
+                    </div>
+
+                    <div className="max-h-[90vh]">
+                        <Image width={props.width} height={props.height} src={props.url} alt={props.id} className={`object-contain h-full ${isLandscape ? "rotate-90 md:rotate-0" : ""} `}/>
+                    </div>
                     
-                    <a download href={downloadUrl} className="absolute top-8 left-8 p-2 bg-white rounded-full hover:opacity-80 cursor-pointer mx-auto flex gap-2 items-center text-[#CCA158]">
-                        <Download size={24}/>
-                    </a>
                 
                 </div>)
             }                   
