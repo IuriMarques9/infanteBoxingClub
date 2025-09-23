@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
 
 					{/* Botão para voltar ao topo */}
 					<ToTopButton />
-			
+          
 					{/* Footer */}
 					<Footer />
 			</body>

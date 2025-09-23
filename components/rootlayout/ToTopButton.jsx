@@ -3,7 +3,7 @@ import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function ToTopButton() {
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(null);
 
     useEffect(() => {
         const toggle = () => setIsVisible(window.scrollY > 200);
