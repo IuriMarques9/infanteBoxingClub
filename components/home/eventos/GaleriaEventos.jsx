@@ -18,55 +18,63 @@ export default function GaleriaEventos() {
                 .then(res => res.json())
                 .then(data => {
                     
-                    const folders = data.folders.map((folder) => {
-                        
-                        const [titlePart, dateString] = folder.name.split(':', 2);
 
-                        let formattedDate = '';
-                        if (dateString && dateString.length === 8) {
-                            const day = Number(dateString.slice(0, 2));
-                            const month = Number(dateString.slice(2, 4)) - 1; // meses são baseados em 0
-                            const year = Number(dateString.slice(4));
+                    // Filtra apenas as pastas que possuem datas válidas no título
+                    const folders = data.folders
+                        .map((folder) => {
+                            const [titlePart, dateString] = folder.name.split(':', 2);
 
-                            const dateObj = new Date(year, month, day);
+                            let formattedDate = '';
+                            let sortDate = null;
+                            if (dateString && dateString.length === 8) {
+                                const day = Number(dateString.slice(0, 2));
+                                const month = Number(dateString.slice(2, 4)) - 1;
+                                const year = Number(dateString.slice(4));
+                                const dateObj = new Date(year, month, day);
 
-                            formattedDate = dateObj.toLocaleDateString('pt-PT', {
-                                day: 'numeric',
-                                month: 'long',
-                                year: 'numeric',
-                            });
+                                formattedDate = dateObj.toLocaleDateString('pt-PT', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric',
+                                });
+                                sortDate = dateObj;
 
-                            return {
-                                id: folder.external_id,
-                                folderName: folder.name,
-                                title: titlePart,
-                                date: formattedDate,
-                                path: folder.path,
+                                return {
+                                    id: folder.external_id,
+                                    folderName: folder.name,
+                                    title: titlePart,
+                                    date: formattedDate,
+                                    path: folder.path,
+                                    sortDate,
+                                }
+                            } else if (dateString && dateString.length === 10){
+                                const daySince = Number(dateString.slice(0, 2));
+                                const dayAt = dateString.slice(2, 4);
+                                const month = Number(dateString.slice(4, 6)) - 1;
+                                const year = Number(dateString.slice(6));
+                                const dateObj = new Date(year, month, dayAt);
+
+                                formattedDate = dateObj.toLocaleDateString('pt-PT', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric',
+                                });
+                                sortDate = dateObj;
+
+                                return {
+                                    id: folder.external_id,
+                                    folderName: folder.name,
+                                    title: titlePart,
+                                    date: daySince +' - '+ formattedDate,
+                                    path: folder.path,
+                                    sortDate,
+                                }
                             }
-                        } else if (dateString && dateString.length === 10){
-                            const daySince = Number(dateString.slice(0, 2));
-                            const dayAt = dateString.slice(2, 4);
-                            const month = Number(dateString.slice(4, 6)) - 1; // meses são baseados em 0
-                            const year = Number(dateString.slice(6));
-
-                            const dateObj = new Date(year, month, dayAt);
-
-                            formattedDate = dateObj.toLocaleDateString('pt-PT', {
-                                day: 'numeric',
-                                month: 'long',
-                                year: 'numeric',
-                            });
-
-                            return {
-                                id: folder.external_id,
-                                folderName: folder.name,
-                                title: titlePart,
-                                date: daySince +' - '+ formattedDate,
-                                path: folder.path,
-                            }
-                        }
-                        
-                    });
+                            // Retorna null se não tiver data válida
+                            return null;
+                        })
+                        .filter(Boolean) // Remove os nulos, ou seja, só pastas com datas válidas
+                        .sort((a, b) => b.sortDate - a.sortDate); // Ordena do mais recente para o mais antigo
 
                     setCollections(folders)
                 })
