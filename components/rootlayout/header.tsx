@@ -5,11 +5,11 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 
 import { Button } from "../ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { BoxingGloveIcon } from "../../../components/icons/boxing-glove";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
-import LanguageSwitcher from "/language-switcher";
+import LanguageSwitcher from "../language-switcher";
+import Image from "next/image";
+import { Sheet, SheetContent, SheetTrigger } from "../../components/ui/sheet";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
-          <BoxingGloveIcon className="h-8 w-8 text-primary" />
+          <Image src={"/infanteLogo.png"} alt="Infante Logo" fill className="object-cover" priority/>
         </Link>
 
         <nav className="hidden md:flex gap-6 items-center">
@@ -48,7 +48,7 @@ const Header = () => {
             <SheetContent side="right">
               <div className="flex flex-col gap-6 pt-10">
                 <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
-                  <BoxingGloveIcon className="h-7 w-7 text-primary" />
+                  <Image src={"/infanteLogo.png"} alt="Infante Logo" fill className="object-cover" priority/>
                 </Link>
                 {navLinks.map((link) => (
                   <Link

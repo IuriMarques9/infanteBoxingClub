@@ -1,8 +1,8 @@
 "use client"
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "../../../components/ui/card";
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../components/ui/button";
 import { Download } from "lucide-react";
 import { LoaderCircle } from "lucide-react";
 import Colecao from "./Colecao";

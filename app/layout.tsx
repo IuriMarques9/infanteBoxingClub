@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from "../components/ui/toaster";
-import "./globals.css";
+import "../app/globals.css";
 import { LanguageProvider } from "../contexts/language-context";
 
 export const metadata: Metadata = {

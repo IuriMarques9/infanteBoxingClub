@@ -1,5 +1,5 @@
-import { BoxingGloveIcon } from "@radix-ui/react-icons";
 import { cn } from "../../lib/utils";
+import Image from "next/image";
 
 const Loader = ({ className }: { className?: string }) => {
   return (
@@ -10,7 +10,7 @@ const Loader = ({ className }: { className?: string }) => {
       )}
     >
       <div className="relative flex items-center justify-center">
-        <BoxingGloveIcon className="h-24 w-24 animate-pulse text-primary" />
+        <Image src={"/infanteLogo.png"} alt="Infante Logo" fill className="object-cover" priority/>
       </div>
     </div>
   );
