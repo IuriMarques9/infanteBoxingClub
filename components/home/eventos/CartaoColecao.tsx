@@ -62,6 +62,8 @@ export default function CartaoColecao(collection) {
     
 
     return(
+        <></>
+        /*
         <div className="">
             <Card className="py-0">
                 <CardContent className="flex flex-col md:flex-row items-center justify-evenly gap-5 p-6">
@@ -93,6 +95,6 @@ export default function CartaoColecao(collection) {
                     </div>
                 </CardContent>
             </Card>
-        </div>
+        </div>*/
     );
 }

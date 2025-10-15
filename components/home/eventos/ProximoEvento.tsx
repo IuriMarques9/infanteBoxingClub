@@ -1,7 +1,7 @@
 "use client"
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import { Link, LoaderCircle } from "lucide-react";
+import { LoaderCircle } from "lucide-react";
 import {
   Card,
   CardDescription,
@@ -47,7 +47,8 @@ export default function ProximoEvento() {
         };
     
     return (
-        
+        <></>
+        /*
         <Card onClick={() => (router.push(nextEvent.context.linkEvento))} className="hover:scale-103 hover:cursor-pointer transtition-all duration-200 ease-in-out max-w-100 md:max-w-none mx-auto md:mx-none w-full">
             <CardHeader className="flex flex-col md:flex-row items-center">
                 <Image src={nextEvent.url} height={nextEvent.height/4} width={nextEvent.width/4} alt={nextEvent.context.title} className=""/>
@@ -60,5 +61,6 @@ export default function ProximoEvento() {
                 </div>
             </CardHeader>
         </Card>
-    );
+    */
+        );
 }

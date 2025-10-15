@@ -2,10 +2,16 @@ import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
+import { PlaceHolderImages } from "../../lib/placeholder-images";
+
 export default function Modalidades() {
     const { language } = useLanguage();
     const C = content[language];
     
+    const competitionBoxingImg = PlaceHolderImages.find((img) => img.id === "competition-boxing");
+    const maintenanceBoxingImg = PlaceHolderImages.find((img) => img.id === "maintenance-boxing");
+    const educationalBoxingImg = PlaceHolderImages.find((img) => img.id === "educational-boxing");
+
     return (
         <section id="boxing-styles" className="py-16 md:py-24 bg-secondary">
             <div className="container mx-auto px-4">

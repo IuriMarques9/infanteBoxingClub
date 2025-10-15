@@ -1,12 +1,13 @@
 "use client"
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
+import { FormEvent } from "react";
 
 export default function EmailForm() {
     const [isChecked, setIsChecked] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // evita recarregar a página
         
         if (!isChecked) {
@@ -17,7 +18,9 @@ export default function EmailForm() {
         setIsLoading(true);
 
         try {
-            const formData = new FormData(e.target);
+            const form = e.currentTarget;
+            const formData = new FormData(form);
+
             const response = await fetch("https://formsubmit.co/e5147151c2d64e4ceaf0a9c445101848", {
                 method: "POST",
                 body: formData,
@@ -25,7 +28,7 @@ export default function EmailForm() {
 
             if (response.ok){
                 toast.success('Formulário enviado com sucesso!');
-                e.target.reset();
+                form.reset();
                 setIsChecked(false);
             } else {
                 alert("Houve um erro. Tenta novamente.");
@@ -55,7 +58,7 @@ export default function EmailForm() {
     
             <div className="flex flex-col gap-1"> { /* Input Messsage */}
                 <label htmlFor="mensagem">Mensagem *</label>
-                <textarea placeholder="Escreve aqui a tua mensagem" rows="3" name="mensagem" required></textarea>
+                <textarea placeholder="Escreve aqui a tua mensagem" rows={3} name="mensagem" required></textarea>
             </div>
     
             <div>

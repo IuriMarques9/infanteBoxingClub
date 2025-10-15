@@ -1,9 +1,9 @@
 "use client";
 
-import { content } from "../../../lib/content";
-import { useLanguage } from "../../../contexts/language-context";
+import { content } from "../../lib/content";
+import { useLanguage } from "../../contexts/language-context";
 import Image from "next/image";
-import { Button } from "../../../components/ui/button";
+import { Button } from "../ui/button";
 
 export default function Hero() {
   	const { language } = useLanguage();

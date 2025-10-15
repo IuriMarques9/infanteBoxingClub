@@ -3,133 +3,133 @@
     {
       "id": "coach-1",
       "description": "Portrait of a boxing coach.",
-      "imageUrl": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtYWxlJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzU5NDg0OTIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "/",
       "imageHint": "male portrait"
     },
     {
       "id": "coach-2",
       "description": "Portrait of a second boxing coach.",
-      "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtYWxlJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzU5NDg0OTIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "/",
       "imageHint": "male portrait"
     },
     {
       "id": "event-poster",
       "description": "Promotional poster for a boxing event.",
-      "imageUrl": "https://picsum.photos/seed/ev1/800/1000",
+      "imageUrl": "/",
       "imageHint": "boxing event poster"
     },
     {
       "id": "competition-boxing",
       "description": "Two boxers in the middle of a competitive match.",
-      "imageUrl": "https://picsum.photos/seed/comp/400/300",
+      "imageUrl": "/",
       "imageHint": "boxing match"
     },
     {
       "id": "maintenance-boxing",
       "description": "A person hitting a punching bag during a fitness class.",
-      "imageUrl": "https://picsum.photos/seed/maint/400/300",
+      "imageUrl": "/",
       "imageHint": "boxing fitness"
     },
     {
       "id": "educational-boxing",
       "description": "A coach teaching a young student boxing fundamentals.",
-      "imageUrl": "https://picsum.photos/seed/edu/400/300",
+      "imageUrl": "/",
       "imageHint": "boxing training"
     },
     {
       "id": "daily-1",
       "description": "A view of the gym equipment and boxing ring.",
-      "imageUrl": "https://picsum.photos/seed/d1/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing gym"
     },
     {
       "id": "daily-2",
       "description": "A boxer wrapping their hands before training.",
-      "imageUrl": "https://picsum.photos/seed/d2/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing preparation"
     },
     {
       "id": "daily-3",
       "description": "A group of people in a boxing fitness class.",
-      "imageUrl": "https://picsum.photos/seed/d3/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing class"
     },
     {
       "id": "daily-4",
       "description": "A close-up of boxing gloves hanging.",
-      "imageUrl": "https://picsum.photos/seed/d4/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing gloves"
     },
     {
       "id": "merch-gloves",
       "description": "A pair of red boxing gloves.",
-      "imageUrl": "https://picsum.photos/seed/m1/400/500",
+      "imageUrl": "/",
       "imageHint": "boxing gloves product"
     },
     {
       "id": "merch-shirt",
       "description": "A black t-shirt with the gym logo.",
-      "imageUrl": "https://picsum.photos/seed/m2/400/500",
+      "imageUrl": "/",
       "imageHint": "t-shirt merchandise"
     },
     {
       "id": "merch-shorts",
       "description": "Black training shorts for boxing.",
-      "imageUrl": "https://picsum.photos/seed/m3/400/500",
+      "imageUrl": "/",
       "imageHint": "training shorts"
     },
     {
       "id": "merch-wraps",
       "description": "A pair of black hand wraps.",
-      "imageUrl": "https://picsum.photos/seed/m4/400/500",
+      "imageUrl": "/",
       "imageHint": "hand wraps"
     },
     {
       "id": "event-2024-1",
       "description": "A photo from a 2024 boxing event.",
-      "imageUrl": "https://picsum.photos/seed/e24-1/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing event"
     },
     {
       "id": "event-2024-2",
       "description": "A photo from a 2024 boxing event.",
-      "imageUrl": "https://picsum.photos/seed/e24-2/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing celebration"
     },
     {
       "id": "event-2024-3",
       "description": "A photo from a 2024 boxing event.",
-      "imageUrl": "https://picsum.photos/seed/e24-3/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing action"
     },
     {
       "id": "event-2024-4",
       "description": "A photo from a 2024 boxing event.",
-      "imageUrl": "https://picsum.photos/seed/e24-4/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing crowd"
     },
     {
       "id": "event-2023-1",
       "description": "A photo from a 2023 boxing event.",
-      "imageUrl": "https://picsum.photos/seed/e23-1/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing ring"
     },
     {
       "id": "event-2023-2",
       "description": "A photo from a 2023 boxing event.",
-      "imageUrl": "https://picsum.photos/seed/e23-2/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing winner"
     },
     {
       "id": "event-2023-3",
       "description": "A photo from a 2023 boxing event.",
-      "imageUrl": "https://picsum.photos/seed/e23-3/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing fight"
     },
     {
       "id": "event-2023-4",
       "description": "A photo from a 2023 boxing event.",
-      "imageUrl": "https://picsum.photos/seed/e23-4/400/400",
+      "imageUrl": "/",
       "imageHint": "boxing fans"
     }
   ]
