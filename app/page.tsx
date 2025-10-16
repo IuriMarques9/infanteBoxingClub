@@ -1,26 +1,26 @@
 'use client';
 
-import Hero from "../components/home/Hero";
-import Modalidades from "../components/home/Modalidades";
-import Destaques from "../components/home/eventos/Destaques";
-import Sobre from "../components/home/Sobre";
-import Horario from "../components/home/Horario";
-import Loc from "../components/home/Loc";
-import Galeria from "../components/home/galeria/Galeria";
-import Header from "../components/rootlayout/header";
-import Loja from "../components/home/loja/Loja";
-import Loader from "../components/rootlayout/loader";
-import Footer from "../components/rootlayout/footers/Footer";
+import Hero from "../components/sections/Hero";
+import Modalidades from "../components/sections/Modalidades";
+import Sobre from "../components/sections/Sobre";
+import Horario from "../components/sections/Horario";
+import Loc from "../components/sections/Loc";
+import Galeria from "../components/sections/galeria/Galeria";
+import Header from "../components/layout/Header";
+import Loja from "../components/sections/loja/Loja";
+import Loader from "../components/layout/Loader";
+import Eventos from "../components/sections/eventos/Eventos";
+import Footer from "../components/layout/Footer";
 import { useState } from "react";
 
 export default function Home() {
 
-      const [loading, setLoading] = useState(false);
+      const [loading, setLoading] = useState(false); //Mudadr para true se quiser o loader
 
     return (
         <>
-            <Loader className={!loading ? "opacity-0" : ""} />
-            <div className={loading ? "opacity-0" : "opacity-100 transition-opacity duration-500"}>   
+            <Loader className={!loading ? "hidden" : ""} />
+            <div className={loading ? "hidden" : "visible transition-opacity duration-500"}>   
             
                 {/* Header */}                    
                 <Header />
@@ -31,7 +31,7 @@ export default function Home() {
 
                     <Modalidades />
 
-                    <Destaques />
+                    <Eventos />
 
                     <Galeria />
 

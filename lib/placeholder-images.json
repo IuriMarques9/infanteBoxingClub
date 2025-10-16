@@ -21,19 +21,19 @@
     {
       "id": "competition-boxing",
       "description": "Two boxers in the middle of a competitive match.",
-      "imageUrl": "/",
+      "imageUrl": "/boxeCompeticao.png",
       "imageHint": "boxing match"
     },
     {
       "id": "maintenance-boxing",
       "description": "A person hitting a punching bag during a fitness class.",
-      "imageUrl": "/",
+      "imageUrl": "/boxeManutencao.png",
       "imageHint": "boxing fitness"
     },
     {
       "id": "educational-boxing",
       "description": "A coach teaching a young student boxing fundamentals.",
-      "imageUrl": "/",
+      "imageUrl": "/boxeEducativo.png",
       "imageHint": "boxing training"
     },
     {

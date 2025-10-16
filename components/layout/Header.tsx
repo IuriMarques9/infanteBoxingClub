@@ -9,7 +9,7 @@ import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
 import LanguageSwitcher from "../language-switcher";
 import Image from "next/image";
-import { Sheet, SheetContent, SheetTrigger } from "../../components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2">
-          <Image src={"/infanteLogo.png"} alt="Infante Logo" fill className="object-cover" priority/>
+          <Image src={"/infanteLogo.png"} alt="Infante Logo" height={50} width={50} className="object-cover" priority/>
         </Link>
 
         <nav className="hidden md:flex gap-6 items-center">
