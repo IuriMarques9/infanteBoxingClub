@@ -34,15 +34,15 @@ export default function Contacto() {
             </p>
             <div className="mt-8 space-y-4">
               <div className="flex items-center gap-4">
-                <MapPin className="h-6 w-6 text-primary" />
+                <MapPin stroke="var(--primary)" className="h-6 w-6" />
                 <span className="text-lg">{C.contact.address}</span>
               </div>
               <div className="flex items-center gap-4">
-                <Phone className="h-6 w-6 text-primary" />
+                <Phone stroke="var(--primary)" className="h-6 w-6" />
                 <span className="text-lg">{C.contact.phone}</span>
               </div>
               <div className="flex items-center gap-4">
-                <Mail className="h-6 w-6 text-primary" />
+                <Mail stroke="var(--primary)" className="h-6 w-6" />
                 <span className="text-lg">{C.contact.email}</span>
               </div>
             </div>
@@ -52,7 +52,7 @@ export default function Contacto() {
               <Input type="text" placeholder={C.contact.form.name} required />
               <Input type="email" placeholder={C.contact.form.email} required />
               <Textarea placeholder={C.contact.form.message} required rows={5}/>
-              <Button type="submit" size="lg" className="w-full font-bold">{C.contact.form.submit}</Button>
+              <Button type="submit" size="lg" className="w-full font-bold" >{C.contact.form.submit}</Button>
             </form>
           </div>
         </div>
