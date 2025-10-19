@@ -11,12 +11,19 @@ import Loja from "../components/sections/loja/Loja";
 import Loader from "../components/layout/Loader";
 import Eventos from "../components/sections/eventos/Eventos";
 import Footer from "../components/layout/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
 
-      const [loading, setLoading] = useState(false); //Mudadr para true se quiser o loader
+      const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500); 
 
+    return () => clearTimeout(timer);
+  }, []);
     return (
         <>
             <Loader className={!loading ? "hidden" : ""} />
