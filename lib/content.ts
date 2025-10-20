@@ -128,7 +128,7 @@ export const content = {
     hero: {
       title: "Infante",
       titleHighlight: "Boxing",
-      subtitle: "Onde disciplina, força e comunidade forjam campeões dentro e fora do ringue.",
+      subtitle: "Luta pelo teu bem-estar. Vem treinar connosco!",
       cta: "Horário das Aulas",
     },
      nextEvent: {
@@ -142,20 +142,20 @@ export const content = {
       cta: "Comprar Bilhetes",
     },
     boxingStyles: {
-      title: "Encontre a Sua Luta",
-      subtitle: "Oferecemos diferentes modalidades de boxe para se adequar ao seu nível e objetivos.",
+      title: "Boxe para Todos: Do Bem-Estar à Alta Competição",
+      subtitle: "No nosso clube, todos têm a oportunidade de praticar boxe, seja com o objetivo de melhorar a forma física e manter um estilo de vida saudável, ou com a ambição de competir e evoluir no desporto. Adaptamos os treinos às tuas metas, oferecendo um ambiente acolhedor para iniciantes e desafiante para quem procura superar limites no ringue.",
       styles: [
         {
           title: "Boxe de Competição",
-          description: "Para quem quer testar as suas habilidades no ringue. Treino intensivo focado na técnica, estratégia e condição física para competição amadora e profissional.",
+          description: "O Boxe de Competição é uma disciplina desportiva regulamentada a nível nacional e internacional. Com divisões por idade, sexo e peso, a competição decorre em ringue, com regras claras e supervisão por árbitros certificados. A prática regular desenvolve força, resistência, coordenação, raciocínio tático e espírito desportivo. Os atletas são acompanhados tecnicamente e têm acesso a provas locais, nacionais e internacionais, podendo evoluir desde a formação até ao alto rendimento.",
         },
         {
           title: "Boxe de Manutenção",
-          description: "Uma forma perfeita de se manter em forma. Treinos de alta intensidade que combinam técnicas de boxe com cardio e treino de força para uma experiência de fitness completa.",
+          description: "O Boxe de Manutenção é uma vertente não competitiva, orientada para a melhoria da condição física através de treinos baseados na metodologia do boxe. Trabalha-se a técnica sem contacto, combinando exercícios com saco de boxe, circuitos físicos, coordenação e mobilidade articular. Ideal para praticantes de todas as idades, promove a saúde física e mental num ambiente seguro, estruturado e motivacional.",
         },
         {
           title: "Boxe Educativo",
-          description: "Aprenda a nobre arte num ambiente seguro e controlado. Ideal para iniciantes e jovens, focando na disciplina, respeito e técnicas fundamentais sem combate direto.",
+          description: "Boxe Educativo é uma metodologia reconhecida pela Federação Portuguesa de Boxe e por instituições internacionais como um meio eficaz de iniciação à modalidade. Sem contacto pleno, promove o ensino técnico, motor e comportamental, sendo adaptado a diferentes faixas etárias. Utilizado em escolas, clubes e academias, é uma prática segura, acessível e com benefícios amplos na formação global dos praticantes.",
         },
       ]
     },

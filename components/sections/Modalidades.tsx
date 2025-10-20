@@ -26,7 +26,7 @@ export default function BoxingStyles() {
         </div>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
           <Card className="overflow-hidden">
-              {competitionBoxingImg && <Image src={competitionBoxingImg.imageUrl} alt={competitionBoxingImg.description} width={100} height={100} className="w-full h-48 object-cover" data-ai-hint={competitionBoxingImg.imageHint}/>}
+              {competitionBoxingImg && <Image src={competitionBoxingImg.imageUrl} alt={competitionBoxingImg.description} width={100} height={100} className="w-full h-60 object-cover" data-ai-hint={competitionBoxingImg.imageHint}/>}
             <CardHeader>
               <CardTitle className="font-headline text-3xl">{C.boxingStyles.styles[0].title}</CardTitle>
             </CardHeader>
@@ -35,7 +35,7 @@ export default function BoxingStyles() {
             </CardContent>
           </Card>
           <Card className="overflow-hidden">
-            {maintenanceBoxingImg && <Image src={maintenanceBoxingImg.imageUrl} alt={maintenanceBoxingImg.description} width={400} height={300} className="w-full h-48 object-cover" data-ai-hint={maintenanceBoxingImg.imageHint}/>}
+            {maintenanceBoxingImg && <Image src={maintenanceBoxingImg.imageUrl} alt={maintenanceBoxingImg.description} width={400} height={300} className="w-full h-60 object-cover" data-ai-hint={maintenanceBoxingImg.imageHint}/>}
             <CardHeader>
               <CardTitle className="font-headline text-3xl">{C.boxingStyles.styles[1].title}</CardTitle>
             </CardHeader>
@@ -44,7 +44,7 @@ export default function BoxingStyles() {
             </CardContent>
           </Card>
           <Card className="overflow-hidden">
-            {educationalBoxingImg && <Image src={educationalBoxingImg.imageUrl} alt={educationalBoxingImg.description} width={400} height={300} className="w-full h-48 object-cover" data-ai-hint={educationalBoxingImg.imageHint}/>}
+            {educationalBoxingImg && <Image src={educationalBoxingImg.imageUrl} alt={educationalBoxingImg.description} width={400} height={300} className="w-full h-60 object-cover" data-ai-hint={educationalBoxingImg.imageHint}/>}
             <CardHeader>
               <CardTitle className="font-headline text-3xl">{C.boxingStyles.styles[2].title}</CardTitle>
             </CardHeader>
