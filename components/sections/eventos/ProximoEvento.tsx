@@ -20,9 +20,6 @@ export default function NextEvent() {
           <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider">
             {C.nextEvent.title}
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            {C.nextEvent.subtitle}
-          </p>
         </div>
         <Card className="mt-12 grid md:grid-cols-2 overflow-hidden shadow-2xl">
           {eventImage && (

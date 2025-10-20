@@ -2,9 +2,7 @@ export const content = {
   en: {
     navLinks: [
       { href: "#home", label: "Home" },
-      { href: "#boxing-styles", label: "Boxing Styles" },
-      { href: "#next-event", label: "Next Event" },
-      { href: "#past-events", label: "Past Events" },
+      { href: "#events", label: "Events" },
       { href: "#team", label: "Team" },
       { href: "#merch", label: "Merch" },
       { href: "#schedule", label: "Schedule" },
@@ -18,7 +16,6 @@ export const content = {
     },
     nextEvent: {
       title: "Upcoming Event",
-      subtitle: "Don't miss our next big night! Experience the thrill of live boxing.",
       eventName: "Gala Boxe 'Odivelas a PUGNAR'",
       eventDescription: "An evening of intense bouts featuring our top athletes. Get ready for an unforgettable show of skill, heart, and determination.",
       date: "October 26, 2024",
@@ -83,8 +80,8 @@ export const content = {
       ],
     },
     team: {
-      title: "Our Team",
-      subtitle: "Meet the experienced coaches dedicated to your success.",
+      title: "About the Club",
+      subtitle: "Our association was born from Ricardo Infante's peace in boxing and its lifelong positive impact. With the unconditional support of my people, my family, and my closest friends, my long-standing project has grown with its purpose and become a local and national reference. But as a boxing club, we are an accredited community for entry, we respect the circumstances, and we do not participate in sports activities. Here, we welcome people of all ages—from children to the elderly—we offer a safe, technological approach adapted to everyday life, thus creating a space where boxing is accessible, respected, and valued as a tool for human growth. Our connection with the Portuguese Boxing Federation reinforces our commitment to quality, rigor, and professionalism. But it is with the community that we stand out: together, we build a boxing space that is not just a sport—it is an instrument of transformation, inclusive and united. This is an opportunity. Every person is valued. And every achievement, no matter how it seems, is celebrated together. Here, we don't just train athletes. We train weights.",
       coaches: [
         {
           name: "Ricardo Infante",
@@ -117,9 +114,7 @@ export const content = {
   pt: {
     navLinks: [
       { href: "#home", label: "Início" },
-      { href: "#boxing-styles", label: "Estilos de Boxe" },
-      { href: "#next-event", label: "Próximo Evento" },
-      { href: "#past-events", label: "Eventos Passados" },
+      { href: "#events", label: "Eventos" },
       { href: "#team", label: "Equipa" },
       { href: "#merch", label: "Loja" },
       { href: "#schedule", label: "Horário" },
@@ -133,7 +128,6 @@ export const content = {
     },
      nextEvent: {
       title: "Próximo Evento",
-      subtitle: "Não perca a nossa próxima grande noite! Viva a emoção do boxe ao vivo.",
       eventName: "Gala Boxe 'Odivelas a PUGNAR'",
       eventDescription: "Uma noite de combates intensos com os nossos melhores atletas. Prepare-se para um espetáculo inesquecível de técnica, coração e determinação.",
       date: "26 de Outubro de 2024",
@@ -198,8 +192,10 @@ export const content = {
       ],
     },
     team: {
-      title: "A Nossa Equipa",
-      subtitle: "Conheça os treinadores experientes dedicados ao seu sucesso.",
+      title: "Sobre o Clube",
+      subtitle: `A nossa associação nasceu da paixão de Ricardo Infante pelo boxe e pelo impacto positivo que este pode ter na vida das pessoas. Com o apoio incondicional da sua mulher, da família e de amigos próximos, o projeto ganhou forma, cresceu com propósito e tornou-se numa referência local e nacional. Mais do que um clube de boxe, somos uma comunidade que acredita na força da entreajuda, no respeito mútuo e no desenvolvimento pessoal através do desporto. Aqui acolhemos pessoas de todas as idades — desde crianças a seniores — oferecendo uma abordagem segura, técnica e adaptada a cada fase da vida criando assim um espaço onde o boxe seja acessível, respeitado e valorizado como ferramenta de crescimento humano. A nossa ligação com a Federação Portuguesa de Boxe reforça o nosso compromisso com a qualidade, rigor e profissionalismo. Mas é a relação próxima com a comunidade que nos distingue: juntos, construímos um espaço onde o boxe é mais do que uma modalidade — é um instrumento de transformação, inclusão e união. Cada treino é uma oportunidade. Cada pessoa é valorizada. E cada conquista, por mais pequena que pareça, é celebrada em conjunto. Aqui não formamos apenas atletas. Formamos pessoas.`,
+      
+      
       coaches: [
         {
           name: "Ricardo Infante",

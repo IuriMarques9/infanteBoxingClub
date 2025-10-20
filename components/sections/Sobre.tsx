@@ -22,11 +22,11 @@ export default function Team() {
   return (
     <section id="team" className="py-16 md:py-24 bg-secondary">
       <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto">
+        <div className="text-center max-w-6xl mx-auto">
           <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider">
             {C.team.title}
           </h2>
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-4 text-lg text-justify text-muted-foreground">
             {C.team.subtitle}
           </p>
         </div>

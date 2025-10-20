@@ -3,6 +3,7 @@
 import { content } from "../../lib/content";
 import { useLanguage } from "../../contexts/language-context";
 import { Button } from "../ui/button";
+import Image from "next/image";
 
 export default function Hero() {
   	const { language } = useLanguage();
@@ -23,7 +24,7 @@ export default function Hero() {
 
       <div className="absolute inset-0 bg-black/70" />
       <div className="relative z-10 p-4 max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-10 duration-700">
-        
+        <Image src={"/infanteLogo.png"} alt="Infante Logo" height={150} width={150} className="object-cover rounded-full mx-auto mb-4" priority/>
 	 	    <h1 className="font-headline text-4xl md:text-6xl lg:text-8xl font-bold tracking-tight uppercase">
           {C.hero.title} {C.hero.titleHighlight}<span className="text-primary"> Club</span>
         </h1>

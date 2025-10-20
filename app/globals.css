@@ -61,7 +61,33 @@
 
 }
 
+h2 {
+    color: hsl(41 55% 57%);
+    font-weight: 600;
+}
 
+*::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 20px;
+}
+
+*::-webkit-scrollbar-thumb:hover{
+    background: rgb(161, 128, 69);
+    cursor: pointer;
+}
+
+*::-webkit-scrollbar-button{
+    display: none;
+}
 
 /*
 body, html {
@@ -218,30 +244,6 @@ h6 {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
-
-
-    *::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-    }
-
-	
-    *::-webkit-scrollbar-track {
-
-    }
-
-    *::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color);
-    border-radius: 20px;
-    }
-    *::-webkit-scrollbar-thumb:hover{
-    background: rgb(161, 128, 69);
-    cursor: pointer;
-    }
-
-    *::-webkit-scrollbar-button{
-    display: none;
-}
 
     section#Horario table{
         width: 100%;
