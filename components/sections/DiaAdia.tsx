@@ -1,14 +1,15 @@
 'use client';
 import Image from "next/image";
-import { useLanguage } from "../../../contexts/language-context";
-import { content } from "../../../lib/content";
-import { PlaceHolderImages } from "../../../lib/placeholder-images";
+import { useLanguage } from "../../contexts/language-context";
+import { content } from "../../lib/content";
+import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
 
-export default function DailyLife() {
+export default function DiaAdia() {
   const { language } = useLanguage();
   const C = content[language];
-  const dailyLifeImages = PlaceHolderImages.filter(img => img.id.startsWith('daily-'));
 
+  const { images, loading, error } = useImagesFromFolder("diaAdia");
+  console.log(images);
   return (
     <section id="daily-life" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4">
@@ -21,9 +22,9 @@ export default function DailyLife() {
             </p>
           </div>
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-            {dailyLifeImages.map(image => (
+            {images.map(image => (
               <div key={image.id} className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow">
-                <Image src={image.imageUrl} alt={image.description} width={400} height={400} className="w-full h-full object-cover aspect-square" data-ai-hint={image.imageHint}/>
+                <Image src={image.url} alt={image.title} width={400} height={400} className="w-full h-full object-cover aspect-square" />
               </div>
             ))}
           </div>

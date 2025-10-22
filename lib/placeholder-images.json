@@ -1,3 +1,4 @@
+
 {
   "placeholderImages": [
     {
@@ -35,30 +36,6 @@
       "description": "A coach teaching a young student boxing fundamentals.",
       "imageUrl": "/boxeEducativo.png",
       "imageHint": "boxing training"
-    },
-    {
-      "id": "daily-1",
-      "description": "A view of the gym equipment and boxing ring.",
-      "imageUrl": "/",
-      "imageHint": "boxing gym"
-    },
-    {
-      "id": "daily-2",
-      "description": "A boxer wrapping their hands before training.",
-      "imageUrl": "/",
-      "imageHint": "boxing preparation"
-    },
-    {
-      "id": "daily-3",
-      "description": "A group of people in a boxing fitness class.",
-      "imageUrl": "/",
-      "imageHint": "boxing class"
-    },
-    {
-      "id": "daily-4",
-      "description": "A close-up of boxing gloves hanging.",
-      "imageUrl": "/",
-      "imageHint": "boxing gloves"
     },
     {
       "id": "merch-gloves",
