@@ -43,7 +43,7 @@ export const content = {
         },
       ]
     },
-     dailyLife: {
+    dailyLife: {
       title: "Day-to-day at the gym",
       subtitle: "The sweat, the focus, the camaraderie. This is what our daily grind looks like.",
     },
@@ -72,8 +72,12 @@ export const content = {
       table: {
         time: "Time",
         monday: "Monday",
+        tuesday: "Tuesday",
         wednesday: "Wednesday",
+        thursday: "Thursday",
         friday: "Friday",
+        saturday: "Saturday",
+        sunday: "Sunday",
       },
       classes: [
         "Kids Boxing (6-12 yrs)",
@@ -184,8 +188,12 @@ export const content = {
       table: {
         time: "Hora",
         monday: "Segunda",
+        tuesday: "Terça",
         wednesday: "Quarta",
+        thursday: "Quinta",
         friday: "Sexta",
+        saturday: "Sábado",
+        sunday: "Domingo",
       },
       classes: [
         "Boxe Infantil (6-12 anos)",

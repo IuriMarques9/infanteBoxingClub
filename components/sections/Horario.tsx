@@ -33,13 +33,21 @@ export default function Schedule() {
                 <TableRow>
                   <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.time}</TableHead>
                   <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.monday}</TableHead>
+                  <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.tuesday}</TableHead>
                   <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.wednesday}</TableHead>
+                  <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.thursday}</TableHead>
                   <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.friday}</TableHead>
+                  <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.saturday}</TableHead>
+                  <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.sunday}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow>
                   <TableCell className="font-medium">18:00 - 19:00</TableCell>
+                  <TableCell>{C.schedule.classes[0]}</TableCell>
+                  <TableCell>{C.schedule.classes[0]}</TableCell>
+                  <TableCell>{C.schedule.classes[0]}</TableCell>
+                  <TableCell>{C.schedule.classes[0]}</TableCell>
                   <TableCell>{C.schedule.classes[0]}</TableCell>
                   <TableCell>{C.schedule.classes[0]}</TableCell>
                   <TableCell>{C.schedule.classes[0]}</TableCell>
@@ -49,9 +57,37 @@ export default function Schedule() {
                   <TableCell>{C.schedule.classes[1]}</TableCell>
                   <TableCell>{C.schedule.classes[1]}</TableCell>
                   <TableCell>{C.schedule.classes[1]}</TableCell>
+                  <TableCell>{C.schedule.classes[1]}</TableCell>
+                  <TableCell>{C.schedule.classes[1]}</TableCell>
+                  <TableCell>{C.schedule.classes[1]}</TableCell>
+                  <TableCell>{C.schedule.classes[1]}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell className="font-medium">20:00 - 21:00</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">20:00 - 21:00</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">20:00 - 21:00</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
+                  <TableCell>{C.schedule.classes[2]}</TableCell>
                   <TableCell>{C.schedule.classes[2]}</TableCell>
                   <TableCell>{C.schedule.classes[2]}</TableCell>
                   <TableCell>{C.schedule.classes[2]}</TableCell>
