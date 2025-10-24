@@ -67,21 +67,22 @@ h2 {
 }
 
 *::-webkit-scrollbar {
+
     width: 5px;
     height: 5px;
 }
 
 *::-webkit-scrollbar-track {
-
+   
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: var(--primary);
+    background-color: hsl(41 55% 57%);
     border-radius: 20px;
 }
 
 *::-webkit-scrollbar-thumb:hover{
-    background: rgb(161, 128, 69);
+    background-color: hsl(0 0% 45.1%);
     cursor: pointer;
 }
 

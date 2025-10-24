@@ -69,6 +69,7 @@ export const content = {
     schedule: {
       title: "Schedule",
       subtitle: "Find the perfect class to fit your goals and schedule.",
+      observations: "* Encerrado aos sábados e domingos",
       table: {
         time: "Time",
         monday: "Monday",
@@ -80,9 +81,13 @@ export const content = {
         sunday: "Sunday",
       },
       classes: [
-        "Kids Boxing (6-12 yrs)",
-        "Beginner Boxing",
-        "Advanced Boxing",
+        "Suricatas (5-8 anos)",
+        "Gatinhos (9-11 anos)",
+        "Leões (12-15 anos)",
+        "Adultos",
+        "Closed",
+        "Open Gym",
+        "Women's Class"
       ],
     },
     team: {
@@ -103,8 +108,8 @@ export const content = {
       title: "Contact Us",
       subtitle: "Ready to join? Have a question? Get in touch with us!",
       address: "Rua Frei Fortunato, nº15, Loja D, 2675-391 Odivelas",
-      phone: "+351 965 100 200",
-      email: "geral@associacaoinfate.pt",
+      phone: "+351 910 389 071",
+      email: "associacao.infante@gmail.com",
       form: {
         name: "Your Name",
         email: "Your Email",
@@ -185,6 +190,7 @@ export const content = {
     schedule: {
       title: "Horário",
       subtitle: "Encontre a aula perfeita para os seus objetivos e horário.",
+      observations: "* Encerrado aos sábados e domingos",
       table: {
         time: "Hora",
         monday: "Segunda",
@@ -196,9 +202,13 @@ export const content = {
         sunday: "Domingo",
       },
       classes: [
-        "Boxe Infantil (6-12 anos)",
-        "Boxe para Iniciantes",
-        "Boxe Avançado",
+        "Suricatas (5-8 anos)",
+        "Gatinhos (9-11 anos)",
+        "Leões (12-15 anos)",
+        "Adultos",
+        "Fechado",
+        "Ginasio Aberto",
+        "Boxe Feminino"
       ],
     },
     team: {
@@ -221,8 +231,8 @@ export const content = {
       title: "Contacte-nos",
       subtitle: "Pronto para se juntar? Tem uma questão? Entre em contacto connosco!",
       address: "Rua Frei Fortunato, nº15, Loja D, 2675-391 Odivelas",
-      phone: "+351 965 100 200",
-      email: "geral@associacaoinfate.pt",
+      phone: "+351 910 389 071",
+      email: "associacao.infante@gmail.com",
       form: {
         name: "O seu Nome",
         email: "O seu Email",

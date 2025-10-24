@@ -36,7 +36,7 @@ export default function Hero() {
             <a href="#schedule">{C.hero.cta}</a>
           </Button>
 
-          <Button size="lg" asChild className="font-bold text-primary" variant="outline">
+          <Button size="lg" asChild className="font-bold text-foreground" variant="secondary">
             <a href="#contact">{C.navLinks.find(l => l.href === "#contact")?.label}</a>
           </Button>
         </div>

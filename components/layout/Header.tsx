@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { Facebook, Instagram, Mail, Menu } from "lucide-react";
 
 import { Button } from "../ui/button";
 import { useLanguage } from "../../contexts/language-context";
@@ -38,39 +38,52 @@ const Header = () => {
         </nav>
 
         <div className="md:hidden">
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle Menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right">
-              <div className="flex flex-col gap-6 pt-10">
-                <Link href="/" className="flex items-center gap-2 mb-4" onClick={() => setIsOpen(false)}>
-                  <Image src={"/infanteLogo.png"} alt="Infante Logo" fill className="object-cover" priority/>
-                </Link>
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-lg font-medium text-foreground transition-colors hover:text-primary"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                 <Button asChild className="mt-4">
-                  <Link href="#contact" onClick={() => setIsOpen(false)}>{C.contact.title}</Link>
-                </Button>
-                <div className="pt-4">
-                  <LanguageSwitcher />
-                </div>
-              </div>
+			<Sheet open={isOpen} onOpenChange={setIsOpen}>
+					  
+				<SheetTrigger asChild>
+				<Button variant="ghost" size="icon">
+					<Menu className="h-6 w-6" />
+					<span className="sr-only">Toggle Menu</span>
+				</Button>
+			</SheetTrigger>
+			<SheetContent side="right">
+              	<div className="flex flex-col gap-6 pt-10">
+					{navLinks.map((link) => (
+					<Link
+					key={link.href}
+					href={link.href}
+					className="text-lg font-medium text-foreground transition-colors hover:text-primary"
+					onClick={() => setIsOpen(false)}
+					>
+						{link.label}
+					</Link>
+					))}
+					<Button asChild className="mt-4">
+						<Link href="#contact" onClick={() => setIsOpen(false)}>{C.contact.title}</Link>
+					</Button>
+					<div className="pt-4">
+						<LanguageSwitcher />
+					</div>
+					<div className="flex gap-4">
+						<a href="https://www.facebook.com/associacaoinfante.pt" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+							<Facebook className="h-5 w-5" />
+							<span className="sr-only">Facebook</span>
+						</a>
+						<a href="https://www.instagram.com/infanteboxingclub/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary">
+							<Instagram className="h-5 w-5" />
+							<span className="sr-only">Instagram</span>
+						</a>
+						<a href="mailto:geral@associacaoinfate.pt" className="text-muted-foreground hover:text-primary">
+							<Mail className="h-5 w-5" />
+							<span className="sr-only">Email</span>
+						</a>
+					</div>
+              	</div>
+
             </SheetContent>
-          </Sheet>
-        </div>
-      </div>
+          	</Sheet>
+        	</div>
+      	</div>
     </header>
   );
 };

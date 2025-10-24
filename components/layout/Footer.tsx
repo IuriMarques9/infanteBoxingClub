@@ -10,7 +10,7 @@ const Footer = () => {
         <Contacto />
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
-            <Image src={"/logo.png"} alt={"Infante Boxing Club Logo"} width={40} height={40} />
+            <Image src={"/infanteLogo.png"} alt={"Infante Boxing Club Logo"} width={40} height={40} className="rounded-full" />
             <span className="font-headline text-xl tracking-wide">Infante Boxing Club</span>
           </div>
           

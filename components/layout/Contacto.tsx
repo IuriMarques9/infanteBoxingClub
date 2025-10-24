@@ -14,6 +14,7 @@ export default function Contacto() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
     toast({
       title: C.contact.toast.title,
       description: C.contact.toast.description,
