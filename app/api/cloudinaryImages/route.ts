@@ -28,8 +28,9 @@ export async function GET(request: Request) {
                     title: r.context?.custom?.caption || "",
                     date: r.context?.custom?.Data || "",
                     paragrafo: r.context?.custom?.Paragrafo || "",
-                    linkEvento: r.context?.custom?.LinkEvento,
-                    localizacao: r.context?.custom?.Localizacao,
+                    linkEvento: r.context?.custom?.LinkEvento || "",
+                    localizacao: r.context?.custom?.Localizacao || "",
+                    preco: r.context?.custom?.Preço || "",
                 }
             },
         }));

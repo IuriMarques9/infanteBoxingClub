@@ -13,3 +13,9 @@ export interface ImageData {
     };
   };
 }
+
+export interface FolderData {
+  name: string;
+  path: string;
+  external_id: string;
+}

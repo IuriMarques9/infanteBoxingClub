@@ -107,8 +107,7 @@ export const content = {
     },
     contact: {
       title: "Contact Us",
-      subtitle: "Ready to join? Have a question? Get in touch with us!",
-      address: "Rua Frei Fortunato, nº15, Loja D, 2675-391 Odivelas",
+      subtitle: "Ready to join? Have a question or suggestion? Contact us—we promise to get back to you as soon as possible!",
       phone: "+351 910 389 071",
       email: "associacao.infante@gmail.com",
       form: {
@@ -231,8 +230,7 @@ export const content = {
     },
     contact: {
       title: "Contacte-nos",
-      subtitle: "Pronto para se juntar? Tem uma questão? Entre em contacto connosco!",
-      address: "Rua Frei Fortunato, nº15, Loja D, 2675-391 Odivelas",
+      subtitle: "Pronto para se juntar? Tem uma duvida ou sugestão? Entre em contacto connosco prometemos ser o mais breves possveis!",
       phone: "+351 910 389 071",
       email: "associacao.infante@gmail.com",
       form: {

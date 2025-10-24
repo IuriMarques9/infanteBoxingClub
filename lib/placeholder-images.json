@@ -36,54 +36,6 @@
       "description": "A coach teaching a young student boxing fundamentals.",
       "imageUrl": "/boxeEducativo.png",
       "imageHint": "boxing training"
-    },
-    {
-      "id": "event-2024-1",
-      "description": "A photo from a 2024 boxing event.",
-      "imageUrl": "/",
-      "imageHint": "boxing event"
-    },
-    {
-      "id": "event-2024-2",
-      "description": "A photo from a 2024 boxing event.",
-      "imageUrl": "/",
-      "imageHint": "boxing celebration"
-    },
-    {
-      "id": "event-2024-3",
-      "description": "A photo from a 2024 boxing event.",
-      "imageUrl": "/",
-      "imageHint": "boxing action"
-    },
-    {
-      "id": "event-2024-4",
-      "description": "A photo from a 2024 boxing event.",
-      "imageUrl": "/",
-      "imageHint": "boxing crowd"
-    },
-    {
-      "id": "event-2023-1",
-      "description": "A photo from a 2023 boxing event.",
-      "imageUrl": "/",
-      "imageHint": "boxing ring"
-    },
-    {
-      "id": "event-2023-2",
-      "description": "A photo from a 2023 boxing event.",
-      "imageUrl": "/",
-      "imageHint": "boxing winner"
-    },
-    {
-      "id": "event-2023-3",
-      "description": "A photo from a 2023 boxing event.",
-      "imageUrl": "/",
-      "imageHint": "boxing fight"
-    },
-    {
-      "id": "event-2023-4",
-      "description": "A photo from a 2023 boxing event.",
-      "imageUrl": "/",
-      "imageHint": "boxing fans"
     }
   ]
 }

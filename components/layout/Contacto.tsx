@@ -1,5 +1,5 @@
 'use client';
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
@@ -34,10 +34,6 @@ export default function Contacto() {
               {C.contact.subtitle}
             </p>
             <div className="mt-8 space-y-4">
-              <div className="flex items-center gap-4">
-                <MapPin stroke="var(--primary)" className="h-6 w-6" />
-                <span className="text-lg">{C.contact.address}</span>
-              </div>
               <div className="flex items-center gap-4">
                 <Phone stroke="var(--primary)" className="h-6 w-6" />
                 <span className="text-lg">{C.contact.phone}</span>

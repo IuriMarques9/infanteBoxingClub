@@ -1,6 +1,6 @@
 'use client';
 import Image from "next/image";
-import { CalendarDays, Clock, MapPin, ArrowRight } from "lucide-react";
+import { CalendarDays, MapPin, ArrowRight } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { Card } from "../../../components/ui/card";
 import { useLanguage } from "../../../contexts/language-context";
@@ -17,7 +17,6 @@ export default function NextEvent() {
   const image = images[0];
   const context = image?.context?.custom;
 
-  console.log(context);
 
   return (
     <section id="next-event" className="py-16 md:py-24 bg-white">
@@ -34,7 +33,7 @@ export default function NextEvent() {
               alt={image.id}
               width={image.width}
               height={image.height}
-              className="w-full h-full object-cover"
+              className="w-full object-cover"
             />
           )}
           <div className="flex flex-col p-8 md:p-12">
@@ -44,10 +43,6 @@ export default function NextEvent() {
               <div className="flex items-center gap-3">
                 <CalendarDays className="h-6 w-6 text-primary" />
                 <span>{context?.date}</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Clock className="h-6 w-6 text-primary" />
-                <span>1</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="h-6 w-6 text-primary" />

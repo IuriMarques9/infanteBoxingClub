@@ -18,7 +18,8 @@ export default function Merch() {
   const { language } = useLanguage();
   const C = content[language];
   const { images, loading, error } = useImagesFromFolder("produtos");
-
+ 
+ 
   return (
     <section id="merch" className="py-16 md:py-24 bg-secondary">
       <div className="container mx-auto px-4">
@@ -53,17 +54,15 @@ export default function Merch() {
                     />
                   </div>
                   <CardHeader>
-                    <CardTitle className="font-headline text-2xl">{image.context.custom.caption}</CardTitle>
+                    <CardTitle className="font-headline text-2xl">{image.context?.custom?.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-xl font-bold">{image.context.custom.Preço}</p>
+                    <p className="text-xl font-bold">{image.context?.custom?.preco}</p>
                   </CardContent>
                 </Card>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden lg:inline-flex"/>
-          <CarouselNext className="hidden lg:inline-flex"/>
         </Carousel>
       </div>
     </section>
