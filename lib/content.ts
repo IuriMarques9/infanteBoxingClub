@@ -182,7 +182,7 @@ export const content = {
     },
     pastEvents: {
       title: "Galeria de Eventos",
-      subtitle: "Reviva os melhores momentos dos nossos eventos passados.",
+      subtitle: "Reviva os melhores momentos dos eventos passados com as nossas coleções de fotografias.",
       collections: [
         { name: "Destaques 2023", id: "2023" },
         { name: "Destaques 2024", id: "2024" },

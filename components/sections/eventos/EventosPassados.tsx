@@ -1,18 +1,9 @@
 'use client';
-import Image from "next/image";
-import { Card, CardTitle } from "../../../components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../../../components/ui/carousel"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog"
 import { useLanguage } from "../../../contexts/language-context";
 import { content } from "../../../lib/content";
 import { useSubfoldersFromFolder } from "@/hooks/use-subfoldersFromFolder";
 import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
+import CardCollection from "./CardCollection";
 
 export default function PastEvents() {
   const { language } = useLanguage();
@@ -30,6 +21,15 @@ export default function PastEvents() {
           <p className="mt-4 text-lg text-muted-foreground">{C.pastEvents.subtitle}</p>
         </div>
         <div className="mt-12 grid md:grid-cols-2 gap-8">
+          {
+            pastas?.length > 0 ? (
+              pastas.map((pasta) => (
+                <CardCollection key={pasta.name} pastaData={pasta} />
+              ))
+            ) : (
+              <p>Sem pastas disponíveis.</p>
+            )
+          }
         </div>
       </div>
     </section>
