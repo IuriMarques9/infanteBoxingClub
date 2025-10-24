@@ -23,7 +23,7 @@ export const content = {
       date: "October 26, 2024",
       time: "8:00 PM",
       location: "Pavilhão Multiusos de Odivelas",
-      cta: "Get Tickets",
+      cta: "See more",
     },
     boxingStyles: {
       title: "Find Your Fight",
@@ -145,7 +145,7 @@ export const content = {
       date: "26 de Outubro de 2024",
       time: "20:00",
       location: "Pavilhão Multiusos de Odivelas",
-      cta: "Comprar Bilhetes",
+      cta: "Saber Mais",
     },
     boxingStyles: {
       title: "Boxe para Todos: Do Bem-Estar à Alta Competição",

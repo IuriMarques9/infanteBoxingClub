@@ -14,7 +14,10 @@ export default function NextEvent() {
 
   const {images, loading, error} = useImagesFromFolder("proximoEvento");
 
-  console.log(images[0]);
+  const image = images[0];
+  const context = image?.context?.custom;
+
+  console.log(context);
 
   return (
     <section id="next-event" className="py-16 md:py-24 bg-white">
@@ -25,22 +28,22 @@ export default function NextEvent() {
           </h2>
         </div>
         <Card className="mt-12 grid md:grid-cols-2 overflow-hidden shadow-2xl">
-          {images[0] && (
+          {image && (
             <Image
-              src={images[0].url}
-              alt={'Next Event Image'}
-              width={images[0].width}
-              height={images[0].height}
+              src={image.url}
+              alt={image.id}
+              width={image.width}
+              height={image.height}
               className="w-full h-full object-cover"
             />
           )}
           <div className="flex flex-col p-8 md:p-12">
-            <h3 className="font-headline text-4xl uppercase">1</h3>
-            <p className="text-muted-foreground mt-2">1</p>
+            <h3 className="font-headline text-4xl uppercase">{context?.title}</h3>
+            <p className="text-muted-foreground mt-2">{context?.paragrafo}</p>
             <div className="space-y-4 mt-6 text-lg">
               <div className="flex items-center gap-3">
                 <CalendarDays className="h-6 w-6 text-primary" />
-                <span>1</span>
+                <span>{context?.date}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Clock className="h-6 w-6 text-primary" />
@@ -48,7 +51,7 @@ export default function NextEvent() {
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="h-6 w-6 text-primary" />
-                <span>1</span>
+                <span>{context?.localizacao}</span>
               </div>
             </div>
             <Button size="lg" className="mt-8 self-start font-bold group">

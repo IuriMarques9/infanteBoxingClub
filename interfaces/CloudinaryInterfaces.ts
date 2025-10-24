@@ -3,6 +3,13 @@ export interface ImageData {
   url: string;
   width?: number;
   height?: number;
-  title: string;
-  context: { [key: string]: string };
+  context?: {
+    custom?: {
+      title?: string;
+      date?: string;
+      paragrafo?: string;
+      linkEvento?: string;
+      localizacao?: string;
+    };
+  };
 }
