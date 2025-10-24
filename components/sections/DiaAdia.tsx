@@ -14,12 +14,14 @@ import { Download } from "lucide-react";
 import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 
+const INITIAL_VISIBLE_IMAGES = 4;
 
 export default function DiaAdia() {
   const { language } = useLanguage();
   const C = content[language];
   const { images, loading, error } = useImagesFromFolder("diaAdia");
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
+  const [visibleImagesCount, setVisibleImagesCount] = useState(INITIAL_VISIBLE_IMAGES);
 
   const handleDownload = (image: ImageData) => {
     // Para forçar o download, criamos um link temporário e clicamos nele
@@ -30,6 +32,10 @@ export default function DiaAdia() {
       document.body.appendChild(link);
     link.click();
       document.body.removeChild(link);
+  };
+
+  const showMoreImages = () => {
+    setVisibleImagesCount(images.length);
   };
 
   return (
@@ -47,7 +53,7 @@ export default function DiaAdia() {
         <Dialog>
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
 
-            {images.map(image => (
+            {images.slice(0, visibleImagesCount).map(image => (
               <DialogTrigger asChild key={image.id} onClick={() => setSelectedImage(image)}>
                 <div className="overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer">
                   <Image
@@ -61,6 +67,15 @@ export default function DiaAdia() {
               </DialogTrigger>
             ))}
           </div>
+
+          {images.length > visibleImagesCount && (
+            <div className="mt-8 text-center">
+              <Button onClick={showMoreImages} size="lg" className="font-bold">
+                {C.dailyLife.cta}
+              </Button>
+            </div>
+          )}
+          
           {selectedImage && (
             <DialogContent className="max-w-4xl p-2">
               <DialogPrimitive.DialogTitle />

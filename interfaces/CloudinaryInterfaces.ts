@@ -4,4 +4,5 @@ export interface ImageData {
   width?: number;
   height?: number;
   title: string;
+  context: { [key: string]: string };
 }

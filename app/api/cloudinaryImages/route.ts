@@ -23,6 +23,7 @@ export async function GET(request: Request) {
             url: r.secure_url,
             width: r.width,
             height: r.height,
+            context: r.context || {},
         }));
 
         return NextResponse.json(images);

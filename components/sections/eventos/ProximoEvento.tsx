@@ -5,13 +5,16 @@ import { Button } from "../../../components/ui/button";
 import { Card } from "../../../components/ui/card";
 import { useLanguage } from "../../../contexts/language-context";
 import { content } from "../../../lib/content";
-import { PlaceHolderImages } from "../../../lib/placeholder-images";
+import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
+
 
 export default function NextEvent() {
   const { language } = useLanguage();
   const C = content[language];
 
-  const eventImage = PlaceHolderImages.find((img) => img.id === "event-poster");
+  const {images, loading, error} = useImagesFromFolder("proximoEvento");
+
+  console.log(images[0]);
 
   return (
     <section id="next-event" className="py-16 md:py-24 bg-white">
@@ -22,31 +25,30 @@ export default function NextEvent() {
           </h2>
         </div>
         <Card className="mt-12 grid md:grid-cols-2 overflow-hidden shadow-2xl">
-          {eventImage && (
+          {images[0] && (
             <Image
-              src={eventImage.imageUrl}
-              alt={eventImage.description}
-              width={800}
-              height={1000}
+              src={images[0].url}
+              alt={'Next Event Image'}
+              width={images[0].width}
+              height={images[0].height}
               className="w-full h-full object-cover"
-              data-ai-hint={eventImage.imageHint}
             />
           )}
           <div className="flex flex-col p-8 md:p-12">
-            <h3 className="font-headline text-4xl uppercase">{C.nextEvent.eventName}</h3>
-            <p className="text-muted-foreground mt-2">{C.nextEvent.eventDescription}</p>
+            <h3 className="font-headline text-4xl uppercase">1</h3>
+            <p className="text-muted-foreground mt-2">1</p>
             <div className="space-y-4 mt-6 text-lg">
               <div className="flex items-center gap-3">
                 <CalendarDays className="h-6 w-6 text-primary" />
-                <span>{C.nextEvent.date}</span>
+                <span>1</span>
               </div>
               <div className="flex items-center gap-3">
                 <Clock className="h-6 w-6 text-primary" />
-                <span>{C.nextEvent.time}</span>
+                <span>1</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="h-6 w-6 text-primary" />
-                <span>{C.nextEvent.location}</span>
+                <span>1</span>
               </div>
             </div>
             <Button size="lg" className="mt-8 self-start font-bold group">

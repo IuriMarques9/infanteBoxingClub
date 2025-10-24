@@ -7,7 +7,7 @@ import Horario from "../components/sections/Horario";
 import Loc from "../components/sections/Loc";
 import Galeria from "../components/sections/DiaAdia";
 import Header from "../components/layout/Header";
-import Loja from "../components/sections/loja/Loja";
+import Loja from "../components/sections/Loja";
 import Loader from "../components/layout/Loader";
 import Eventos from "../components/sections/eventos/Eventos";
 import Footer from "../components/layout/Footer";

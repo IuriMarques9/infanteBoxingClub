@@ -46,6 +46,7 @@ export const content = {
     dailyLife: {
       title: "Day-to-day at the gym",
       subtitle: "The sweat, the focus, the camaraderie. This is what our daily grind looks like.",
+      cta: "See More",
     },
     merch: {
       title: "Club Gear",
@@ -167,6 +168,7 @@ export const content = {
     dailyLife: {
       title: "O dia-a-dia no ginásio",
       subtitle: "O suor, o foco, a camaradagem. É assim o nosso quotidiano.",
+      cta: "Ver Mais",
     },
     merch: {
       title: "Equipamento do Clube",

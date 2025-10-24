@@ -38,30 +38,6 @@
       "imageHint": "boxing training"
     },
     {
-      "id": "merch-gloves",
-      "description": "A pair of red boxing gloves.",
-      "imageUrl": "/",
-      "imageHint": "boxing gloves product"
-    },
-    {
-      "id": "merch-shirt",
-      "description": "A black t-shirt with the gym logo.",
-      "imageUrl": "/",
-      "imageHint": "t-shirt merchandise"
-    },
-    {
-      "id": "merch-shorts",
-      "description": "Black training shorts for boxing.",
-      "imageUrl": "/",
-      "imageHint": "training shorts"
-    },
-    {
-      "id": "merch-wraps",
-      "description": "A pair of black hand wraps.",
-      "imageUrl": "/",
-      "imageHint": "hand wraps"
-    },
-    {
       "id": "event-2024-1",
       "description": "A photo from a 2024 boxing event.",
       "imageUrl": "/",
