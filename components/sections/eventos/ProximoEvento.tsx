@@ -37,7 +37,7 @@ export default function NextEvent() {
             />
           )}
           <div className="flex flex-col p-8 md:p-12">
-            <h3 className="font-headline text-4xl uppercase">{context?.title}</h3>
+            <h3 className="font-headline text-4xl uppercase">{context?.caption}</h3>
             <p className="text-muted-foreground mt-2">{context?.paragrafo}</p>
             <div className="space-y-4 mt-6 text-lg">
               <div className="flex items-center gap-3">
