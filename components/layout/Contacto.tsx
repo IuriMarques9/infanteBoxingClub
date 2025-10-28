@@ -3,24 +3,43 @@ import { Mail, Phone } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
-import { useToast } from "../../hooks/use-toast";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../../components/ui/form";
 
 export default function Contacto() {
   const { language } = useLanguage();
   const C = content[language];
-  const { toast } = useToast();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    
-    toast({
-      title: C.contact.toast.title,
-      description: C.contact.toast.description,
-    });
-    (event.target as HTMLFormElement).reset();
-  };
+  const [isChecked, setIsChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const formSchema = z.object({
+    name: z.string().min(2, { message: language === 'pt' ? "O nome deve ter pelo menos 2 caracteres." : "Name must be at least 2 characters." }),
+    email: z.string().email({ message: language === 'pt' ? "Por favor, insira um email válido." : "Please enter a valid email address." }),
+    message: z.string().min(10, { message: language === 'pt' ? "A mensagem deve ter pelo menos 10 caracteres." : "Message must be at least 10 characters." }),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
+
 
   return (
     <section id="contact" className="py-16 md:py-24 bg-secondary">
@@ -45,12 +64,58 @@ export default function Contacto() {
             </div>
           </div>
           <div>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <Input type="text" placeholder={C.contact.form.name} required />
-              <Input type="email" placeholder={C.contact.form.email} required />
-              <Textarea placeholder={C.contact.form.message} required rows={5}/>
-              <Button type="submit" size="lg" className="w-full font-bold" >{C.contact.form.submit}</Button>
-            </form>
+            <Form {...form}>
+              <form 
+                action={`https://formsubmit.co/e5147151c2d64e4ceaf0a9c445101848`} 
+                method="POST"
+                className="space-y-4"
+              >
+                {/* FormSubmit specific fields */}
+                <input type="hidden" name="_template" value="table" /> {/* Email Template */}
+                <input type="hidden" name="_captcha" value="false" /> {/* ReCaptcha Remove */}
+
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="sr-only">{C.contact.form.name}</FormLabel>
+                      <FormControl>
+                        <Input placeholder={C.contact.form.name} {...field} className="bg-background/20 border-primary-foreground/50 placeholder:text-primary-foreground/70" />
+                      </FormControl>
+                      <FormMessage className="text-background" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="sr-only">{C.contact.form.email}</FormLabel>
+                      <FormControl>
+                        <Input placeholder={C.contact.form.email} {...field} className="bg-background/20 border-primary-foreground/50 placeholder:text-primary-foreground/70" />
+                      </FormControl>
+                      <FormMessage className="text-background" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="sr-only">{C.contact.form.message}</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder={C.contact.form.message} {...field} rows={5} className="bg-background/20 border-primary-foreground/50 placeholder:text-primary-foreground/70" />
+                      </FormControl>
+                      <FormMessage className="text-background" />
+                    </FormItem>
+                  )}
+              />
+                <Button type="submit" size="lg" className="w-full font-bold bg-primary-foreground text-primary hover:bg-primary-foreground/90">{C.contact.form.submit}</Button>
+              </form>
+            </Form>
           </div>
         </div>
       </div>
