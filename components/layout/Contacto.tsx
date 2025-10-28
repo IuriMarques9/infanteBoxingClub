@@ -22,9 +22,6 @@ export default function Contacto() {
   const { language } = useLanguage();
   const C = content[language];
 
-  const [isChecked, setIsChecked] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
   const formSchema = z.object({
     name: z.string().min(2, { message: language === 'pt' ? "O nome deve ter pelo menos 2 caracteres." : "Name must be at least 2 characters." }),
     email: z.string().email({ message: language === 'pt' ? "Por favor, insira um email válido." : "Please enter a valid email address." }),
@@ -66,7 +63,7 @@ export default function Contacto() {
           <div>
             <Form {...form}>
               <form 
-                action={`https://formsubmit.co/e5147151c2d64e4ceaf0a9c445101848`} 
+                action={`https://formsubmit.co/associacao.infante@gmail.com`} 
                 method="POST"
                 className="space-y-4"
               >

@@ -16,8 +16,6 @@ export default function Merch() {
   const C = content[language];
   const { images, loading, error } = useImagesFromFolder("produtos");
  
-  console.log(images);
- 
   return (
     <section id="merch" className="py-16 md:py-24 bg-secondary">
       <div className="container mx-auto px-4">
