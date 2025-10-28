@@ -5,7 +5,7 @@ export const content = {
     navLinks: [
       { href: "#home", label: "Home" },
       { href: "#events", label: "Events" },
-      { href: "#team", label: "Team" },
+      { href: "#about", label: "About us" },
       { href: "#merch", label: "Merch" },
       { href: "#schedule", label: "Schedule" },
       { href: "#contact", label: "Contact" },
@@ -97,11 +97,12 @@ export const content = {
       coaches: [
         {
           name: "Ricardo Infante",
-          description: "Head Coach & Founder. With over 20 years of professional boxing and coaching experience, Ricardo is the heart of the club.",
         },
         {
-          name: "Sérgio Infante",
-          description: "Assistant Coach. A former champion with a passion for teaching the next generation of fighters.",
+          name: "Rafael",
+        },
+        {
+          name: "Luana Sola",
         },
       ],
     },
@@ -121,12 +122,15 @@ export const content = {
         description: "Thanks for reaching out. We'll get back to you shortly.",
       },
     },
+    rightsReserved: {
+      allRights: "All right reserved to Inafntae Boxing Club - Powered by ",
+    }
   },
   pt: {
     navLinks: [
       { href: "#home", label: "Início" },
       { href: "#events", label: "Eventos" },
-      { href: "#team", label: "Equipa" },
+      { href: "#about", label: "Sobre Nós" },
       { href: "#merch", label: "Loja" },
       { href: "#schedule", label: "Horário" },
       { href: "#contact", label: "Contacto" },
@@ -215,16 +219,15 @@ export const content = {
     team: {
       title: "Sobre o Clube",
       subtitle: `A nossa associação nasceu da paixão de Ricardo Infante pelo boxe e pelo impacto positivo que este pode ter na vida das pessoas. Com o apoio incondicional da sua mulher, da família e de amigos próximos, o projeto ganhou forma, cresceu com propósito e tornou-se numa referência local e nacional. Mais do que um clube de boxe, somos uma comunidade que acredita na força da entreajuda, no respeito mútuo e no desenvolvimento pessoal através do desporto. Aqui acolhemos pessoas de todas as idades — desde crianças a seniores — oferecendo uma abordagem segura, técnica e adaptada a cada fase da vida criando assim um espaço onde o boxe seja acessível, respeitado e valorizado como ferramenta de crescimento humano. A nossa ligação com a Federação Portuguesa de Boxe reforça o nosso compromisso com a qualidade, rigor e profissionalismo. Mas é a relação próxima com a comunidade que nos distingue: juntos, construímos um espaço onde o boxe é mais do que uma modalidade — é um instrumento de transformação, inclusão e união. Cada treino é uma oportunidade. Cada pessoa é valorizada. E cada conquista, por mais pequena que pareça, é celebrada em conjunto. Aqui não formamos apenas atletas. Formamos pessoas.`,
-      
-      
       coaches: [
         {
           name: "Ricardo Infante",
-          description: "Treinador Principal e Fundador. Com mais de 20 anos de experiência em boxe profissional e treino, Ricardo é o coração do clube.",
         },
         {
           name: "Sérgio Infante",
-          description: "Treinador Adjunto. Um ex-campeão com paixão por ensinar a próxima geração de lutadores.",
+        },
+        {
+          name: "Luana Sola",
         },
       ],
     },
@@ -244,5 +247,8 @@ export const content = {
         description: "Obrigado por nos contactar. Entraremos em contacto consigo em breve.",
       },
     },
+    rightsReserved: {
+      allRights: "Todos os direitos reservados a Infante Boxing Club - Fornecido por ",
+    }
   },
 };

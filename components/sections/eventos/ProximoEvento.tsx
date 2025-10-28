@@ -19,7 +19,7 @@ export default function NextEvent() {
 
 
   return (
-    <section id="next-event" className="py-16 md:py-24 bg-white">
+    <section className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider">

@@ -4,20 +4,20 @@
     {
       "id": "coach-1",
       "description": "Portrait of a boxing coach.",
-      "imageUrl": "/",
+      "imageUrl": "/ricardo.png",
       "imageHint": "male portrait"
     },
     {
       "id": "coach-2",
       "description": "Portrait of a second boxing coach.",
-      "imageUrl": "/",
+      "imageUrl": "/rafa.png",
       "imageHint": "male portrait"
     },
     {
-      "id": "event-poster",
-      "description": "Promotional poster for a boxing event.",
-      "imageUrl": "/",
-      "imageHint": "boxing event poster"
+      "id": "coach-3",
+      "description": "Portrait of a third boxing coach.",
+      "imageUrl": "/luana.png",
+      "imageHint": "female portrait"
     },
     {
       "id": "competition-boxing",

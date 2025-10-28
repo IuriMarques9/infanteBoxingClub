@@ -1,12 +1,6 @@
 import Image from "next/image";
 import { Card, CardTitle } from "../../../components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "../../../components/ui/carousel"
+import ImageDisplay from "./ImageDisplay";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog"
 import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
 
@@ -46,30 +40,8 @@ export default function CardCollection(folderName: CardCollectionProps) {
 					<DialogHeader>
 						<DialogTitle className="font-headline text-4xl mb-4">{nomePasta}</DialogTitle>
 					</DialogHeader>
-				{/*
-				<Carousel 
-					className="w-full" 
-					opts={{align: "start", loop: true,}}
-					plugins={[
-					Autoplay({
-						delay: 4000,
-						stopOnInteraction: true,
-					})
-					]}
-				>
-					<CarouselContent>
-					{images.map(image => (
-						<CarouselItem key={image.id} className="md:basis-1/2">
-						<div className="overflow-hidden rounded-lg">
-							<Image src={image.imageUrl} alt={image.description} width={600} height={400} className="w-full h-auto object-cover aspect-video" data-ai-hint={image.imageHint}/>
-						</div>
-						</CarouselItem>
-					))}
-					</CarouselContent>
-					<CarouselPrevious className="hidden md:inline-flex" />
-					<CarouselNext className="hidden md:inline-flex" />
-				</Carousel>
-				*/}
+
+					<ImageDisplay images={images} />
 			</DialogContent>
 		</Dialog>
 	);

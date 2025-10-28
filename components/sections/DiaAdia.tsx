@@ -24,14 +24,7 @@ export default function DiaAdia() {
   const [visibleImagesCount, setVisibleImagesCount] = useState(INITIAL_VISIBLE_IMAGES);
 
   const handleDownload = (image: ImageData) => {
-    // Para forçar o download, criamos um link temporário e clicamos nele
-    const link = document.createElement('a');
-    link.href = image.url;
-    // Adiciona o parâmetro de download para o Cloudinary sugerir um nome de ficheiro
-    link.download = `infante-boxing-${image.id.split('/').pop() || 'image'}`;
-      document.body.appendChild(link);
-    link.click();
-      document.body.removeChild(link);
+    //ACABAR O BOTAO DE DOWNLOAD
   };
 
   const showMoreImages = () => {

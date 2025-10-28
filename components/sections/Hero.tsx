@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export default function Hero() {
   	const { language } = useLanguage();
-	const C = content[language];
+	  const C = content[language];
 
     return (
 		<section

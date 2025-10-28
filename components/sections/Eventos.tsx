@@ -4,10 +4,10 @@ export default function Eventos() {
   
 
   return (
-    <>
-          <ProximoEvento />
+    <div id="events">
+      <ProximoEvento />
 
-          <EventosPassados />
-    </>
+      <EventosPassados />
+    </div>
   );
 }

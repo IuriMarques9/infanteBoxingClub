@@ -1,13 +1,10 @@
 'use client';
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Button } from "../ui/button";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "../ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useLanguage } from "../../contexts/language-context";
@@ -50,7 +47,7 @@ export default function Merch() {
                       alt={image.id}
                       width={400}
                       height={400}
-                      className="w-full h-full object-cover aspect-square"
+                      className="w-full h-full object-cover aspect-square max-w-[300px] mx-auto"
                     />
                   </div>
                   <CardHeader>
