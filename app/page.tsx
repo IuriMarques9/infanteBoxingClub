@@ -9,7 +9,7 @@ import Galeria from "../components/sections/DiaAdia";
 import Header from "../components/layout/Header";
 import Loja from "../components/sections/Loja";
 import Loader from "../components/layout/Loader";
-import Eventos from "../components/sections/eventos/Eventos";
+import Eventos from "../components/sections/Eventos";
 import Footer from "../components/layout/Footer";
 import { useState, useEffect } from "react";
 
