@@ -3,7 +3,7 @@ import { useLanguage } from "../../../contexts/language-context";
 import { content } from "../../../lib/content";
 import { useSubfoldersFromFolder } from "@/hooks/use-subfoldersFromFolder";
 import CardCollection from "./CardCollection";
-import { Carousel, CarouselContent, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
 export default function PastEvents() {
@@ -12,7 +12,6 @@ export default function PastEvents() {
   
   const { pastas, loading, error } = useSubfoldersFromFolder('galeriaEventos'); //Pastas das coleções das imagens
 
-  console.log(pastas);
   return (
     <section id="past-events" className="py-16 md:py-24">
       <div className="container mx-auto px-4">
@@ -31,15 +30,19 @@ export default function PastEvents() {
           {
             pastas?.length > 0 ? (
               pastas.map((pasta) => (
-                <CardCollection key={pasta.external_id} folderName={pasta.name} />
+                <CarouselItem key={pasta.external_id} className="md:basis-1/2">
+                  <div className="p-1 h-full">
+                    <CardCollection folderName={pasta.name} />
+                  </div>
+                </CarouselItem>
               ))
             ) : (
               <p>Sem pastas disponíveis.</p>
             )
           }
         </CarouselContent>
-          <CarouselPrevious className="hidden md:inline-flex -left-12" />
-          <CarouselNext className="hidden md:inline-flex -right-12" />
+          <CarouselPrevious className=" md:inline-flex -left-12" />
+          <CarouselNext className=" md:inline-flex -right-12" />
         </Carousel>
       </div>
     </section>
