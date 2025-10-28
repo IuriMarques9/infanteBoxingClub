@@ -28,7 +28,7 @@ export async function GET(request: Request) {
                 height: r.height,
                 context: {
                     custom: {
-                        title: custom.caption || "",
+                        caption: custom.caption || "",
                         date: custom.Data || "",
                         paragrafo: custom.Paragrafo || "",
                         linkEvento: custom.LinkEvento || "",
