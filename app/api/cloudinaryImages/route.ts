@@ -18,22 +18,26 @@ export async function GET(request: Request) {
             });
 
 
-        const images = result.resources.map(r => ({
-            id: r.public_id,
-            url: r.secure_url,
-            width: r.width,
-            height: r.height,
-            context: {
-                custom: {
-                    title: r.context?.custom?.caption || "",
-                    date: r.context?.custom?.Data || "",
-                    paragrafo: r.context?.custom?.Paragrafo || "",
-                    linkEvento: r.context?.custom?.LinkEvento || "",
-                    localizacao: r.context?.custom?.Localizacao || "",
-                    preco: r.context?.custom?.Preço || "",
-                }
-            },
-        }));
+        const images = result.resources.map(r => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const custom = (r.context as any)?.custom || {};
+            return {
+                id: r.public_id,
+                url: r.secure_url,
+                width: r.width,
+                height: r.height,
+                context: {
+                    custom: {
+                        title: custom.caption || "",
+                        date: custom.Data || "",
+                        paragrafo: custom.Paragrafo || "",
+                        linkEvento: custom.LinkEvento || "",
+                        localizacao: custom.Localizacao || "",
+                        preco: custom['Preço'] || "",
+                    }
+                },
+            };
+        });
 
         return NextResponse.json(images);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

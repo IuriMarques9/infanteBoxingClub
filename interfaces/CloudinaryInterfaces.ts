@@ -5,11 +5,12 @@ export interface ImageData {
   height?: number;
   context?: {
     custom?: {
-      title?: string;
+      caption?: string;
       date?: string;
       paragrafo?: string;
       linkEvento?: string;
       localizacao?: string;
+      preco?: string;
     };
   };
 }
