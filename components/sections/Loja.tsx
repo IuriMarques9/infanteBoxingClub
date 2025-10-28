@@ -51,7 +51,7 @@ export default function Merch() {
                     />
                   </div>
                   <CardHeader>
-                    <CardTitle className="font-headline text-2xl">{image.context?.custom?.title}</CardTitle>
+                    <CardTitle className="font-headline text-2xl">{image.context?.custom?.caption ?? ""}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-xl font-bold">{image.context?.custom?.preco}</p>

@@ -7,7 +7,7 @@ export default function RightsReserved() {
 
     return (
 	  
-		<div className="text-black mx-auto text-center border-t-2 py-3 max-w-[1800px] mx-auto">
+		<div className="text-black mx-auto text-center border-t-2 py-3 max-w-[1800px]">
 			<p className="!text-xs !text-center !text-black">&copy; {new Date().getFullYear()} {C.rightsReserved.allRights} <a href="https://reddunesolutions.pt/" className="underline hover:text-red-600">RedDune Solutions</a></p>
 		</div>
     );
