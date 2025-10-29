@@ -70,7 +70,7 @@ export default function DiaAdia() {
           )}
           
           {selectedImage && (
-            <DialogContent aria-describedby={undefined} className="max-w-4xl p-2">
+            <DialogContent aria-describedby="image" className="max-w-4xl p-2">
               <DialogPrimitive.DialogTitle />
                <div className="relative aspect-video">
                   <Image

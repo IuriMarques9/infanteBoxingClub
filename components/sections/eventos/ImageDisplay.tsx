@@ -36,7 +36,7 @@ export default function ImageGallery( { images }: { images: ImageData[] }) {
             </div>
             <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
                 {selectedImage && (
-                    <DialogContent className="max-w-4xl p-2">
+                    <DialogContent aria-describedby="image" className="max-w-4xl p-2">
                     <DialogPrimitive.DialogTitle />
                         <div className="relative aspect-video">
                             <Image
