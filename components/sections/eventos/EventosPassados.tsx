@@ -45,7 +45,6 @@ export default function PastEvents() {
     return 0; // neither has a parsable date
     });
 
-    console.log(pastas);
   return (
     <section className="py-16 md:py-24">
       <div className="container mx-auto px-4">

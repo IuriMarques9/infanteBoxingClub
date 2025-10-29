@@ -5,9 +5,10 @@ export interface ImageData {
   height?: number;
   context?: {
     custom?: {
+      alt?: string;
       caption?: string;
       date?: string;
-      paragrafo?: string;
+      paragrafoIngles?: string;
       linkEvento?: string;
       localizacao?: string;
       preco?: string;

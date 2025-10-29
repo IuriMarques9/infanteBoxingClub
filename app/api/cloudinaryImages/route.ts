@@ -28,9 +28,10 @@ export async function GET(request: Request) {
                 height: r.height,
                 context: {
                     custom: {
+                        alt: custom.alt || "",
                         caption: custom.caption || "",
                         date: custom.Data || "",
-                        paragrafo: custom.Paragrafo || "",
+                        paragrafoIngles: custom.ParagrafoIngles || "",
                         linkEvento: custom.LinkEvento || "",
                         localizacao: custom.Localizacao || "",
                         preco: custom['Preço'] || "",
