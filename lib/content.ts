@@ -116,6 +116,10 @@ export const content = {
         email: "Your Email",
         message: "Your Message",
         submit: "Send Message",
+        privacyPolicy: {
+          preLink: "I accept the",
+          linkText: "Privacy Policy"
+        }
       },
       toast: {
         title: "Message Sent!",
@@ -241,6 +245,10 @@ export const content = {
         email: "O seu Email",
         message: "A sua Mensagem",
         submit: "Enviar Mensagem",
+        privacyPolicy: {
+          preLink: "Eu aceito a",
+          linkText: "Política de Privacidade"
+        }
       },
       toast: {
         title: "Mensagem Enviada!",

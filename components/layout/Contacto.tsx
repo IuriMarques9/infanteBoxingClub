@@ -5,7 +5,6 @@ import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -17,6 +16,8 @@ import {
   FormLabel,
   FormMessage,
 } from "../../components/ui/form";
+import { Checkbox } from "../../components/ui/checkbox";
+import Link from "next/link";
 
 export default function Contacto() {
   const { language } = useLanguage();
@@ -26,6 +27,9 @@ export default function Contacto() {
     name: z.string().min(2, { message: language === 'pt' ? "O nome deve ter pelo menos 2 caracteres." : "Name must be at least 2 characters." }),
     email: z.string().email({ message: language === 'pt' ? "Por favor, insira um email válido." : "Please enter a valid email address." }),
     message: z.string().min(10, { message: language === 'pt' ? "A mensagem deve ter pelo menos 10 caracteres." : "Message must be at least 10 characters." }),
+    privacyPolicy: z.boolean().refine(val => val === true, {
+      message: language === 'pt' ? "Tem de aceitar a política de privacidade." : "You must accept the privacy policy.",
+    }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -34,6 +38,7 @@ export default function Contacto() {
       name: "",
       email: "",
       message: "",
+      privacyPolicy: false,
     },
   });
 
@@ -110,7 +115,33 @@ export default function Contacto() {
                     </FormItem>
                   )}
               />
-                <Button type="submit" size="lg" className="w-full font-bold bg-primary-foreground text-primary hover:bg-primary-foreground/90">{C.contact.form.submit}</Button>
+
+              <FormField
+                  control={form.control}
+                  name="privacyPolicy"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          className="border-primary-foreground/50 data-[state=checked]:bg-primary-foreground data-[state=checked]:text-secondary"
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>
+                         {C.contact.form.privacyPolicy.preLink}{' '}
+                          <Link href="/" className="underline font-bold hover:text-primary">
+                            {C.contact.form.privacyPolicy.linkText}
+                          </Link>
+                          .
+                        </FormLabel>
+                         <FormMessage className="text-background" />
+                      </div>
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" variant="secondary" size="lg" className="w-full font-bold bg-primary-foreground text-white hover:bg-primary-foreground/90">{C.contact.form.submit}</Button>
               </form>
             </Form>
           </div>

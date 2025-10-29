@@ -4,7 +4,6 @@ import { content } from "../../../lib/content";
 import { useSubfoldersFromFolder } from "@/hooks/use-subfoldersFromFolder";
 import CardCollection from "./CardCollection";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 
 export default function PastEvents() {
   const { language } = useLanguage();
@@ -41,9 +40,12 @@ export default function PastEvents() {
               <p>Sem pastas disponíveis.</p>
             )
           }
-        </CarouselContent>
-          <CarouselPrevious className=" md:inline-flex -left-12" />
-          <CarouselNext className=" md:inline-flex -right-12" />
+          </CarouselContent>
+          
+          <div className="absolute left-12 -bottom-6 hidden md:flex ">
+            <CarouselPrevious />
+            <CarouselNext />
+          </div>
         </Carousel>
       </div>
     </section>

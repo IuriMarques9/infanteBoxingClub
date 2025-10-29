@@ -63,7 +63,7 @@ export default function DiaAdia() {
 
           {images.length > visibleImagesCount && (
             <div className="mt-8 text-center">
-              <Button onClick={showMoreImages} size="lg" className="font-bold">
+              <Button onClick={showMoreImages} size="lg" className="font-bold text-white">
                 {C.dailyLife.cta}
               </Button>
             </div>

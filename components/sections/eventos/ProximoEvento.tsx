@@ -33,7 +33,7 @@ export default function NextEvent() {
               alt={image.id}
               width={image.width}
               height={image.height}
-              className="w-full object-cover"
+              className="w-full p-8 md:p-12 object-cover max-w-[400px] mx-auto"
             />
           )}
           <div className="flex flex-col p-8 md:p-12">
@@ -49,7 +49,7 @@ export default function NextEvent() {
                 <span>{context?.localizacao}</span>
               </div>
             </div>
-            <Button size="lg" className="mt-8 self-start font-bold group">
+            <Button size="lg" variant="default" className="mt-8 self-start font-bold group text-white">
               {C.nextEvent.cta}
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>

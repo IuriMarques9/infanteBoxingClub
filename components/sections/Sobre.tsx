@@ -48,7 +48,7 @@ export default function Team() {
         
         <div className="mt-12 flex justify-center">
             <Card className={cn(
-                "overflow-hidden text-center max-w-md w-full transition-opacity duration-500 ease-in-out",
+                "overflow-hidden text-center max-w-sm w-full transition-opacity duration-500 ease-in-out",
                 isFading ? "opacity-0" : "opacity-100"
             )}>
               {currentImage && (
@@ -57,7 +57,7 @@ export default function Team() {
                     alt={currentCoach.name}
                     width={600}
                     height={600}
-                    className="w-full h-80 object-cover object-center"
+                    className="w-full object-cover object-center"
                     data-ai-hint={currentImage.imageHint}
                     key={currentIndex} 
                 />
