@@ -36,7 +36,7 @@ export default function CardCollection(folderName: CardCollectionProps) {
 					</div>
 				</Card>
 				</DialogTrigger>
-					<DialogContent aria-describedby="image" className="max-w-4xl">
+					<DialogContent className="max-w-4xl">
 					<DialogHeader>
 						<DialogTitle className="font-headline text-4xl mb-4">{nomePasta}</DialogTitle>
 					</DialogHeader>

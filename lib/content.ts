@@ -31,15 +31,15 @@ export const content = {
       styles: [
         {
           title: "Competition Boxing",
-          description: "For those who want to test their skills in the ring. Intensive training focused on technique, strategy, and physical conditioning for amateur and professional competition.",
+          description: "Competitive Boxing is a nationally and internationally regulated sport. With age, gender, and weight divisions, the competition takes place in a ring, under clear rules and overseen by certified referees. Regular practice develops strength, endurance, coordination, tactical reasoning, and sportsmanship. Athletes receive technical support and have access to local, national, and international competitions, allowing them to progress from beginners to high-performance athletes.",
         },
         {
           title: "Maintenance Boxing",
-          description: "A perfect way to stay in shape. High-intensity workouts that combine boxing techniques with cardio and strength training for a complete fitness experience.",
+          description: "Maintenance Boxing is a non-competitive discipline focused on improving physical fitness through training based on boxing methodology. The program focuses on non-contact technique, combining punching bag exercises, physical circuits, coordination, and joint mobility. Ideal for practitioners of all ages, it promotes physical and mental health in a safe, structured, and motivating environment.",
         },
         {
           title: "Educational Boxing",
-          description: "Learn the noble art in a safe and controlled environment. Ideal for beginners and young people, focusing on discipline, respect, and fundamental techniques without direct combat.",
+          description: "Educational Boxing is a methodology recognized by the Portuguese Boxing Federation and international institutions as an effective means of introducing the sport. Non-contact, it promotes technical, motor, and behavioral training and is adapted for different age groups. Used in schools, clubs, and gyms, it is a safe, accessible practice with extensive benefits for the overall development of practitioners.",
         },
       ]
     },
