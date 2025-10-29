@@ -9,9 +9,9 @@ interface CardCollectionProps {
 }
 
 export default function CardCollection(folderName: CardCollectionProps) {
+	
 	const nomePasta = folderName.folderName.split(':')[0];	// Remove qualquer sufixo após ':', para colocar o titulo
 	const dataEvento = folderName.folderName.split(':')[1]; // Pega a data do evento, se existir
-
 	const { images, loading, error } = useImagesFromFolder("galeriaEventos/" + folderName.folderName);
 	
 	const firstImage = images[0]?.url;

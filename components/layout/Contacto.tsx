@@ -48,19 +48,19 @@ export default function Contacto() {
 
 	async function onSubmit(values: FormValues) {
 		try {
-		const response = await fetch(`https://formsubmit.co/e5147151c2d64e4ceaf0a9c445101848`, {
-			method: 'POST',
-			headers: {
-			'Content-Type': 'application/json',
-			'Accept': 'application/json'
-			},
-			body: JSON.stringify({
-			name: values.name,
-			email: values.email,
-			message: values.message,
-			_next: typeof window !== 'undefined' ? `${window.location.origin}` : '',
-			_captcha: 'false',
-			_template: 'table'
+      const response = await fetch(`https://formsubmit.co/e5147151c2d64e4ceaf0a9c445101848`, {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+        name: values.name,
+        email: values.email,
+        message: values.message,
+        _next: typeof window !== 'undefined' ? `${window.location.origin}` : '',
+        _captcha: 'false',
+        _template: 'table'
 			})
 		});
 

@@ -12,7 +12,7 @@ export async function GET(request: Request) {
     try {
         const result = await cloudinary.api.sub_folders('Trabalho/Infante Boxing Club/fotos/' + folder); 
         
-        const pastas = result.folders.map((folder: { name: string; path: string; external_id: string }) => ({
+        const pastas = result.folders.map((folder: { name: string; path: string; external_id: string}) => ({
             name: folder.name,
             path: folder.path,
             external_id: folder.external_id,
