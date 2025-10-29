@@ -116,14 +116,21 @@ export const content = {
         email: "Your Email",
         message: "Your Message",
         submit: "Send Message",
+        submitLoader: "Sending...",
         privacyPolicy: {
           preLink: "I accept the",
           linkText: "Privacy Policy"
         }
       },
       toast: {
-        title: "Message Sent!",
-        description: "Thanks for reaching out. We'll get back to you shortly.",
+        error:{
+          title: "Error",
+          description: "Something went wrong. Please try again.",
+        },
+        success:{
+          title: "Message Sent!",
+          description: "Thanks for reaching out. We'll get back to you shortly.",
+        }
       },
     },
     rightsReserved: {
@@ -245,14 +252,21 @@ export const content = {
         email: "O seu Email",
         message: "A sua Mensagem",
         submit: "Enviar Mensagem",
+        submitLoader: "A Enviar...",
         privacyPolicy: {
           preLink: "Eu aceito a",
           linkText: "Política de Privacidade"
         }
       },
       toast: {
-        title: "Mensagem Enviada!",
-        description: "Obrigado por nos contactar. Entraremos em contacto consigo em breve.",
+        error:{
+          title: "Erro!",
+          description: "Algo Correu mal. Por favor, tente novamente!",
+        },
+        success:{
+          title: "Mensagem Enviada!",
+          description: "Obrigado por contactar. Vamos ser o mais breves possveis!",
+        }
       },
     },
     rightsReserved: {

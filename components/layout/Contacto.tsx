@@ -5,7 +5,7 @@ import { Input } from "../../components/ui/input";
 import { Textarea } from "../../components/ui/textarea";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import {
@@ -14,14 +14,16 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "../../components/ui/form";
 import { Checkbox } from "../../components/ui/checkbox";
 import Link from "next/link";
-
+import { ToastContainer } from "react-toastify";
+import { useToast } from "../../hooks/use-toast";
+// import { useForm, FieldErrors } from "react-hook-form";
 export default function Contacto() {
-  const { language } = useLanguage();
-  const C = content[language];
+	const { language } = useLanguage();
+	const C = content[language];
+	const { toast } = useToast();
 
   const formSchema = z.object({
     name: z.string().min(2, { message: language === 'pt' ? "O nome deve ter pelo menos 2 caracteres." : "Name must be at least 2 characters." }),
@@ -32,7 +34,9 @@ export default function Contacto() {
     }),
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  type FormValues = z.infer<typeof formSchema>;
+
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -42,6 +46,50 @@ export default function Contacto() {
     },
   });
 
+	async function onSubmit(values: FormValues) {
+		try {
+		const response = await fetch(`https://formsubmit.co/e5147151c2d64e4ceaf0a9c445101848`, {
+			method: 'POST',
+			headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+			},
+			body: JSON.stringify({
+			name: values.name,
+			email: values.email,
+			message: values.message,
+			_next: typeof window !== 'undefined' ? `${window.location.origin}` : '',
+			_captcha: 'false',
+			_template: 'table'
+			})
+		});
+
+		if (response.ok) {
+			toast({
+				title: C.contact.toast.success.title,
+				description: C.contact.toast.success.description,
+			});
+			form.reset();
+		} else {
+			throw new Error('Form submission failed');
+		}
+		} catch (error) {
+		toast({
+			variant: "destructive",
+			title: C.contact.toast.error.title,
+			description: C.contact.toast.error.description,
+		});
+		}
+	}
+
+	function onInvalid(errors: FieldErrors<FormValues>) {
+    const errorMessages = Object.values(errors).map(error => error.message).join('\n');
+    toast({
+      variant: "destructive",
+      title: C.contact.toast.error.title,
+      description: <div className="whitespace-pre-line">{errorMessages}</div>,
+    });
+  }
 
   return (
     <section id="contact" className="py-16 md:py-24 bg-secondary">
@@ -67,15 +115,8 @@ export default function Contacto() {
           </div>
           <div>
             <Form {...form}>
-              <form 
-                action={`https://formsubmit.co/associacao.infante@gmail.com`} 
-                method="POST"
-                className="space-y-4"
-              >
-                {/* FormSubmit specific fields */}
-                <input type="hidden" name="_template" value="table" /> {/* Email Template */}
-                <input type="hidden" name="_captcha" value="false" /> {/* ReCaptcha Remove */}
-
+              <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="space-y-4">
+                
                 <FormField
                   control={form.control}
                   name="name"
@@ -85,7 +126,6 @@ export default function Contacto() {
                       <FormControl>
                         <Input placeholder={C.contact.form.name} {...field} className="bg-background/20 border-primary-foreground/50 placeholder:text-primary-foreground/70" />
                       </FormControl>
-                      <FormMessage className="text-background" />
                     </FormItem>
                   )}
                 />
@@ -98,7 +138,6 @@ export default function Contacto() {
                       <FormControl>
                         <Input placeholder={C.contact.form.email} {...field} className="bg-background/20 border-primary-foreground/50 placeholder:text-primary-foreground/70" />
                       </FormControl>
-                      <FormMessage className="text-background" />
                     </FormItem>
                   )}
                 />
@@ -111,7 +150,6 @@ export default function Contacto() {
                       <FormControl>
                         <Textarea placeholder={C.contact.form.message} {...field} rows={5} className="bg-background/20 border-primary-foreground/50 placeholder:text-primary-foreground/70" />
                       </FormControl>
-                      <FormMessage className="text-background" />
                     </FormItem>
                   )}
               />
@@ -126,7 +164,8 @@ export default function Contacto() {
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           className="border-primary-foreground/50 data-[state=checked]:bg-primary-foreground data-[state=checked]:text-secondary"
-                        />
+						
+						/>
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel>
@@ -136,13 +175,20 @@ export default function Contacto() {
                           </Link>
                           .
                         </FormLabel>
-                         <FormMessage className="text-background" />
                       </div>
                     </FormItem>
                   )}
                 />
-                <Button type="submit" variant="secondary" size="lg" className="w-full font-bold bg-primary-foreground text-white hover:bg-primary-foreground/90">{C.contact.form.submit}</Button>
-              </form>
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  className="w-full font-bold bg-primary-foreground text-white hover:bg-primary-foreground/90"
+                  disabled={form.formState.isSubmitting}
+                >
+                  {form.formState.isSubmitting ? C.contact.form.submitLoader : C.contact.form.submit}
+                </Button>
+					
+			  	</form>
             </Form>
           </div>
         </div>
