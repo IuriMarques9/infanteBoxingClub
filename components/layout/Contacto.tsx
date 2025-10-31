@@ -50,17 +50,16 @@ export default function Contacto() {
       const response = await fetch(`https://formsubmit.co/e5147151c2d64e4ceaf0a9c445101848`, {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify({
-        name: values.name,
-        email: values.email,
-        message: values.message,
-        _next: typeof window !== 'undefined' ? `${window.location.origin}` : '',
-        _captcha: 'false',
-        _template: 'table'
-			})
+          name: values.name,
+          email: values.email,
+          message: values.message,
+          _next: typeof window !== 'undefined' ? `${window.location.origin}` : '',
+          _captcha: 'false',
+          _template: 'table'
+        })
 		});
 
 		if (response.ok) {

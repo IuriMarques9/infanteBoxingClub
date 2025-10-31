@@ -265,7 +265,7 @@ export const content = {
         },
         success:{
           title: "Mensagem Enviada!",
-          description: "Obrigado por contactar. Vamos ser o mais breves possveis!",
+          description: "Obrigado por contactar. Prometemos ser o mais breves possivel!",
         }
       },
     },

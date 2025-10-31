@@ -59,7 +59,7 @@ const Header = () => {
 					</Link>
 					))}
 					<Button asChild className="mt-4">
-						<Link href="#contact" onClick={() => setIsOpen(false)}>{C.contact.title}</Link>
+						<Link className="text-white" href="#contact" onClick={() => setIsOpen(false)}>{C.contact.title}</Link>
 					</Button>
 					<div className="pt-4">
 						<LanguageSwitcher />
