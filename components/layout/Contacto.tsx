@@ -47,6 +47,7 @@ export default function Contacto() {
 
 	async function onSubmit(values: FormValues) {
     try {
+      return; // Temporarily disable form submission
       const formData = new URLSearchParams({
         name: values.name,
         email: values.email,
@@ -67,11 +68,11 @@ export default function Contacto() {
 			throw new Error('Form submission failed');
 		}
 		} catch (error) {
-		toast({
-			variant: "destructive",
-			title: C.contact.toast.error.title,
-			description: C.contact.toast.error.description,
-		});
+      toast({
+        variant: "destructive",
+        title: C.contact.toast.error.title,
+        description: C.contact.toast.error.description,
+      });
 		}
 	}
 
