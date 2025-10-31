@@ -18,7 +18,7 @@ import {
 import { Checkbox } from "../../components/ui/checkbox";
 import Link from "next/link";
 import { useToast } from "../../hooks/use-toast";
-// import { useForm, FieldErrors } from "react-hook-form";
+
 export default function Contacto() {
 	const { language } = useLanguage();
 	const C = content[language];
@@ -46,7 +46,8 @@ export default function Contacto() {
   });
 
 	async function onSubmit(values: FormValues) {
-		try {
+		preventDefault(); // evita recarregar a página
+    try {
       const response = await fetch(`https://formsubmit.co/e5147151c2d64e4ceaf0a9c445101848`, {
         method: 'POST',
         headers: {
@@ -56,9 +57,7 @@ export default function Contacto() {
           name: values.name,
           email: values.email,
           message: values.message,
-          _next: typeof window !== 'undefined' ? `${window.location.origin}` : '',
-          _captcha: 'false',
-          _template: 'table'
+          privacyPolicy: values.privacyPolicy,
         })
 		});
 
@@ -185,8 +184,12 @@ export default function Contacto() {
                 >
                   {form.formState.isSubmitting ? C.contact.form.submitLoader : C.contact.form.submit}
                 </Button>
-					
-			  	</form>
+
+
+                {/* Campos ocultos do FormSubmit */}
+                <input type="hidden" name="_template" value="table" /> {/* Email Template */}
+                <input type="hidden" name="_captcha" value="false" /> {/* ReCaptcha Remove */}
+			  	    </form>
             </Form>
           </div>
         </div>
@@ -194,3 +197,7 @@ export default function Contacto() {
     </section>
   );
 }
+function preventDefault() {
+  throw new Error("Function not implemented.");
+}
+

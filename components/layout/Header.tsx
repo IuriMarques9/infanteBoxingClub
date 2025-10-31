@@ -9,7 +9,7 @@ import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
 import LanguageSwitcher from "../language-switcher";
 import Image from "next/image";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,6 +46,7 @@ const Header = () => {
 					<span className="sr-only">Toggle Menu</span>
 				</Button>
 			</SheetTrigger>
+			<SheetTitle className="hidden"></SheetTitle>
 			<SheetContent side="right">
               	<div className="flex flex-col gap-6 pt-10">
 					{navLinks.map((link) => (
