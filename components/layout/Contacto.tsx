@@ -46,22 +46,20 @@ export default function Contacto() {
   });
 
 	async function onSubmit(values: FormValues) {
-		preventDefault(); // evita recarregar a página
     try {
-      const response = await fetch(`https://formsubmit.co/e5147151c2d64e4ceaf0a9c445101848`, {
+      const formData = new URLSearchParams({
+        name: values.name,
+        email: values.email,
+        message: values.message,
+        _captcha: 'false',
+        _template: 'table'
+      });
+      const response = await fetch(`https://formsubmit.co/116e1795b084d096e2bbe68552823450`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify({
-          name: values.name,
-          email: values.email,
-          message: values.message,
-          privacyPolicy: values.privacyPolicy,
-        })
+        body: formData.toString(),
 		});
-
-		if (response.ok) {
+		
+    if (response.ok) {
 			toast({
 				title: C.contact.toast.success.title,
 				description: C.contact.toast.success.description,
@@ -189,15 +187,12 @@ export default function Contacto() {
                 {/* Campos ocultos do FormSubmit */}
                 <input type="hidden" name="_template" value="table" /> {/* Email Template */}
                 <input type="hidden" name="_captcha" value="false" /> {/* ReCaptcha Remove */}
-			  	    </form>
+              </form>
             </Form>
           </div>
         </div>
       </div>
     </section>
   );
-}
-function preventDefault() {
-  throw new Error("Function not implemented.");
 }
 
