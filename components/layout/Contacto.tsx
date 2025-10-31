@@ -51,8 +51,6 @@ export default function Contacto() {
         name: values.name,
         email: values.email,
         message: values.message,
-        _captcha: 'false',
-        _template: 'table'
       });
       const response = await fetch(`https://formsubmit.co/116e1795b084d096e2bbe68552823450`, {
         method: 'POST',
@@ -111,6 +109,12 @@ export default function Contacto() {
           <div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="space-y-4">
+                {/* Honeypot */}
+                <input type="text" name="_honey" style={{ display: 'none' }} />
+                {/* Disable Captcha */}
+                <input type="hidden" name="_captcha" value="false" />
+                {/* Email Template */}
+                <input type="hidden" name="_template" value="table" />
                 
                 <FormField
                   control={form.control}
@@ -183,10 +187,6 @@ export default function Contacto() {
                   {form.formState.isSubmitting ? C.contact.form.submitLoader : C.contact.form.submit}
                 </Button>
 
-
-                {/* Campos ocultos do FormSubmit */}
-                <input type="hidden" name="_template" value="table" /> {/* Email Template */}
-                <input type="hidden" name="_captcha" value="false" /> {/* ReCaptcha Remove */}
               </form>
             </Form>
           </div>
