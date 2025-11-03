@@ -7,6 +7,7 @@ import { useLanguage } from "../../../contexts/language-context";
 import { content } from "../../../lib/content";
 import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
 import { useEffect, useState } from "react";
+import router from "next/router";
 
 export default function ProximoEvento() {
   const { language } = useLanguage();
@@ -46,7 +47,9 @@ export default function ProximoEvento() {
           )}
           <div className="flex flex-col p-8 md:p-12">
             <h3 className="font-headline text-4xl uppercase">{image.context?.custom?.caption}</h3>
+            
             <p className="text-muted-foreground mt-2">{eventDescription}</p>
+            
             <div className="space-y-4 mt-6 text-lg">
               <div className="flex items-center gap-3">
                 <CalendarDays className="h-6 w-6 text-primary" />
@@ -57,7 +60,15 @@ export default function ProximoEvento() {
                 <span>{image.context?.custom?.localizacao}</span>
               </div>
             </div>
-            <Button size="lg" variant="default" className="mt-8 self-start font-bold group text-white">
+            <Button
+              onClick={() => {
+                const newWin = window.open(image.context?.custom?.linkEvento ?? undefined, "_blank");
+                if (newWin) newWin.opener = null;
+              }}
+              size="lg"
+              variant="default"
+              className="mt-8 self-start font-bold group text-white"
+            >
               {C.nextEvent.cta}
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>

@@ -47,31 +47,31 @@ export default function Contacto() {
 
 	async function onSubmit(values: FormValues) {
     try {
-      const formData = new URLSearchParams({
-        name: values.name,
-        email: values.email,
-        message: values.message,
-      });
-      const response = await fetch(`https://formsubmit.co/116e1795b084d096e2bbe68552823450`, {
+      const response = await fetch('/api/emailSender', {
         method: 'POST',
-        body: formData.toString(),
-		});
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          message: values.message,
+        }),
+      });
 		
-    if (response.ok) {
-			toast({
-				title: C.contact.toast.success.title,
-				description: C.contact.toast.success.description,
-			});
-			form.reset();
-		} else {
-			throw new Error('Form submission failed');
-		}
+      if (response.ok) {
+        toast({
+          title: C.contact.toast.success.title,
+          description: C.contact.toast.success.description,
+        });
+			  form.reset();
+		  } else {
+			  throw new Error('Form submission failed');
+		  }
 		} catch (error) {
-		toast({
-			variant: "destructive",
-			title: C.contact.toast.error.title,
-			description: C.contact.toast.error.description,
-		});
+      toast({
+        variant: "destructive",
+        title: C.contact.toast.error.title,
+        description: C.contact.toast.error.description,
+      });
 		}
 	}
 
