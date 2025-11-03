@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Card, CardTitle } from "../../../components/ui/card";
-import ImageDisplay from "./ImageDisplay";
+import Collection from "./Collection";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog"
 import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
 
@@ -41,7 +41,7 @@ export default function CardCollection(folderName: CardCollectionProps) {
 						<DialogTitle className="font-headline text-4xl mb-4">{nomePasta}</DialogTitle>
 					</DialogHeader>
 
-					<ImageDisplay images={images} />
+					<Collection images={images} />
 			</DialogContent>
 		</Dialog>
 	);

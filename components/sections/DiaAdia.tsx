@@ -13,6 +13,7 @@ import { Button } from "../../components/ui/button";
 import { Download } from "lucide-react";
 import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import ImageDisplay from "../imageDisplay";
 
 const INITIAL_VISIBLE_IMAGES = 4;
 
@@ -23,9 +24,6 @@ export default function DiaAdia() {
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
   const [visibleImagesCount, setVisibleImagesCount] = useState(INITIAL_VISIBLE_IMAGES);
 
-  const handleDownload = (image: ImageData) => {
-    //ACABAR O BOTAO DE DOWNLOAD
-  };
 
   const showMoreImages = () => {
     setVisibleImagesCount(images.length);
@@ -69,25 +67,7 @@ export default function DiaAdia() {
             </div>
           )}
           
-          {selectedImage && (
-            <DialogContent className="max-w-4xl p-2">
-              <DialogPrimitive.DialogTitle />
-               <div className="relative aspect-video">
-                  <Image
-                    src={selectedImage.url}
-                    alt={selectedImage.id}
-                    fill
-                    className="object-contain rounded-md"
-                    />
-               </div>
-               <div className="flex justify-end p-2">
-                 <Button onClick={() => handleDownload(selectedImage)}>
-                   <Download className="mr-2 h-4 w-4" />
-                   Download
-                 </Button>
-               </div>
-            </DialogContent>
-          )}
+          <ImageDisplay selectedImage={selectedImage} />
         </Dialog>
       </div>
     </section>

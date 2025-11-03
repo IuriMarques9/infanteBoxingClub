@@ -24,7 +24,7 @@ export default function Merch() {
           <p className="mt-4 text-lg text-muted-foreground">{C.merch.subtitle}</p>
         </div>
         <Carousel 
-          className="mt-12 w-full max-w-6xl mx-auto"
+          className="mt-12 w-full mx-auto"
           opts={{
             align: "start",
             loop: true,
@@ -38,7 +38,7 @@ export default function Merch() {
         >
           <CarouselContent>
             {images.map(image => (
-            <CarouselItem key={image.id} className="md:basis-1/2 lg:basis-1/4">
+            <CarouselItem key={image.id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                 <Card className="overflow-hidden text-start h-full">
                   <div className="overflow-hidden group m-8 y-8">
                     <Image

@@ -53,7 +53,7 @@ export default function PastEvents() {
           <p className="mt-4 text-lg text-muted-foreground">{C.pastEvents.subtitle}</p>
         </div>
         <Carousel 
-          className="mt-12 w-full max-w-4xl mx-auto"
+          className="mt-12 mx-auto"
           opts={{
             align: "start",
             loop: true,
@@ -64,7 +64,7 @@ export default function PastEvents() {
           {
             pastas?.length > 0 ? (
               pastas.map((pasta) => (
-                <CarouselItem key={pasta.external_id} className="md:basis-1/2">
+                <CarouselItem key={pasta.external_id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                   <div className="p-1 h-full">
                     <CardCollection folderName={pasta.name} />
                   </div>
