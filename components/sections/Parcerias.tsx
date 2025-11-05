@@ -76,7 +76,7 @@ export default function Partnerships() {
                   alt={image.description}
                   height={300}
                   width={300}
-                  className=" w-full object-contain"
+                  className="w-full object-contain"
                 />
               </Link>
             </div>

@@ -42,21 +42,21 @@
       "description": "Logo for Fisiomed.",
       "imageUrl": "/fisiomedLogo.png",
       "imageHint": "company logo",
-      "link": "https://www.nortextil.pt/"
+      "link": "https://www.instagram.com/fisiomed_cc/"
     },
     {
       "id": "partner-2",
       "description": "Logo for Reddune.",
       "imageUrl": "/redduneLogo.png",
       "imageHint": "company logo",
-      "link": "https://www.nortextil.pt/"
+      "link": "https://www.reddunesolutions.pt/"
     },
      {
       "id": "partner-3",
       "description": "Logo for Nortextil.",
       "imageUrl": "/nortextilLogo.png",
       "imageHint": "company logo",
-      "link": "https://www.nortextil.pt/"
+      "link": "https://nortextil.pt/"
     }
   ]
 }
