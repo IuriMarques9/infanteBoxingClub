@@ -40,20 +40,23 @@
     {
       "id": "partner-1",
       "description": "Logo for Fisiomed.",
-      "imageUrl": "/fisiomedLogo.jpg",
-      "imageHint": "company logo"
+      "imageUrl": "/fisiomedLogo.png",
+      "imageHint": "company logo",
+      "link": "https://www.nortextil.pt/"
     },
     {
       "id": "partner-2",
       "description": "Logo for Reddune.",
       "imageUrl": "/redduneLogo.png",
-      "imageHint": "company logo"
+      "imageHint": "company logo",
+      "link": "https://www.nortextil.pt/"
     },
      {
       "id": "partner-3",
       "description": "Logo for Nortextil.",
       "imageUrl": "/nortextilLogo.png",
-      "imageHint": "company logo"
+      "imageHint": "company logo",
+      "link": "https://www.nortextil.pt/"
     }
   ]
 }

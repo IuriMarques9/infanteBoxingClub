@@ -5,6 +5,7 @@ import { useMemo, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import Link from "next/link";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -69,13 +70,15 @@ export default function Partnerships() {
               key={index}
               className={`relative flex shrink-0 items-center justify-center w-[200px] h-[100px] ${isLast && "mr-24"}`}
             >
-              <Image
-                src={image.imageUrl}
-                alt={image.id}
-                height={200}
-				        width={200}
-                className="w-full object-contain transition-all duration-300 group-hover:brightness-75"
-              />
+              <Link className="transition-all duration-300 hover:brightness-50" href={image.link || '/'}>
+                <Image
+                  src={image.imageUrl}
+                  alt={image.description}
+                  height={300}
+                  width={300}
+                  className=" w-full object-contain"
+                />
+              </Link>
             </div>
           );
         })}
