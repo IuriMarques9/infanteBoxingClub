@@ -13,7 +13,7 @@ interface Props {
 export default function ImageDisplay( {selectedImage} : Props ) {
 
 return (
-    <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {selectedImage && (
             <DialogContent className="max-w-4xl p-2">
             <DialogPrimitive.DialogTitle />

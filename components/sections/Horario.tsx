@@ -16,7 +16,7 @@ export default function Schedule() {
   const C = content[language];
 
   return (
-    <section id="schedule" className="py-16 md:py-24 bg-white">
+    <section id="schedule" className="pb-16 md:pb-24 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="font-headline text-5xl md:text-6xl uppercase">
@@ -31,17 +31,17 @@ export default function Schedule() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.time}</TableHead>
-                  <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.monday}</TableHead>
-                  <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.tuesday}</TableHead>
-                  <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.wednesday}</TableHead>
-                  <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.thursday}</TableHead>
-                  <TableHead className="w-1/4 font-headline text-xl">{C.schedule.table.friday}</TableHead>
+                  <TableHead className="text-center font-headline text-xl">{C.schedule.table.time}</TableHead>
+                  <TableHead className="text-center font-headline text-xl">{C.schedule.table.monday}</TableHead>
+                  <TableHead className="text-center font-headline text-xl">{C.schedule.table.tuesday}</TableHead>
+                  <TableHead className="text-center font-headline text-xl">{C.schedule.table.wednesday}</TableHead>
+                  <TableHead className="text-center font-headline text-xl">{C.schedule.table.thursday}</TableHead>
+                  <TableHead className="text-center font-headline text-xl">{C.schedule.table.friday}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell className="font-medium">10:00 - 12:30</TableCell>
+                  <TableCell className="text-center font-medium">10:00 - 12:30</TableCell>
                   <TableCell>{C.schedule.classes[4]}</TableCell>
                   <TableCell>{C.schedule.classes[5]}</TableCell>
                   <TableCell>{C.schedule.classes[4]}</TableCell>
@@ -49,15 +49,15 @@ export default function Schedule() {
                   <TableCell>{C.schedule.classes[4]}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium">18:00 - 19:00</TableCell>
-                  <TableCell>{C.schedule.classes[0]} - {C.schedule.classes[6]}</TableCell>
+                  <TableCell className="text-center font-medium">18:00 - 19:00</TableCell>
+                  <TableCell>{C.schedule.classes[0]} <br /> {C.schedule.classes[6]}</TableCell>
                   <TableCell>{C.schedule.classes[1]}</TableCell>
-                  <TableCell>{C.schedule.classes[0]} - {C.schedule.classes[6]}</TableCell>
+                  <TableCell>{C.schedule.classes[0]} <br /> {C.schedule.classes[6]}</TableCell>
                   <TableCell>{C.schedule.classes[1]}</TableCell>
-                  <TableCell>{C.schedule.classes[0]} - {C.schedule.classes[6]}</TableCell>
+                  <TableCell>{C.schedule.classes[0]} <br /> {C.schedule.classes[6]}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium">19:10 - 20:00</TableCell>
+                  <TableCell className="text-center font-medium">19:10 - 20:00</TableCell>
                   <TableCell>{C.schedule.classes[2]}</TableCell>
                   <TableCell>{C.schedule.classes[3]}</TableCell>
                   <TableCell>{C.schedule.classes[2]}</TableCell>
@@ -65,7 +65,7 @@ export default function Schedule() {
                   <TableCell>{C.schedule.classes[2]}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium">20:10 - 21:00</TableCell>
+                  <TableCell className="text-center font-medium">20:10 - 21:00</TableCell>
                   <TableCell>{C.schedule.classes[3]}</TableCell>
                   <TableCell>{C.schedule.classes[4]}</TableCell>
                   <TableCell>{C.schedule.classes[3]}</TableCell>

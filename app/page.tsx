@@ -12,10 +12,14 @@ import Loader from "../components/layout/Loader";
 import Eventos from "../components/sections/Eventos";
 import Footer from "../components/layout/Footer";
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/contexts/language-context";
+import { content } from "@/lib/content";
+import Parcerias from "@/components/sections/Parcerias";
 
 export default function Home() {
-
-      const [loading, setLoading] = useState(true);
+    const { language } = useLanguage();
+    const C = content[language];
+    const [loading, setLoading] = useState(true);
   
     useEffect(() => {
     const timer = setTimeout(() => {
@@ -24,6 +28,10 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    document.querySelector('meta[name="description"]')?.setAttribute('content', C.metaDescription);
+  }, [language, C.metaDescription]);
     return (
         <>
             <Loader className={!loading ? "hidden" : ""} />
@@ -36,20 +44,23 @@ export default function Home() {
 
                     <Hero />
 
+                    <Sobre />
+
                     <Modalidades />
+
+                    <Loja />
 
                     <Eventos />
 
                     <Galeria />
 
-                    <Loja />
-
-                    <Sobre />
+                    <Parcerias />
 
                     <Horario />
-
+                    
                     <Loc />
                 </main>
+
                 {/* Footer */}
                 <Footer />
             </div>

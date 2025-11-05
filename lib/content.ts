@@ -2,11 +2,12 @@
 
 export const content = {
   en: {
+    metaDescription: "Infante Boxing Club in Odivelas. We offer competition, maintenance, and educational boxing. Join a community that forges champions.",
     navLinks: [
       { href: "#home", label: "Home" },
-      { href: "#events", label: "Events" },
       { href: "#about", label: "About us" },
       { href: "#merch", label: "Merch" },
+      { href: "#events", label: "Events" },
       { href: "#schedule", label: "Schedule" },
       { href: "#contact", label: "Contact" },
     ],
@@ -70,7 +71,7 @@ export const content = {
     schedule: {
       title: "Schedule",
       subtitle: "Find the perfect class to fit your goals and schedule.",
-      observations: "* Encerrado aos sábados e domingos",
+      observations: "* Closed on Saturdays and Sundays",
       table: {
         time: "Time",
         monday: "Monday",
@@ -82,10 +83,10 @@ export const content = {
         sunday: "Sunday",
       },
       classes: [
-        "Suricatas (5-8 anos)",
-        "Gatinhos (9-11 anos)",
-        "Leões (12-15 anos)",
-        "Adultos",
+        "Gatinhos (5-7 years)",
+        "Suricatas (8-11 years)",
+        "Leões (12-14 years)",
+        "Adults",
         "Closed",
         "Open Gym",
         "Women's Class"
@@ -133,16 +134,56 @@ export const content = {
         }
       },
     },
+     privacyPolicy: {
+      breadcrumbHome: "Home",
+      backButton: "Back to Home",
+      title: "Privacy Policy",
+      phoneLabel: "Phone",
+      intro: "At Infante Boxing Club, we respect your privacy. This site only collects the personal data (name and email) through the contact form, for the sole purpose of responding to the query or question you sent us.",
+      sections: [
+        {
+          title: "1. What we do with your data:",
+          content: {
+            type: 'list',
+            items: [
+              "The data is used exclusively to respond to your contact request.",
+              "It is not saved in databases or used for any other purpose.",
+              "It is not shared with third parties.",
+              "After the response, the data is discarded and not recorded in our systems."
+            ]
+          }
+        },
+        {
+          title: "2. Legal basis",
+          content: {
+            type: 'paragraph',
+            text: "The processing is based on your explicit consent when filling out and submitting the form."
+          }
+        },
+        {
+          title: "3. Contacts",
+          content: {
+            type: 'contact',
+            text: "For any questions about this policy or your data, you can contact us at:",
+            details: {
+              email: "associacao.infante@gmail.com",
+              phone: "910389071"
+            }
+          }
+        }
+      ]
+    },
     rightsReserved: {
       allRights: "All right reserved to Inafntae Boxing Club - Powered by ",
     }
   },
   pt: {
+    metaDescription: "Infante Boxing Club em Odivelas. Oferecemos boxe de competição, manutenção e educativo. Junte-se a uma comunidade que forja campeões.",
     navLinks: [
       { href: "#home", label: "Início" },
-      { href: "#events", label: "Eventos" },
       { href: "#about", label: "Sobre Nós" },
       { href: "#merch", label: "Loja" },
+      { href: "#events", label: "Eventos" },
       { href: "#schedule", label: "Horário" },
       { href: "#contact", label: "Contacto" },
     ],
@@ -218,9 +259,9 @@ export const content = {
         sunday: "Domingo",
       },
       classes: [
-        "Suricatas (5-8 anos)",
-        "Gatinhos (9-11 anos)",
-        "Leões (12-15 anos)",
+        "Gatinhos (5-7 anos)",
+        "Suricatas (8-11 anos)",
+        "Leões (12-14 anos)",
         "Adultos",
         "Fechado",
         "Ginasio Aberto",
@@ -271,6 +312,45 @@ export const content = {
     },
     rightsReserved: {
       allRights: "Todos os direitos reservados a Infante Boxing Club - Fornecido por ",
+    },
+    privacyPolicy: {
+      breadcrumbHome: "Início",
+      backButton: "Voltar ao Início",
+      title: "Política de Privacidade",
+      phoneLabel: "Telémovel",
+      intro: "Na Infante Boxing Club, respeitamos a sua privacidade. Este site apenas recolhe os dados pessoais (nome e email) através do formulário de contacto, com o único objetivo de responder à dúvida ou questão que nos enviou.",
+      sections: [
+        {
+          title: "1. O que fazemos com os seus dados:",
+          content: {
+            type: 'list',
+            items: [
+              "Os dados são usados exclusivamente para responder ao seu pedido de contacto.",
+              "Não são guardados em bases de dados, nem utilizados para qualquer outra finalidade.",
+              "Não são partilhados com terceiros.",
+              "Após a resposta, os dados são descartados e não ficam registados nos nossos sistemas."
+            ]
+          }
+        },
+        {
+          title: "2. Base legal",
+          content: {
+            type: 'paragraph',
+            text: "O tratamento é feito com base no seu consentimento explícito ao preencher e submeter o formulário."
+          }
+        },
+        {
+          title: "3. Contactos",
+          content: {
+            type: 'contact',
+            text: "Para qualquer questão sobre esta política ou sobre os seus dados, pode contactar-nos através de:",
+            details: {
+              email: "associacao.infante@gmail.com",
+              phone: "910389071"
+            }
+          }
+        }
+      ]
+    },
     }
-  },
 };

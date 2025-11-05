@@ -97,11 +97,11 @@ export default function Contacto() {
             </p>
             <div className="mt-8 space-y-4">
               <div className="flex items-center gap-4">
-                <Phone stroke="var(--primary)" className="h-6 w-6" />
+                <Phone stroke="#CEA755" className="h-6 w-6" />
                 <span className="text-lg">{C.contact.phone}</span>
               </div>
               <div className="flex items-center gap-4">
-                <Mail stroke="var(--primary)" className="h-6 w-6" />
+                <Mail stroke="#CEA755" className="h-6 w-6" />
                 <span className="text-lg">{C.contact.email}</span>
               </div>
             </div>
@@ -163,13 +163,12 @@ export default function Contacto() {
                           checked={field.value}
                           onCheckedChange={field.onChange}
                           className="border-primary-foreground/50 data-[state=checked]:bg-primary-foreground data-[state=checked]:text-secondary"
-						
-						/>
+						            />
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel>
                          {C.contact.form.privacyPolicy.preLink}{' '}
-                          <Link href="/" className="underline font-bold hover:text-primary">
+                          <Link href="/privacy-policy" className="underline font-bold hover:text-primary">
                             {C.contact.form.privacyPolicy.linkText}
                           </Link>
                           .

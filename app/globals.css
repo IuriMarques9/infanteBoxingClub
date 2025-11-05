@@ -72,9 +72,10 @@ h2 {
     height: 7px;
 }
 
+/*
 *::-webkit-scrollbar-track {
    
-}
+}*/
 
 *::-webkit-scrollbar-thumb {
     background-color: hsl(41 55% 57%);

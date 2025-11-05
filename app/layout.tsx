@@ -5,7 +5,7 @@ import { LanguageProvider } from "../contexts/language-context";
 
 export const metadata: Metadata = {
   title: "Infante Boxing Club",
-  description: "Train with champions at Infante Boxing Club.",
+  // The description is now handled dynamically in PageContent
 };
 
 export default function RootLayout({

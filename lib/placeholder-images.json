@@ -36,6 +36,24 @@
       "description": "A coach teaching a young student boxing fundamentals.",
       "imageUrl": "/boxeEducativo.png",
       "imageHint": "boxing training"
+    },
+    {
+      "id": "partner-1",
+      "description": "Logo for Fisiomed.",
+      "imageUrl": "/fisiomedLogo.jpg",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "partner-2",
+      "description": "Logo for Reddune.",
+      "imageUrl": "/redduneLogo.png",
+      "imageHint": "company logo"
+    },
+     {
+      "id": "partner-3",
+      "description": "Logo for Nortextil.",
+      "imageUrl": "/nortextilLogo.png",
+      "imageHint": "company logo"
     }
   ]
 }
