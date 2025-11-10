@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
 
     archive.finalize();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return new Response(pass as any, {
       headers: {
         'Content-Type': 'application/zip',
