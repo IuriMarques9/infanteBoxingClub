@@ -3,6 +3,8 @@ import stream from 'stream';
 import { NextRequest } from 'next/server';
 import fetch from 'node-fetch';
 
+export const runtime = "nodejs";
+
 export async function POST(req: NextRequest) {
   try {
     const { urls } = (await req.json()) as { urls: string[] };
@@ -31,7 +33,7 @@ export async function POST(req: NextRequest) {
 
     archive.finalize();
 
-    return new Response(pass, {
+    return new Response(pass as any, {
       headers: {
         'Content-Type': 'application/zip',
       },
