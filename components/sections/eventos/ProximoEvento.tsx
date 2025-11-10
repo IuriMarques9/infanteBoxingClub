@@ -1,13 +1,12 @@
 'use client';
 import Image from "next/image";
-import { CalendarDays, MapPin, ArrowRight } from "lucide-react";
+import { CalendarDays, MapPin, ArrowRight, Loader2 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { Card } from "../../../components/ui/card";
 import { useLanguage } from "../../../contexts/language-context";
 import { content } from "../../../lib/content";
 import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
 import { useEffect, useState } from "react";
-import router from "next/router";
 
 export default function ProximoEvento() {
   const { language } = useLanguage();
@@ -35,8 +34,9 @@ export default function ProximoEvento() {
             {C.nextEvent.title} 
           </h2>
         </div>
-        <Card className="mt-12 grid md:grid-cols-2 overflow-hidden shadow-2xl">
-          {image && (
+
+        {image && loading=== false ? (
+          <Card className="mt-12 grid md:grid-cols-2 overflow-hidden shadow-2xl">
             <Image
               src={image?.url ?? "/placeholder.png"}
               alt={`${image.id}`}
@@ -44,8 +44,8 @@ export default function ProximoEvento() {
               height={image.height || 300}
               className="w-full p-8 md:p-12 object-cover max-w-[400px] mx-auto"
             />
-          )}
-          <div className="flex flex-col p-8 md:p-12">
+
+            <div className="flex flex-col p-8 md:p-12">
             <h3 className="font-headline text-4xl uppercase">{image.context?.custom?.caption}</h3>
             
             <p className="text-muted-foreground mt-2">{eventDescription}</p>
@@ -72,8 +72,13 @@ export default function ProximoEvento() {
               {C.nextEvent.cta}
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
-          </div>
-        </Card>
+            </div>
+          </Card>
+          ) : (
+            <Loader2 className="text-primary mx-auto animate-spin" />
+          )
+        }
+          
       </div>
     </section>
   );};

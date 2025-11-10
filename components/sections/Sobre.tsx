@@ -37,7 +37,7 @@ export default function Team() {
   return (
     <section id="about" className="py-16 md:py-24 bg-secondary">
       <div className="container mx-auto px-4">
-        <div className="text-center max-w-6xl mx-auto">
+        <div className="text-center mx-auto">
           <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider">
             {C.team.title}
           </h2>

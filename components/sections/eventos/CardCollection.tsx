@@ -3,6 +3,8 @@ import { Card, CardTitle } from "../../../components/ui/card";
 import Collection from "./Collection";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog"
 import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 interface CardCollectionProps {
   folderName: string;
@@ -42,6 +44,12 @@ export default function CardCollection(folderName: CardCollectionProps) {
 					</DialogHeader>
 
 					<Collection images={images} />
+
+					<div className="flex justify-end p-2">
+						<Button className="text-white">
+							<Download className="mr-2 h-4 w-4" /> Download
+						</Button>
+					</div>
 			</DialogContent>
 		</Dialog>
 	);

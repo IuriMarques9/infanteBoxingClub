@@ -4,6 +4,7 @@ import { content } from "../../../lib/content";
 import { useSubfoldersFromFolder } from "@/hooks/use-subfoldersFromFolder";
 import CardCollection from "./CardCollection";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Loader2 } from "lucide-react";
 
 export default function PastEvents() {
   const { language } = useLanguage();
@@ -62,7 +63,7 @@ export default function PastEvents() {
         >
           <CarouselContent>
           {
-            pastas?.length > 0 ? (
+            pastas?.length > 0 && loading === false ? (
               pastas.map((pasta) => (
                 <CarouselItem key={pasta.external_id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                   <div className="p-1 h-full">
@@ -71,7 +72,7 @@ export default function PastEvents() {
                 </CarouselItem>
               ))
             ) : (
-              <p>Sem pastas disponíveis.</p>
+              <Loader2 className="text-primary mx-auto animate-spin" />
             )
           }
           </CarouselContent>

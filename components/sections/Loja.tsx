@@ -10,6 +10,7 @@ import Autoplay from "embla-carousel-autoplay";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
 import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
+import { Loader2 } from "lucide-react";
 
 export default function Merch() {
   const { language } = useLanguage();
@@ -37,27 +38,32 @@ export default function Merch() {
           ]}
         >
           <CarouselContent>
-            {images.map(image => (
-            <CarouselItem key={image.id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                <Card className="overflow-hidden text-start h-full">
-                  <div className="overflow-hidden group m-8 y-8">
-                    <Image
-                      src={image.url}
-                      alt={image.id}
-                      width={400}
-                      height={400}
-                      className="w-full h-full object-cover aspect-square max-w-[300px] mx-auto"
-                    />
-                  </div>
-                  <CardHeader>
-                    <CardTitle className="font-headline text-2xl">{image.context?.custom?.caption ?? ""}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-xl font-bold">{image.context?.custom?.preco}</p>
-                  </CardContent>
-                </Card>
-              </CarouselItem>
-            ))}
+            {loading === false ? (
+              images.map(image => (
+              <CarouselItem key={image.id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                  <Card className="overflow-hidden text-start h-full">
+                    <div className="overflow-hidden group m-8 y-8">
+                      <Image
+                        src={image.url}
+                        alt={image.id}
+                        width={400}
+                        height={400}
+                        className="w-full h-full object-cover aspect-square max-w-[300px] mx-auto"
+                      />
+                    </div>
+                    <CardHeader>
+                      <CardTitle className="font-headline text-2xl">{image.context?.custom?.caption ?? ""}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-xl font-bold">{image.context?.custom?.preco}</p>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+            ))
+          ) : (
+            <Loader2 className="text-primary mx-auto animate-spin" />
+          )
+        }
           </CarouselContent>
         </Carousel>
       </div>

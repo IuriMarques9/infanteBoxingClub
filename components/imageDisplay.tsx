@@ -5,6 +5,7 @@ import { DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import Link from "next/link";
 
 interface Props {
   selectedImage: ImageData | null
@@ -26,13 +27,14 @@ return (
                         />
                 </div>
                 <div className="flex justify-end p-2">
-                    <Button className="text-white">
-                        <Download className="mr-2 h-4 w-4" />
-                            Download
-                    </Button>
+                    <Link href={`https://res.cloudinary.com/dxwqodv1x/image/upload/fl_attachment/` + selectedImage.id}>
+                        <Button className="text-white">
+                            <Download className="mr-2 h-4 w-4" /> Download
+                        </Button>
+                    </Link>
                 </div>
             </DialogContent>
-        )}
+        )}  
     </div>
 );
 }

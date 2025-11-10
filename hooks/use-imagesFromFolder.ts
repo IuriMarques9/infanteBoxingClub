@@ -31,6 +31,5 @@ export function useImagesFromFolder(folder: string) {
 
     fetchImages();
   }, [folder]);
-
   return { images, loading, error };
 }
