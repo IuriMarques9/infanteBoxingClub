@@ -4,7 +4,8 @@ import Collection from "./Collection";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../../../components/ui/dialog"
 import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { FolderArchive, Loader2 } from "lucide-react";
+import { useZipDownload } from "@/hooks/use-zipDownload";
 
 interface CardCollectionProps {
   folderName: string;
@@ -15,7 +16,8 @@ export default function CardCollection(folderName: CardCollectionProps) {
 	const nomePasta = folderName.folderName.split(':')[0];	// Remove qualquer sufixo após ':', para colocar o titulo
 	const dataEvento = folderName.folderName.split(':')[1]; // Pega a data do evento, se existir
 	const { images, loading, error } = useImagesFromFolder("galeriaEventos/" + folderName.folderName);
-	
+	const { downloadGallery, loadingZip, errorZip } = useZipDownload();
+
 	const firstImage = images[0]?.url;
 
 	return (
@@ -46,8 +48,8 @@ export default function CardCollection(folderName: CardCollectionProps) {
 					<Collection images={images} />
 
 					<div className="flex justify-end p-2">
-						<Button className="text-white">
-							<Download className="mr-2 h-4 w-4" /> Download
+						<Button disabled={loadingZip || images.length === 0} onClick={() => downloadGallery(images, `${nomePasta}.zip`)} className="text-white">
+							{loadingZip ? <Loader2 className="mx-auto animate-spin" /> : <><FolderArchive className="h-4 w-4" /> Download</>}
 						</Button>
 					</div>
 			</DialogContent>

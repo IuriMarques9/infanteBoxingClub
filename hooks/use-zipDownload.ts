@@ -1,27 +1,30 @@
 'use client'
 
 import { useState } from 'react'
+import { ImageData } from '@/interfaces/CloudinaryInterfaces'
 
 interface UseDownloadGalleryReturn {
-  loading: boolean
-  error: string | null
-  downloadGallery: (publicIds: string[], filename?: string) => Promise<void>
+  loadingZip: boolean
+  errorZip: string | null
+  downloadGallery: (images: ImageData[], filename?: string) => Promise<void>
 }
 
 export function useZipDownload(): UseDownloadGalleryReturn {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [loadingZip, setLoadingZip] = useState(false)
+  const [errorZip, setErrorZip] = useState<string | null>(null)
 
-  async function downloadGallery(publicIds: string[], filename = 'galeria.zip') {
-    if (!publicIds?.length) return
-    setLoading(true)
-    setError(null)
+  async function downloadGallery(images: ImageData[], filename = 'galeria.zip') {
+    if (!images || images.length === 0) return
+    setLoadingZip(true)
+    setErrorZip(null)
+
+    const urls = images.map(imagem => imagem.url);
 
     try {
       const res = await fetch('/api/zipFolder', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ publicIds }),
+        body: JSON.stringify( {urls} ),
       })
 
       if (!res.ok) {
@@ -37,11 +40,11 @@ export function useZipDownload(): UseDownloadGalleryReturn {
       a.click()
       URL.revokeObjectURL(url)
     } catch (err: any) {
-      setError(err.message || 'Erro inesperado')
+      setErrorZip(err.message || 'Erro inesperado')
     } finally {
-      setLoading(false)
+      setLoadingZip(false)
     }
   }
 
-  return { loading, error, downloadGallery }
+  return { loadingZip, errorZip, downloadGallery }
 }

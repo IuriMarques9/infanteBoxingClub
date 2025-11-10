@@ -29,7 +29,7 @@ return (
                 <div className="flex justify-end p-2">
                     <Link href={`https://res.cloudinary.com/dxwqodv1x/image/upload/fl_attachment/` + selectedImage.id}>
                         <Button className="text-white">
-                            <Download className="mr-2 h-4 w-4" /> Download
+                            <Download className="h-4 w-4" /> 
                         </Button>
                     </Link>
                 </div>
