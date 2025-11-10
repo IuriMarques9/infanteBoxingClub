@@ -25,13 +25,13 @@ const Header = () => {
         </Link>
 
         <nav className="hidden md:flex gap-6 items-center">
-          {navLinks.map((link) => (
+          {navLinks.map(({ href, label }) => (
             <Link
-              key={link.href}
-              href={link.href}
+              key={href}
+              href={href}
               className="text-sm font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
             >
-              {link.label}
+              {label}
             </Link>
           ))}
           <LanguageSwitcher />
@@ -49,19 +49,17 @@ const Header = () => {
 			<SheetTitle className="hidden"></SheetTitle>
 			<SheetContent side="right">
               	<div className="flex flex-col gap-6 pt-10">
-					{navLinks.map((link) => (
-					<Link
-					key={link.href}
-					href={link.href}
-					className="text-lg font-medium text-foreground transition-colors hover:text-primary"
-					onClick={() => setIsOpen(false)}
-					>
-						{link.label}
-					</Link>
+					{navLinks.map(({ href, label, icon: Icon }) => (
+						<Link
+						key={href}
+						href={href}
+						className="text-lg font-medium text-foreground transition-colors hover:text-primary flex gap-3"
+						onClick={() => setIsOpen(false)}
+						>
+							<Icon className="self-center text-primary" aria-hidden="true" />
+							{label}
+						</Link>
 					))}
-					<Button asChild className="mt-4">
-						<Link className="text-white" href="#contact" onClick={() => setIsOpen(false)}>{C.contact.title}</Link>
-					</Button>
 					<div className="pt-4">
 						<LanguageSwitcher />
 					</div>

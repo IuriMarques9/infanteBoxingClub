@@ -1,16 +1,36 @@
+import { Home, Info, ShoppingBag, Calendar, Clock, Mail } from "lucide-react";
+import { FC, SVGProps } from "react";
 
+type IconType = FC<SVGProps<SVGSVGElement>>;
+
+interface NavItem {
+  href: string;
+  label: string;
+  icon: IconType;
+}
+
+const navLinksEn: NavItem[] = [
+  { href: "#home", label: "Home", icon: Home },
+  { href: "#about", label: "About us", icon: Info },
+  { href: "#merch", label: "Merch", icon: ShoppingBag },
+  { href: "#events", label: "Events", icon: Calendar },
+  { href: "#schedule", label: "Schedule", icon: Clock },
+  { href: "#contact", label: "Contact", icon: Mail },
+];
+
+const navLinksPt: NavItem[] = [
+  { href: "#home", label: "Início", icon: Home },
+  { href: "#about", label: "Sobre Nós", icon: Info },
+  { href: "#merch", label: "Loja",  icon: ShoppingBag },
+  { href: "#events", label: "Eventos",  icon: Calendar },
+  { href: "#schedule", label: "Cronograma",  icon: Clock },
+  { href: "#contact", label: "Contacto",  icon: Mail }
+];
 
 export const content = {
   en: {
     metaDescription: "Infante Boxing Club in Odivelas. We offer competition, maintenance, and educational boxing. Join a community that forges champions.",
-    navLinks: [
-      { href: "#home", label: "Home" },
-      { href: "#about", label: "About us" },
-      { href: "#merch", label: "Merch" },
-      { href: "#events", label: "Events" },
-      { href: "#schedule", label: "Schedule" },
-      { href: "#contact", label: "Contact" },
-    ],
+    navLinks: navLinksEn,
     hero: {
       title: "Infante",
       titleHighlight: "Boxing",
@@ -179,14 +199,7 @@ export const content = {
   },
   pt: {
     metaDescription: "Infante Boxing Club em Odivelas. Oferecemos boxe de competição, manutenção e educativo. Junte-se a uma comunidade que forja campeões.",
-    navLinks: [
-      { href: "#home", label: "Início" },
-      { href: "#about", label: "Sobre Nós" },
-      { href: "#merch", label: "Loja" },
-      { href: "#events", label: "Eventos" },
-      { href: "#schedule", label: "Horário" },
-      { href: "#contact", label: "Contacto" },
-    ],
+    navLinks: navLinksPt,
     hero: {
       title: "Infante",
       titleHighlight: "Boxing",
