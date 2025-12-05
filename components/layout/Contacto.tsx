@@ -64,6 +64,7 @@ export default function Contacto() {
         });
 			  form.reset();
 		  } else {
+        console.log(response.status, await response.text())
 			  throw new Error('Form submission failed');
 		  }
 		} catch (error) {
@@ -72,6 +73,7 @@ export default function Contacto() {
         title: C.contact.toast.error.title,
         description: C.contact.toast.error.description,
       });
+      console.log(error);
 		}
 	}
 
@@ -109,12 +111,6 @@ export default function Contacto() {
           <div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="space-y-4">
-                {/* Honeypot */}
-                <input type="text" name="_honey" style={{ display: 'none' }} />
-                {/* Disable Captcha */}
-                <input type="hidden" name="_captcha" value="false" />
-                {/* Email Template */}
-                <input type="hidden" name="_template" value="table" />
                 
                 <FormField
                   control={form.control}
