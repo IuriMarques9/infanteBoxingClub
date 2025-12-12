@@ -1,6 +1,6 @@
 'use client';
 import Image from "next/image";
-import { CalendarDays, MapPin, ArrowRight, Loader2 } from "lucide-react";
+import { CalendarDays, MapPin, ArrowRight, Loader2, CalendarCheck2 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { Card } from "../../../components/ui/card";
 import { useLanguage } from "../../../contexts/language-context";
@@ -17,6 +17,28 @@ export default function ProximoEvento() {
   const image = images[0] ?? {};
 
   const [eventDescription , setEventDescription] = useState("");
+
+  const actualDate = new Date();
+  const parsePortugueseDate = (dateString: string): Date => {
+    const monthMap: Record<string, number> = {
+      'janeiro': 0, 'fevereiro': 1, 'março': 2, 'abril': 3,
+      'maio': 4, 'junho': 5, 'julho': 6, 'agosto': 7,
+      'setembro': 8, 'outubro': 9, 'novembro': 10, 'dezembro': 11
+    };
+
+    const match = dateString.match(/(\d+)\s*-\s*\d+\s+de\s+(\w+)\s+de\s+(\d+)/i);
+    if (!match) return new Date(0);
+
+    const day = parseInt(match[1]);
+    const month = monthMap[match[2].toLowerCase()];
+    const year = parseInt(match[3]);
+
+    return new Date(year, month, day);
+  };
+
+  const eventDate = parsePortugueseDate(image.context?.custom?.date || "");
+
+  const hasEventPassed = eventDate < actualDate;
 
   useEffect(() => {
     if(language === 'pt'){
@@ -35,8 +57,25 @@ export default function ProximoEvento() {
           </h2>
         </div>
 
-        {image && loading=== false ? (
-          <Card className="mt-12 grid md:grid-cols-2 overflow-hidden shadow-2xl">
+        {image && loading === false ? (
+          <Card className={`mt-12 grid md:grid-cols-2 overflow-hidden shadow-2xl relative`}>
+            {hasEventPassed && 
+              <div className="absolute !bg-secondary/80 !backdrop-blur-sm z-99 inset-0 flex flex-col items-center justify-center text-center p-4 right-100 ">
+                <CalendarCheck2 size={64} className="text-primary mb-4" />
+                  <h3 className="font-headline text-5xl md:text-6xl uppercase tracking-wider text-primary">
+                    {C.nextEvent.passedEventTitle} 
+                  </h3>
+                  <p className="mt-2 text-lg text-muted-foreground max-w-md">
+                    {C.nextEvent.passedEventMessage} 
+                  </p>
+                <Button size="lg" className="text-white mt-8 font-bold group" asChild>
+                    <a href="#passedEvents">
+                      {C.nextEvent.passedEventCta} 
+                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </a>
+                  </Button>
+              </div>
+            }
             <Image
               src={image?.url ?? "/placeholder.png"}
               alt={`${image.id}`}
@@ -74,10 +113,10 @@ export default function ProximoEvento() {
             </Button>
             </div>
           </Card>
-          ) : (
-            <Loader2 className="text-primary mx-auto animate-spin" />
-          )
-        }
+        ) : (
+          <Loader2 className="text-primary mx-auto animate-spin" />
+        )
+      }
           
       </div>
     </section>

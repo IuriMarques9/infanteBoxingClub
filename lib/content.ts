@@ -44,6 +44,9 @@ export const content = {
       date: "October 26, 2024",
       time: "8:00 PM",
       location: "Pavilhão Multiusos de Odivelas",
+      passedEventTitle: "Event Concluded",
+      passedEventMessage: "The event has concluded. Check out the highlights in our past events section!",
+      passedEventCta: "Passed Events Gallery",
       cta: "See more",
     },
     boxingStyles: {
@@ -213,8 +216,11 @@ export const content = {
       date: "26 de Outubro de 2024",
       time: "20:00",
       location: "Pavilhão Multiusos de Odivelas",
+      passedEventTitle: "Evento Concluido",
+      passedEventMessage: "O evento já foi concluido. Vê os melhores momentos na galeria de eventos!",
+      passedEventCta: "Galeria de Eventos",
       cta: "Saber Mais",
-    },
+    },  
     boxingStyles: {
       title: "Boxe para Todos: Do Bem-Estar à Alta Competição",
       subtitle: "No nosso clube, todos têm a oportunidade de praticar boxe, seja com o objetivo de melhorar a forma física e manter um estilo de vida saudável, ou com a ambição de competir e evoluir no desporto. Adaptamos os treinos às tuas metas, oferecendo um ambiente acolhedor para iniciantes e desafiante para quem procura superar limites no ringue.",
