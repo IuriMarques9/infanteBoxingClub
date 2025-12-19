@@ -3,7 +3,7 @@ import { ScrollArea } from "../../ui/scroll-area";
 import  {ImageData} from "../../../interfaces/CloudinaryInterfaces";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useState } from "react";
-import ImageDisplay from "@/components/imageDisplay";
+import ImageDisplay from "@/components/templates/imageDisplay";
 
 export default function Collection( { images }: { images: ImageData[] }) {
     const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);

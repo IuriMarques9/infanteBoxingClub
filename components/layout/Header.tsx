@@ -7,7 +7,7 @@ import { Facebook, Instagram, Mail, Menu } from "lucide-react";
 import { Button } from "../ui/button";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
-import LanguageSwitcher from "../language-switcher";
+import LanguageSwitcher from "../../components/templates/language-switcher";
 import Image from "next/image";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 

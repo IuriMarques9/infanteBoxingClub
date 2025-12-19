@@ -10,7 +10,7 @@ import {
 } from "../../components/ui/dialog";
 import { Button } from "../../components/ui/button";
 import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
-import ImageDisplay from "../imageDisplay";
+import ImageDisplay from "../templates/imageDisplay";
 import { Loader2 } from "lucide-react";
 
 const INITIAL_VISIBLE_IMAGES = 4;

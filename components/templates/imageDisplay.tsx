@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import  {ImageData} from "../interfaces/CloudinaryInterfaces";
+import  {ImageData} from "../../interfaces/CloudinaryInterfaces";
 import { DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";

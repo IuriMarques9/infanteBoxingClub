@@ -49,12 +49,7 @@ export default function Contacto() {
     try {
       const response = await fetch('/api/emailSender', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: values.name,
-          email: values.email,
-          message: values.message,
-        }),
+        body: JSON.stringify(values),
       });
 		
       if (response.ok) {
@@ -73,7 +68,7 @@ export default function Contacto() {
         title: C.contact.toast.error.title,
         description: C.contact.toast.error.description,
       });
-      console.log(error);
+      return;
 		}
 	}
 
