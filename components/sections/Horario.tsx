@@ -41,14 +41,6 @@ export default function Schedule() {
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell className="text-center font-medium">10:00 - 12:30</TableCell>
-                  <TableCell>{C.schedule.classes[4]}</TableCell>
-                  <TableCell>{C.schedule.classes[5]}</TableCell>
-                  <TableCell>{C.schedule.classes[4]}</TableCell>
-                  <TableCell>{C.schedule.classes[5]}</TableCell>
-                  <TableCell>{C.schedule.classes[4]}</TableCell>
-                </TableRow>
-                <TableRow>
                   <TableCell className="text-center font-medium">18:00 - 19:00</TableCell>
                   <TableCell>{C.schedule.classes[0]} <br /> {C.schedule.classes[6]}</TableCell>
                   <TableCell>{C.schedule.classes[1]}</TableCell>
