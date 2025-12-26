@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Toaster } from "../components/ui/toaster";
 import "./globals.css";
 import { LanguageProvider } from "../contexts/language-context";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "Infante Boxing Club",
@@ -30,6 +31,7 @@ export default function RootLayout({
             {children}
           </div>
           <Toaster />
+          <Analytics />
         </LanguageProvider>
       </body>
     </html>
