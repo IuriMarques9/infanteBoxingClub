@@ -47,11 +47,12 @@ export default function PastEvents() {
     });
 
   return (
-    <section id="passedEvents" className="py-16 md:py-24">
+    <section id="passedEvents" className="py-20 md:py-28 bg-card">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider">{C.pastEvents.title}</h2>
-          <p className="mt-4 text-lg text-muted-foreground">{C.pastEvents.subtitle}</p>
+          <div className="section-divider mt-4"></div>
+          <p className="mt-6 text-lg text-muted-foreground">{C.pastEvents.subtitle}</p>
         </div>
         <Carousel 
           className="mt-12 mx-auto"

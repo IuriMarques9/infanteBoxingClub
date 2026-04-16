@@ -2,122 +2,153 @@
 import Image from "next/image";
 import { CalendarDays, MapPin, ArrowRight, Loader2, CalendarCheck2 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
-import { Card } from "../../../components/ui/card";
 import { useLanguage } from "../../../contexts/language-context";
 import { content } from "../../../lib/content";
-import { useImagesFromFolder } from "@/hooks/use-imagesFromFolder";
 import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 export default function ProximoEvento() {
   const { language } = useLanguage();
   const C = content[language];
-
-  const {images, loading, error} = useImagesFromFolder("proximoEvento");
-
-  const image = images[0] ?? {};
-
-  const [eventDescription , setEventDescription] = useState("");
-
-  const actualDate = new Date();
-  const parsePortugueseDate = (dateString: string): Date => {
-    const monthMap: Record<string, number> = {
-      'janeiro': 0, 'fevereiro': 1, 'março': 2, 'abril': 3,
-      'maio': 4, 'junho': 5, 'julho': 6, 'agosto': 7,
-      'setembro': 8, 'outubro': 9, 'novembro': 10, 'dezembro': 11
-    };
-
-    const match = dateString.match(/(\d+)\s*-\s*\d+\s+de\s+(\w+)\s+de\s+(\d+)/i);
-    if (!match) return new Date(0);
-
-    const day = parseInt(match[1]);
-    const month = monthMap[match[2].toLowerCase()];
-    const year = parseInt(match[3]);
-
-    return new Date(year, month, day);
-  };
-
-  const eventDate = parsePortugueseDate(image.context?.custom?.date || "");
-
-  const hasEventPassed = eventDate < actualDate;
+  const [evento, setEvento] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if(language === 'pt'){
-      setEventDescription(image.context?.custom?.alt || "")
-    }else{
-      setEventDescription(image.context?.custom?.paragrafoIngles || "")
+    async function fetchEvent() {
+      setLoading(true);
+      try {
+        const supabase = createClient();
+        const today = new Date().toISOString();
+        
+        // Puxar o próximo evento futuro mais breve
+        const { data } = await supabase
+           .from('eventos')
+           .select('*')
+           .gte('date', today)
+           .order('date', { ascending: true })
+           .limit(1);
+
+        if (data && data.length > 0) {
+          setEvento(data[0]);
+        } else {
+          // Fallback se não há eventos futuros, tenta pegar o mais recente do passado
+          const { data: pastData } = await supabase
+           .from('eventos')
+           .select('*')
+           .lt('date', today)
+           .order('date', { ascending: false })
+           .limit(1);
+
+          if (pastData && pastData.length > 0) {
+             setEvento(pastData[0]);
+          }
+        }
+      } catch (e) {
+         console.error('Erro a carregar evento', e);
+      } finally {
+         setLoading(false);
+      }
     }
-  }, [language, image.context?.custom?.alt, image.context?.custom?.paragrafoIngles]);
+    fetchEvent();
+  }, []);
+
+  if (loading) {
+    return <section className="py-20 md:py-28 bg-background flex justify-center"><Loader2 className="animate-spin text-primary" /></section>
+  }
+
+  // Se a DB não tiver mesmo nada
+  if (!evento) {
+    return (
+      <section className="py-20 md:py-28 bg-background">
+        <div className="container mx-auto px-4 text-center">
+            <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider">{C.nextEvent.title}</h2>
+            <div className="section-divider mt-4 mb-8"></div>
+            <p className="text-muted-foreground">{language === 'pt' ? 'Nenhum evento programado de momento.' : 'No events scheduled right now.'}</p>
+        </div>
+      </section>
+    );
+  }
+
+  const eventDate = new Date(evento.date);
+  const actualDate = new Date();
+  const hasEventPassed = eventDate < actualDate;
+
+  // Formatar data simpática
+  const formattedDate = new Intl.DateTimeFormat(language === 'pt'? 'pt-PT' : 'en-GB', {
+    day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+  }).format(eventDate);
   
   return (
-    <section className="py-16 md:py-24 bg-white">
-      <div className="container mx-auto px-4">
+    <section className="py-20 md:py-28 bg-background relative overflow-hidden">
+      {/* Background Glow sutil para manter premium look */}
+      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full z-0 pointer-events-none -translate-y-1/2 -translate-x-1/2" />
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider">
+          <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider text-foreground">
             {C.nextEvent.title} 
           </h2>
+          <div className="section-divider mt-4"></div>
         </div>
 
-        {image && loading === false ? (
-          <Card className={`mt-12 grid md:grid-cols-2 overflow-hidden shadow-2xl relative`}>
-            {hasEventPassed && 
-              <div className="absolute !bg-secondary/80 !backdrop-blur-sm z-99 inset-0 flex flex-col items-center justify-center text-center p-4 right-100 ">
-                <CalendarCheck2 size={64} className="text-primary mb-4" />
-                  <h3 className="font-headline text-5xl md:text-6xl uppercase tracking-wider text-primary">
-                    {C.nextEvent.passedEventTitle} 
-                  </h3>
-                  <p className="mt-2 text-lg text-muted-foreground max-w-md">
-                    {C.nextEvent.passedEventMessage} 
-                  </p>
-                <Button size="lg" className="text-white mt-8 font-bold group" asChild>
-                    <a href="#passedEvents">
-                      {C.nextEvent.passedEventCta} 
-                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                    </a>
-                  </Button>
-              </div>
-            }
+        <div className={`card-gold-accent mt-14 grid md:grid-cols-2 overflow-hidden relative bg-card/60 backdrop-blur-md rounded-2xl shadow-xl transition-all duration-300 hover:shadow-[0_0_20px_hsl(41_55%_57%/0.15)] border border-primary/20`}>
+          {hasEventPassed && 
+            <div className="absolute bg-black/85 backdrop-blur-md z-[99] inset-0 flex flex-col items-center justify-center text-center p-4">
+              <CalendarCheck2 size={64} className="text-primary mb-4 drop-shadow-md" />
+                <h3 className="font-headline text-5xl md:text-6xl uppercase tracking-wider text-primary">
+                  {C.nextEvent.passedEventTitle} 
+                </h3>
+                <p className="mt-2 text-lg text-muted-foreground max-w-md">
+                  {C.nextEvent.passedEventMessage} 
+                </p>
+              <Button size="lg" className="mt-8 font-bold group uppercase tracking-wider shadow-lg" asChild>
+                  <a href="#passedEvents">
+                    {C.nextEvent.passedEventCta} 
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </a>
+                </Button>
+            </div>
+          }
+          
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card z-10 hidden md:block" />
             <Image
-              src={image?.url ?? "/placeholder.png"}
-              alt={`${image.id}`}
-              width={image.width || 300}
-              height={image.height || 300}
-              className="w-full p-8 md:p-12 object-cover max-w-[400px] mx-auto"
+              src={evento.imageurl ?? "/placeholder-boxing.jpg"}
+              alt={evento.title}
+              fill
+              className="object-cover"
             />
+            {/* Fallback de altura onde o fill precisa existir num container */}
+            <div className="min-h-[400px] md:h-full w-full"></div>
+          </div>
 
-            <div className="flex flex-col p-8 md:p-12">
-            <h3 className="font-headline text-4xl uppercase">{image.context?.custom?.caption}</h3>
+          <div className="flex flex-col p-8 md:p-12 z-20 bg-card/40 md:bg-transparent">
+            <h3 className="font-headline text-4xl uppercase text-foreground text-glow">{evento.title}</h3>
             
-            <p className="text-muted-foreground mt-2">{eventDescription}</p>
+            <p className="text-muted-foreground mt-4 leading-relaxed">{evento.description}</p>
             
-            <div className="space-y-4 mt-6 text-lg">
+            <div className="space-y-4 mt-8 text-lg bg-black/50 p-6 rounded-xl border border-primary/10 shadow-inner">
               <div className="flex items-center gap-3">
                 <CalendarDays className="h-6 w-6 text-primary" />
-                <span>{image.context?.custom?.date}</span>
+                <span className="font-medium">{formattedDate}</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="h-6 w-6 text-primary" />
-                <span>{image.context?.custom?.localizacao}</span>
+                <span className="font-medium">{evento.location}</span>
               </div>
             </div>
+            
             <Button
-              onClick={() => {
-                const newWin = window.open(image.context?.custom?.linkEvento ?? undefined, "_blank");
-                if (newWin) newWin.opener = null;
-              }}
               size="lg"
               variant="default"
-              className="mt-8 self-start font-bold group text-white"
+              className="mt-8 self-start font-bold group uppercase tracking-wider shadow-[0_0_15px_hsl(41_55%_57%/0.4)] transition-all hover:scale-105"
             >
               {C.nextEvent.cta}
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
-            </div>
-          </Card>
-        ) : (
-          <Loader2 className="text-primary mx-auto animate-spin" />
-        )
-      }
-          
+          </div>
+        </div>
       </div>
     </section>
-  );};
+  );
+}

@@ -1,5 +1,10 @@
-import {useState, useEffect} from 'react';
-import { ImageData } from '../interfaces/CloudinaryInterfaces';
+import { useState, useEffect } from 'react';
+import { createClient } from '@/lib/supabase/client';
+
+export interface ImageData {
+  id: string;
+  url: string;
+}
 
 export function useImagesFromFolder(folder: string) {
   const [images, setImages] = useState<ImageData[]>([]);
@@ -7,29 +12,43 @@ export function useImagesFromFolder(folder: string) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-	if (!folder) return;
+    if (!folder) return;
 
     async function fetchImages() {
-		setLoading(true);
-		setError(null);
+      setLoading(true);
+      setError(null);
 
-      	try {
-			const res = await fetch(`/api/cloudinaryImages?folder=${encodeURIComponent(folder)}`);
+      try {
+        const supabase = createClient();
+        // Fetch list of files in the bucket under the specified folder
+        const { data, error } = await supabase.storage.from('images').list(folder);
 
-			if (!res.ok) throw new Error(`Erro ao buscar: ${res.status}`);
+        if (error) throw error;
+        if (!data) return;
 
-			const data: ImageData[] = await res.json();
+        const imageList = data
+          .filter(file => file.name !== '.emptyFolderPlaceholder' && !file.name.startsWith('.'))
+          .map(file => {
+            const { data: publicUrlData } = supabase.storage
+              .from('images')
+              .getPublicUrl(`${folder}/${file.name}`);
+              
+            return {
+              id: file.id || file.name,
+              url: publicUrlData.publicUrl
+            };
+          });
 
-			setImages(data);
-
-      	} catch (err: any) {
-        	setError(err.message);
-      	} finally {
-        	setLoading(false);
-      	}
+        setImages(imageList);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     }
 
     fetchImages();
   }, [folder]);
+  
   return { images, loading, error };
 }

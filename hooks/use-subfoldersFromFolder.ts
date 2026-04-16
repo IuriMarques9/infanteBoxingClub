@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import {FolderData} from "../interfaces/CloudinaryInterfaces";
+import { createClient } from '@/lib/supabase/client';
+
+export interface FolderData {
+  name: string;
+  external_id: string;
+}
 
 export const useSubfoldersFromFolder = (folder: string) => {
   const [pastas, setPastas] = useState<FolderData[]>([]);
@@ -8,14 +13,28 @@ export const useSubfoldersFromFolder = (folder: string) => {
 
   useEffect(() => {
     const fetchPastas = async () => {
+      if(!folder) return;
       setLoading(true);
+      setError(null);
+      
       try {
-        const response = await fetch(`/api/cloudinaryFolders?folder=${encodeURIComponent(folder)}`);
-        if (!response.ok) {
-          throw new Error('Falha ao buscar pastas');
+        const supabase = createClient();
+        // Em supabase, list retorna ficheiros e "pastas". Pastas não têm id
+        const { data, error } = await supabase.storage.from('images').list(folder);
+        
+        if (error) {
+          throw error;
         }
-        const data: FolderData[] = await response.json();
-        setPastas(data);
+
+        // Filtra os que parecem ser pastas (sem id ou metadados de ficheiro) e evita ficheiros escondidos
+        const folderList = data
+          .filter(item => !item.id && !item.name.startsWith('.'))
+          .map(item => ({
+             name: item.name,
+             external_id: item.name
+          }));
+          
+        setPastas(folderList);
         
       } catch (err: any) {
         setError(err.message || 'Erro desconhecido');

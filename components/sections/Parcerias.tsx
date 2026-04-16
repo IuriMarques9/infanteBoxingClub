@@ -88,7 +88,7 @@ export default function Partnerships() {
   );
     return (
     <div 
-      className="max-w-7xl mx-auto select-none overflow-hidden bg-secondary my-16" 
+      className="max-w-7xl mx-auto select-none overflow-hidden bg-background my-16" 
       style={{maskImage: 'linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%)'}}
       onPointerEnter={onPointerEnter}
           onPointerLeave={onPointerLeave}

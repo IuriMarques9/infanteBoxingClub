@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html translate="no" lang="pt" className="!scroll-smooth">
+    <html translate="no" lang="pt" className="!scroll-smooth dark">
       <head>
         <meta name="google" content="notranslate" /> 
         <link rel="preconnect" href="https://fonts.googleapis.com" />

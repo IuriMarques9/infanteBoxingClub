@@ -35,20 +35,21 @@ export default function Team() {
   const currentImage = coachImages[currentIndex];
 
   return (
-    <section id="about" className="py-16 md:py-24 bg-secondary">
+    <section id="about" className="py-20 md:py-28 bg-card">
       <div className="container mx-auto px-4">
         <div className="text-center mx-auto">
           <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider">
             {C.team.title}
           </h2>
-          <p className="mt-4 text-lg text-justify text-muted-foreground">
+          <div className="section-divider mt-4"></div>
+          <p className="mt-6 text-lg text-justify text-muted-foreground">
             {C.team.subtitle}
           </p>
         </div>
         
-        <div className="mt-12 flex justify-center">
-            <Card className={cn(
-                "overflow-hidden text-center max-w-sm w-full transition-opacity duration-500 ease-in-out",
+        <div className="mt-14 flex justify-center">
+            <div className={cn(
+                "card-gold-accent overflow-hidden text-center max-w-sm w-full transition-opacity duration-500 ease-in-out rounded-lg border border-zinc-800 bg-background",
                 isFading ? "opacity-0" : "opacity-100"
             )}>
               {currentImage && (
@@ -62,7 +63,7 @@ export default function Team() {
                     key={currentIndex} 
                 />
               )}
-            </Card>
+            </div>
         </div>
       </div>
     </section>

@@ -14,30 +14,39 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <p className="text-sm text-muted-foreground mt-1">Gestão do Clube</p>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1">
-          <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary rounded-md font-medium transition-colors">
+        <nav className="flex-1 p-4 space-y-2">
+          <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2 hover:bg-primary/10 hover:text-primary text-muted-foreground rounded-md font-medium transition-colors">
             <LayoutDashboard className="w-5 h-5" />
             Visão Geral
           </Link>
-          <button className="w-full flex items-center gap-3 px-3 py-2 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-md font-medium transition-colors">
+          <Link href="/dashboard/modalidades" className="flex items-center gap-3 px-3 py-2 text-muted-foreground hover:bg-primary/10 hover:text-primary rounded-md font-medium transition-colors">
             <Users className="w-5 h-5" />
-            Sócios
-          </button>
-          <button className="w-full flex items-center gap-3 px-3 py-2 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-md font-medium transition-colors">
-            <CreditCard className="w-5 h-5" />
-            Pagamentos
-          </button>
-          <button className="w-full flex items-center gap-3 px-3 py-2 text-muted-foreground hover:bg-secondary hover:text-foreground rounded-md font-medium transition-colors">
+            Modalidades
+          </Link>
+          <Link href="/dashboard/eventos" className="flex items-center gap-3 px-3 py-2 text-muted-foreground hover:bg-primary/10 hover:text-primary rounded-md font-medium transition-colors">
             <CalendarDays className="w-5 h-5" />
-            Horários
-          </button>
+            Eventos
+          </Link>
+          <Link href="/dashboard/loja" className="flex items-center gap-3 px-3 py-2 text-muted-foreground hover:bg-primary/10 hover:text-primary rounded-md font-medium transition-colors">
+            <CreditCard className="w-5 h-5" />
+            Gestão da Loja
+          </Link>
         </nav>
 
         <div className="p-4 border-t border-border">
-          <Link href="/login" className="flex items-center gap-3 px-3 py-2 text-muted-foreground hover:text-destructive rounded-md font-medium transition-colors">
-            <LogOut className="w-5 h-5" />
-            Sair
-          </Link>
+          <form action={async () => {
+             'use server'
+             const { createClient } = await import('@/lib/supabase/server')
+             const { redirect } = await import('next/navigation')
+             const supabase = await createClient()
+             await supabase.auth.signOut()
+             redirect('/login')
+          }}>
+            <button type="submit" className="w-full flex items-center gap-3 px-3 py-2 text-muted-foreground hover:bg-destructive/10 hover:text-destructive rounded-md font-medium transition-colors">
+              <LogOut className="w-5 h-5" />
+              Sair
+            </button>
+          </form>
         </div>
       </aside>
 
