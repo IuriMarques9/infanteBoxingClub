@@ -45,25 +45,20 @@ export default function Hero() {
       {/* Dark cinematic gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-[hsl(0,0%,5%)]" />
       
-      <div ref={contentRef} className="relative z-10 p-4 max-w-5xl mx-auto">
-        <Image src={"/infanteLogo.png"} alt="Infante Logo" height={140} width={140} className="hero-elem object-cover rounded-full mx-auto mb-8 ring-2 ring-primary/30 shadow-[0_0_30px_hsl(41_55%_57%/0.3)]" priority/>
-        
-        <h1 className="hero-elem font-headline text-5xl md:text-7xl lg:text-[7rem] font-bold tracking-tight uppercase leading-none">
-          {C.hero.title} {C.hero.titleHighlight}<br/>
-          <span className="text-primary text-glow">{language === 'pt' ? 'Boxing' : 'Boxing'} Club</span>
+      <div ref={contentRef} className="relative z-10 p-4 max-w-7xl mx-auto w-full flex flex-col justify-center items-end text-right h-full pr-8 md:pr-16 lg:pr-24">
+        {/* We keep the logo for brand identity, but smaller and integrated before the text if necessary, or just rely on Header text */}
+        <h1 className="hero-elem font-headline text-6xl md:text-8xl lg:text-[8rem] font-bold tracking-tight uppercase leading-[0.9]">
+          <span className="text-white/90 drop-shadow-lg">{C.hero.title}</span><br/>
+          <span className="text-[#E8B55B] drop-shadow-[0_0_20px_rgba(232,181,91,0.5)]">Boxing Club</span>
         </h1>
         
-        <p className="hero-elem mt-6 text-base md:text-xl text-zinc-300 max-w-2xl mx-auto">
-          {C.hero.subtitle}
+        <p className="hero-elem mt-6 text-lg md:text-2xl text-white/80 max-w-xl font-medium tracking-wide uppercase">
+          {language === 'pt' ? 'Treina com Campeões. Liberta o teu potencial.' : 'Train with Champions. Unleash your potential.'}
         </p>
         
-        <div className="hero-elem mt-10 flex flex-wrap justify-center gap-4">
-          <Button variant="default" size="lg" asChild className="font-bold uppercase tracking-wider text-base px-8 py-6 hover:scale-105 transition-transform hover:shadow-[0_0_20px_hsl(41_55%_57%/0.5)]">
-            <a href="#schedule">{C.hero.cta}</a>
-          </Button>
-
-          <Button size="lg" asChild className="font-bold uppercase tracking-wider text-base px-8 py-6 bg-transparent border-2 border-zinc-500 text-white hover:bg-white/10 hover:border-white transition-all hover:scale-105" variant="outline">
-            <a href="#boxing-styles">{C.navLinks.find(l => l.href === "#boxing-styles")?.label || 'Modalidades'}</a>
+        <div className="hero-elem mt-10">
+          <Button variant="default" size="lg" asChild className="rounded-full bg-[#E8B55B] hover:bg-[#C99C4A] text-black font-extrabold uppercase tracking-widest text-lg md:text-xl px-10 py-8 shadow-[0_0_20px_rgba(232,181,91,0.4)] hover:shadow-[0_0_35px_rgba(232,181,91,0.7)] transition-all hover:scale-105">
+             <a href="#schedule">{language === 'pt' ? 'Começa a Treinar Agora' : 'Start Training Now'}</a>
           </Button>
         </div>
       </div>

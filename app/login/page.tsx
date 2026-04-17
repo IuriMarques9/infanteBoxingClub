@@ -6,11 +6,12 @@ export const metadata = {
   title: "Login | Infante Boxing Club",
 };
 
-export default function LoginPage({
+export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: { error?: string };
+  searchParams: Promise<{ error?: string }>;
 }) {
+  const searchParamsData = await searchParams;
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 relative z-10">
       {/* Glow Effect decorativo */}
@@ -38,10 +39,10 @@ export default function LoginPage({
           </p>
         </div>
 
-        {searchParams?.error && (
+        {searchParamsData?.error && (
           <div className="bg-destructive/10 text-destructive text-sm font-medium px-4 py-3 rounded-lg flex items-center gap-2">
             <AlertCircle className="w-4 h-4" />
-            {searchParams.error === "Invalid Credentials" ? "Email ou palavra-passe incorretos." : "Ocorreu um erro ao iniciar sessão."}
+            {searchParamsData.error === "Invalid Credentials" ? "Email ou palavra-passe incorretos." : "Ocorreu um erro ao iniciar sessão."}
           </div>
         )}
 
@@ -54,7 +55,7 @@ export default function LoginPage({
                 name="email"
                 type="email"
                 placeholder="admin@infanteboxing.pt"
-                className="w-full px-4 py-3 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent transition-all placeholder:text-zinc-500"
                 required
               />
             </div>
@@ -68,7 +69,7 @@ export default function LoginPage({
                 name="password"
                 type="password"
                 placeholder="••••••••"
-                className="w-full px-4 py-3 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent transition-all placeholder:text-zinc-500"
                 required
               />
             </div>

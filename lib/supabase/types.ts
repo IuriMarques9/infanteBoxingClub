@@ -113,6 +113,125 @@ export interface Database {
           created_at?: string
         }
       }
+      membros: {
+        Row: {
+          id: string
+          nome: string
+          email: string | null
+          telefone: string | null
+          data_nascimento: string | null
+          turma: string
+          is_competicao: boolean
+          is_isento: boolean
+          created_by: string | null
+          updated_by: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          nome: string
+          email?: string | null
+          telefone?: string | null
+          data_nascimento?: string | null
+          turma: string
+          is_competicao?: boolean
+          is_isento?: boolean
+          created_by?: string | null
+          updated_by?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          nome?: string
+          email?: string | null
+          telefone?: string | null
+          data_nascimento?: string | null
+          turma?: string
+          is_competicao?: boolean
+          is_isento?: boolean
+          created_by?: string | null
+          updated_by?: string | null
+          created_at?: string
+        }
+      }
+      pagamentos: {
+        Row: {
+          id: string
+          membro_id: string
+          mes_referencia: string
+          valor: number
+          data_pagamento: string
+          admin_id: string
+        }
+        Insert: {
+          id?: string
+          membro_id: string
+          mes_referencia: string
+          valor: number
+          data_pagamento?: string
+          admin_id?: string
+        }
+        Update: {
+          id?: string
+          membro_id?: string
+          mes_referencia?: string
+          valor?: number
+          data_pagamento?: string
+          admin_id?: string
+        }
+      }
+      horarios: {
+        Row: {
+          id: string
+          turma: string
+          descricao: string
+          hora: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          turma: string
+          descricao: string
+          hora: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          turma?: string
+          descricao?: string
+          hora?: string
+          created_at?: string
+        }
+      }
+      activity_log: {
+        Row: {
+          id: string
+          admin_id: string
+          action: string
+          description: string
+          entity_type: string | null
+          entity_id: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          admin_id?: string
+          action: string
+          description: string
+          entity_type?: string | null
+          entity_id?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          admin_id?: string
+          action?: string
+          description?: string
+          entity_type?: string | null
+          entity_id?: string | null
+          created_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never
