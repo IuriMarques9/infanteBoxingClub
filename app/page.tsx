@@ -5,7 +5,6 @@ import Modalidades from "../components/sections/Modalidades";
 import Sobre from "../components/sections/Sobre";
 import Horario from "../components/sections/Horario";
 import Loc from "../components/sections/Loc";
-import Galeria from "../components/sections/DiaAdia";
 import Header from "../components/layout/Header";
 import Loja from "../components/sections/Loja";
 import Eventos from "../components/sections/Eventos";
@@ -43,8 +42,6 @@ export default function Home() {
                     <Loja />
 
                     <Eventos />
-
-                    <Galeria />
 
                     <Parcerias />
 

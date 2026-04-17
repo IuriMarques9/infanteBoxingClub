@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { Plus, Trash2, ShoppingBag, DollarSign, Package, Image as ImageIcon } from 'lucide-react'
 import { criarProduto, eliminarProduto } from './actions'
+import EditProdutoModal from './EditProdutoModal'
 
 // ─── PÁGINA DE GESTÃO DA LOJA ──────────────────────────────
 // Permite ao administrador gerir o stock e preços do Merch.
@@ -145,12 +146,15 @@ export default async function LojaDashboardPage({
                       <div className="flex items-center gap-2 text-[10px] text-white/30 uppercase font-bold tracking-widest">
                          <Package className="w-3 h-3" /> {prod.in_stock ? 'Disponível' : 'Indisponível'}
                       </div>
-                      <form action={eliminarProduto}>
-                        <input type="hidden" name="id" value={prod.id} />
-                        <button type="submit" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-red-400/50 hover:text-red-400 hover:bg-red-400/10 transition-all">
-                          <Trash2 className="w-3.5 h-3.5" /> Eliminar
-                        </button>
-                      </form>
+                      <div className="flex items-center gap-1">
+                        <EditProdutoModal produto={prod} />
+                        <form action={eliminarProduto}>
+                          <input type="hidden" name="id" value={prod.id} />
+                          <button type="submit" className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-red-400/50 hover:text-red-400 hover:bg-red-400/10 transition-all">
+                            <Trash2 className="w-3.5 h-3.5" /> Eliminar
+                          </button>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>

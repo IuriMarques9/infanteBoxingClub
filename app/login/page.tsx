@@ -42,7 +42,11 @@ export default async function LoginPage({
         {searchParamsData?.error && (
           <div className="bg-destructive/10 text-destructive text-sm font-medium px-4 py-3 rounded-lg flex items-center gap-2">
             <AlertCircle className="w-4 h-4" />
-            {searchParamsData.error === "Invalid Credentials" ? "Email ou palavra-passe incorretos." : "Ocorreu um erro ao iniciar sessão."}
+            {searchParamsData.error === "Invalid Credentials"
+              ? "Email ou palavra-passe incorretos."
+              : searchParamsData.error === "not_admin"
+              ? "Esta conta não tem permissões de administrador."
+              : "Ocorreu um erro ao iniciar sessão."}
           </div>
         )}
 

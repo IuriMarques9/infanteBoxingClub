@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Plus, Trash2, Clock } from 'lucide-react'
 import { TURMA_LABELS, type Turma } from '../membros/constants'
 import { criarHorario, eliminarHorario } from './actions'
+import EditHorarioModal from './EditHorarioModal'
 
 // ─── PÁGINA DE GESTÃO DE HORÁRIOS ──────────────────────────────
 // Permite ao administrador definir os horários de treino de cada turma.
@@ -75,12 +76,15 @@ export default async function HorariosPage({
                       <p className="text-sm text-white/80 font-medium">{h.descricao}</p>
                       <p className="text-xs text-[#E8B55B]">{h.hora}</p>
                     </div>
-                    <form action={eliminarHorario}>
-                      <input type="hidden" name="id" value={h.id} />
-                      <button type="submit" className="text-white/20 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </form>
+                    <div className="flex items-center gap-2">
+                      <EditHorarioModal horario={h} />
+                      <form action={eliminarHorario}>
+                        <input type="hidden" name="id" value={h.id} />
+                        <button type="submit" className="text-white/20 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 ))
               )}

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
-import { Plus, Trash2, Calendar, MapPin, Edit, Image as ImageIcon } from 'lucide-react'
-import { criarEvento, eliminarEvento, editarEvento } from './actions'
+import { Plus, Trash2, Calendar, MapPin, Image as ImageIcon } from 'lucide-react'
+import { criarEvento, eliminarEvento } from './actions'
+import EditEventoModal from './EditEventoModal'
 
 // ─── PÁGINA DE GESTÃO DE EVENTOS ──────────────────────────────
 // Permite ao administrador gerir os eventos do clube.
@@ -146,7 +147,8 @@ export default async function EventosDashboardPage({
                       <div>
                         <div className="flex justify-between items-start">
                           <h3 className="text-lg font-bold text-white group-hover:text-[#E8B55B] transition-colors">{evento.title}</h3>
-                          <div className="flex gap-2">
+                          <div className="flex gap-1">
+                             <EditEventoModal evento={evento} />
                              <form action={eliminarEvento}>
                                <input type="hidden" name="id" value={evento.id} />
                                <button type="submit" className="p-2 text-white/20 hover:text-red-400 transition-colors">
