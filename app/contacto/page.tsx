@@ -33,11 +33,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContactoPage({
+export default async function ContactoPage({
   searchParams,
 }: {
-  searchParams?: { modalidade?: string };
+  searchParams?: Promise<{ modalidade?: string }>;
 }) {
-  const modalidade = searchParams?.modalidade;
-  return <ContactoClient modalidade={modalidade} />;
+  const resolved = (await searchParams) ?? {};
+  return <ContactoClient modalidade={resolved.modalidade} />;
 }
