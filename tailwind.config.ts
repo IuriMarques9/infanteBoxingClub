@@ -6,6 +6,7 @@ export default {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './lib/**/*.{js,ts,jsx,tsx,mdx}',
     './app/globals.css',
   ],
   theme: {
@@ -20,6 +21,20 @@ export default {
       fontFamily: {
         body: ['Roboto', 'sans-serif'],
         headline: ['Teko', 'sans-serif'],
+      },
+      spacing: {
+        'section-sm': '5rem',
+        'section': '7rem',
+        'section-lg': '9rem',
+      },
+      maxWidth: {
+        'container': '80rem',
+      },
+      boxShadow: {
+        'gold-sm': '0 0 15px rgba(232,181,91,0.25)',
+        'gold-md': '0 0 30px rgba(232,181,91,0.35)',
+        'gold-lg': '0 0 50px rgba(232,181,91,0.45)',
+        'panel':   '0 4px 20px rgba(0,0,0,0.5)',
       },
       colors: {
         background: 'hsl(var(--background))',

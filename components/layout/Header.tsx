@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Facebook, Instagram, Mail, Menu, X, User } from "lucide-react";
+import Image from "next/image";
+import { Menu, X, User } from "lucide-react";
 import { Button } from "../ui/button";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
@@ -25,23 +26,28 @@ const Header = () => {
 
   return (
     <header className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'pt-4' : 'pt-6 md:pt-8'}`}>
-      <div className={`mx-auto max-w-7xl transition-all duration-300 px-4 md:px-8`}>
-        <div className="flex items-center justify-between rounded-[2rem] bg-[#0A0A0A]/70 backdrop-blur-md border border-[#333333] shadow-2xl px-6 py-3 transition-colors duration-300 hover:bg-[#0A0A0A]/80">
-          
-          {/* Logo Area AS TEXT */}
-          <Link href="/" className="flex items-center gap-3 shrink-0">
-            <span className="font-headline text-xl md:text-2xl font-bold tracking-widest text-[#E8B55B] uppercase">
-              Infante Boxing Club
-            </span>
+      <div className={`mx-auto max-w-7xl transition-all duration-300 px-4`}>
+        <div className="flex items-center justify-between rounded-[2rem] bg-[#0A0A0A]/70 backdrop-blur-md border border-[#333333] shadow-2xl px-5 py-2.5 transition-colors duration-300 hover:bg-[#0A0A0A]/80">
+
+          {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0" aria-label="Infante Boxing Club">
+            <Image
+              src="/infanteLogoSemFundo.png"
+              alt="Infante Boxing Club"
+              width={44}
+              height={44}
+              priority
+              className="w-10 h-10 md:w-11 md:h-11 object-contain"
+            />
           </Link>
 
-          {/* Desktop Navigation (Centered) */}
-          <nav className="hidden lg:flex flex-1 justify-center gap-10 items-center">
+          {/* Desktop Navigation + Actions (right-aligned) */}
+          <nav className="hidden xl:flex ml-auto gap-6 items-center">
             {navLinks.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                className="text-[13px] font-bold uppercase tracking-[0.1em] text-white/80 transition-all hover:text-[#E8B55B] px-1 py-1 relative group"
+                className="text-xs font-bold uppercase tracking-wider text-white/80 transition-all hover:text-[#E8B55B] px-1 py-1 relative group"
               >
                 {label}
                 <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-[#E8B55B] transition-all group-hover:w-full"></span>
@@ -50,18 +56,19 @@ const Header = () => {
           </nav>
 
           {/* Actions Area */}
-          <div className="hidden lg:flex items-center gap-6 shrink-0">
+          <div className="hidden xl:flex items-center gap-4 shrink-0 ml-6">
             <LanguageSwitcher />
             <Link href="/login" className="text-white/80 hover:text-[#E8B55B] transition-colors" title="Login / Área Reservada">
               <User className="w-5 h-5" />
             </Link>
-            <Button asChild className="rounded-full bg-[#E8B55B] hover:bg-[#C99C4A] text-black font-extrabold uppercase tracking-widest text-xs px-6 py-5 shadow-[0_0_15px_rgba(232,181,91,0.3)] hover:shadow-[0_0_25px_rgba(232,181,91,0.6)] transition-all">
-              <a href="#schedule">{language === 'pt' ? 'Junta-te a nós' : 'Join Us'}</a>
+            <Button asChild className="rounded-full bg-[#E8B55B] hover:bg-[#C99C4A] text-black font-extrabold uppercase tracking-widest text-xs px-5 py-4 shadow-[0_0_15px_rgba(232,181,91,0.3)] hover:shadow-[0_0_25px_rgba(232,181,91,0.6)] transition-all">
+              <a href="/#visit">{C.nav.joinCta}</a>
             </Button>
           </div>
 
           {/* Mobile Toggle */}
-          <div className="lg:hidden flex items-center gap-4 shrink-0">
+          <div className="xl:hidden flex items-center gap-3 shrink-0">
+            <LanguageSwitcher />
             <Link href="/login" className="text-[#E8B55B]">
               <User className="w-5 h-5" />
             </Link>
@@ -73,7 +80,7 @@ const Header = () => {
       </div>
 
       {/* Mobile Menu Dropdown */}
-      <div className={`lg:hidden absolute top-[calc(100%+16px)] left-4 right-4 rounded-[2rem] bg-[#0A0A0A]/95 backdrop-blur-3xl border border-[#333333] shadow-2xl transition-all duration-300 origin-top overflow-hidden ${isOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 pointer-events-none'}`}>
+      <div className={`xl:hidden absolute top-[calc(100%+16px)] left-4 right-4 rounded-[2rem] bg-[#0A0A0A]/95 backdrop-blur-3xl border border-[#333333] shadow-2xl transition-all duration-300 origin-top overflow-hidden ${isOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-0 pointer-events-none'}`}>
         <div className="flex flex-col p-6 gap-6">
           {navLinks.map(({ href, label }) => (
             <Link
@@ -88,7 +95,7 @@ const Header = () => {
           <div className="flex items-center justify-between pt-4">
              <LanguageSwitcher />
              <Button asChild className="rounded-full bg-[#E8B55B] hover:bg-[#C99C4A] text-black font-extrabold uppercase tracking-widest text-xs px-6">
-                <a href="#schedule" onClick={() => setIsOpen(false)}>Junta-te a nós</a>
+                <a href="/#visit" onClick={() => setIsOpen(false)}>{C.nav.joinCta}</a>
              </Button>
           </div>
         </div>

@@ -1,7 +1,9 @@
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
 import { criarMembro } from '../actions'
-import { TURMA_LABELS, type Turma } from '../constants'
+import { TURMA_LABELS, COTAS_SUGERIDAS, SEGURO_LABELS, type Turma, type SeguroPago } from '../constants'
+import { anoAtual } from '@/lib/membros-estado'
+import { SubmitPrimary } from '@/components/dashboard/FormButtons'
+import { BackLink } from '@/components/dashboard/PendingLink'
 
 // ─── FORMULÁRIO DE CRIAÇÃO DE NOVO MEMBRO ──────────────────────
 // Este formulário utiliza Server Actions para enviar dados
@@ -10,14 +12,13 @@ export const metadata = { title: 'Novo Membro | Dashboard' }
 
 export default function NovoMembroPage() {
   const turmas: Turma[] = ['gatinhos', 'suricatas', 'leoes', 'adultos', 'mulheres']
+  const ano = anoAtual()
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-in fade-in duration-500">
       {/* Cabeçalho */}
       <div className="flex items-center gap-4">
-        <Link href="/dashboard/membros" className="text-white/50 hover:text-[#E8B55B] transition-colors">
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
+        <BackLink href="/dashboard/membros" />
         <div>
           <h1 className="text-2xl font-headline font-bold text-[#E8B55B] tracking-wider">
             Novo Membro
@@ -42,41 +43,6 @@ export default function NovoMembroPage() {
               required
               placeholder="Ex: João Silva"
               className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent placeholder:text-white/20 text-sm"
-            />
-          </div>
-
-          {/* Email e Telefone */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium text-white/70">Email</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="joao@exemplo.pt"
-                className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent placeholder:text-white/20 text-sm"
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="telefone" className="text-sm font-medium text-white/70">Telefone</label>
-              <input
-                id="telefone"
-                name="telefone"
-                type="tel"
-                placeholder="912 345 678"
-                className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent placeholder:text-white/20 text-sm"
-              />
-            </div>
-          </div>
-
-          {/* Data de Nascimento */}
-          <div className="space-y-2">
-            <label htmlFor="data_nascimento" className="text-sm font-medium text-white/70">Data de Nascimento</label>
-            <input
-              id="data_nascimento"
-              name="data_nascimento"
-              type="date"
-              className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent text-sm [color-scheme:dark]"
             />
           </div>
 
@@ -123,6 +89,55 @@ export default function NovoMembroPage() {
               <span className="block text-xs text-white/40 mt-0.5">Marcar se o membro está isento de pagamento de mensalidade.</span>
             </label>
           </div>
+
+          {/* Cota */}
+          <div className="space-y-2">
+            <label htmlFor="cota" className="text-sm font-medium text-white/70">Cota (€)</label>
+            <input
+              id="cota"
+              name="cota"
+              type="number"
+              step="0.01"
+              min="0"
+              list="cotas-sugeridas"
+              defaultValue={30}
+              className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent text-sm"
+            />
+            <datalist id="cotas-sugeridas">
+              {COTAS_SUGERIDAS.map(v => <option key={v} value={v} />)}
+            </datalist>
+          </div>
+
+          {/* Seguro (anual) — Inspeção Médica é derivada do upload do ficheiro */}
+          <div className="space-y-2">
+            <label htmlFor="seguro_pago" className="text-sm font-medium text-white/70">
+              Seguro Pago ({ano})
+            </label>
+            <select
+              id="seguro_pago"
+              name="seguro_pago"
+              defaultValue=""
+              className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent text-sm appearance-none cursor-pointer"
+            >
+              <option value="">🚫 Não Pago</option>
+              {(Object.keys(SEGURO_LABELS) as SeguroPago[]).map(s => (
+                <option key={s} value={s}>{SEGURO_LABELS[s]}</option>
+              ))}
+            </select>
+            <p className="text-[11px] text-white/30">Reinicia automaticamente em Janeiro.</p>
+          </div>
+
+          {/* Observações */}
+          <div className="space-y-2">
+            <label htmlFor="observacoes" className="text-sm font-medium text-white/70">Observações</label>
+            <textarea
+              id="observacoes"
+              name="observacoes"
+              rows={3}
+              placeholder="Notas internas sobre o sócio..."
+              className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent placeholder:text-white/20 text-sm resize-none"
+            />
+          </div>
         </div>
 
         {/* Botões de ação */}
@@ -130,12 +145,11 @@ export default function NovoMembroPage() {
           <Link href="/dashboard/membros" className="px-6 py-3 rounded-xl text-sm font-medium text-white/50 border border-white/10 hover:border-white/20 transition-all">
             Cancelar
           </Link>
-          <button
-            type="submit"
-            className="px-8 py-3 rounded-xl bg-[#E8B55B] text-black font-bold uppercase tracking-widest text-xs hover:bg-[#C99C4A] shadow-[0_0_15px_rgba(232,181,91,0.3)] hover:shadow-[0_0_25px_rgba(232,181,91,0.6)] transition-all"
-          >
-            Registar Membro
-          </button>
+          <div className="w-auto">
+            <SubmitPrimary pendingLabel="A registar…" className="w-auto px-8">
+              Registar Membro
+            </SubmitPrimary>
+          </div>
         </div>
       </form>
     </div>

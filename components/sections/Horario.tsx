@@ -4,12 +4,36 @@ import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
 import { TURMA_LABELS, type Turma } from "@/app/dashboard/membros/constants";
-import { Clock, Loader2, Calendar } from "lucide-react";
+import SectionShell from "../shared/SectionShell";
+import SectionHeading from "../shared/SectionHeading";
+import Skeleton from "../shared/Skeleton";
+import {
+  WEEKDAY_LABELS_SHORT,
+  WEEKDAY_LABELS_LONG,
+  TURMA_AGENDA_TONES,
+  collectTimeRanges,
+  collectActiveDays,
+  findSlot,
+  type WeekDay,
+} from "@/lib/horarios";
+import { cn } from "@/lib/utils";
+
+interface HorarioRow {
+  id: string;
+  turma: Turma;
+  descricao: string;
+  hora: string;
+  dias_semana?: string[] | null;
+  hora_inicio?: string | null;
+  hora_fim?: string | null;
+}
+
+const DEFAULT_DAYS: WeekDay[] = ['mon', 'tue', 'wed', 'thu', 'fri'];
 
 export default function Schedule() {
   const { language } = useLanguage();
   const C = content[language];
-  const [horarios, setHorarios] = useState<any[]>([]);
+  const [horarios, setHorarios] = useState<HorarioRow[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,8 +44,7 @@ export default function Schedule() {
         const { data } = await (supabase
           .from('horarios')
           .select('*')
-          .order('turma', { ascending: true }) as any);
-        
+          .order('turma', { ascending: true }) as unknown as Promise<{ data: HorarioRow[] | null }>);
         if (data) setHorarios(data);
       } catch (e) {
         console.error("Erro a carregar horários", e);
@@ -32,90 +55,97 @@ export default function Schedule() {
     fetchHorarios();
   }, []);
 
-  // Agrupar horários por turma
-  const turmasList: Turma[] = ['gatinhos', 'suricatas', 'leoes', 'adultos', 'mulheres'];
-  const horariosAgrupados = turmasList.map(turma => ({
-    key: turma,
-    label: TURMA_LABELS[turma],
-    items: horarios.filter(h => h.turma === turma)
-  })).filter(group => group.items.length > 0);
+  const activeDays = collectActiveDays(horarios);
+  const timeRanges = collectTimeRanges(horarios);
+  const extraDays = activeDays.filter(d => !DEFAULT_DAYS.includes(d));
+  const columns: WeekDay[] = [...DEFAULT_DAYS, ...extraDays];
+  const hasData = timeRanges.length > 0;
 
   return (
-    <section id="schedule" className="py-20 md:py-28 bg-background relative overflow-hidden">
-      {/* Background decoration */}
+    <SectionShell id="schedule" surface="alt">
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-primary/5 blur-[120px] rounded-full z-0 pointer-events-none" />
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider text-foreground">
-            {C.schedule.title}
-          </h2>
-          <div className="section-divider mt-4"></div>
-          <p className="mt-6 text-xl text-muted-foreground">
-            {language === 'pt' 
-              ? 'Consulta os horários das nossas turmas e escolhe o melhor momento para o teu treino.' 
-              : 'Check our class schedules and choose the best time for your training.'}
-          </p>
-        </div>
+      <div className="relative z-10">
+        <SectionHeading
+          title={C.schedule.title}
+          subtitle={C.scheduleExtra.subtitleInline}
+        />
 
         {loading ? (
-          <div className="flex justify-center py-20">
-            <Loader2 className="w-10 h-10 animate-spin text-primary" />
-          </div>
-        ) : horariosAgrupados.length === 0 ? (
-          <div className="text-center py-20 text-white/30 border border-dashed border-white/10 rounded-2xl">
-            {language === 'pt' 
-              ? 'Horários em atualização. Contacta-nos para mais informações.' 
-              : 'Schedules being updated. Contact us for more information.'}
-          </div>
+          <Skeleton variant="rect" className="h-80 rounded-2xl" />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {horariosAgrupados.map((group) => (
-              <div 
-                key={group.key} 
-                className="card-gold-accent bg-card/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-2xl transition-all duration-300 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(232,181,91,0.1)] group"
-              >
-                <div className="px-8 py-6 border-b border-white/5 bg-primary/5">
-                   <h3 className="font-headline text-2xl font-bold text-[#E8B55B] tracking-wider uppercase group-hover:text-primary transition-colors">
-                     {group.label}
-                   </h3>
-                </div>
-                
-                <div className="p-8 space-y-6">
-                  {group.items.map((item: any) => (
-                    <div key={item.id} className="flex gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-[#E8B55B]/10 group-hover:border-[#E8B55B]/30 transition-all">
-                        <Clock className="w-5 h-5 text-[#E8B55B]" />
-                      </div>
-                      <div>
-                        <p className="text-white/80 font-bold text-sm uppercase tracking-wide">{item.descricao}</p>
-                        <p className="text-xl font-bold text-white mt-1">{item.hora}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="px-8 py-4 bg-black/20 text-center">
-                   <p className="text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold">
-                     Infante Boxing Club · Premium Training
-                   </p>
-                </div>
-              </div>
-            ))}
+          <div className="card-gold-accent bg-card/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-2xl">
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse min-w-[640px]">
+                <thead>
+                  <tr className="bg-primary/5 border-b border-white/5">
+                    <th className="px-4 py-4 text-left font-headline uppercase tracking-[0.25em] text-primary text-xs font-bold w-[140px]">
+                      {language === 'pt' ? 'Hora' : 'Time'}
+                    </th>
+                    {columns.map(day => (
+                      <th
+                        key={day}
+                        className="px-3 py-4 text-center font-headline uppercase tracking-[0.25em] text-primary text-xs font-bold"
+                      >
+                        <div>{WEEKDAY_LABELS_SHORT[language][day]}</div>
+                        <div className="text-[10px] font-normal tracking-wider text-white/40 mt-0.5 normal-case">
+                          {WEEKDAY_LABELS_LONG[language][day]}
+                        </div>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {hasData ? (
+                    timeRanges.map((range, idx) => (
+                      <tr
+                        key={range.key}
+                        className={cn(
+                          "border-b border-white/5 last:border-0",
+                          idx % 2 === 0 ? "bg-transparent" : "bg-white/[0.015]"
+                        )}
+                      >
+                        <td className="px-4 py-3 font-headline text-primary text-sm font-bold tracking-wider whitespace-nowrap">
+                          {range.inicio} – {range.fim}
+                        </td>
+                        {columns.map(day => {
+                          const slot = findSlot(horarios, day, range);
+                          return (
+                            <td key={day} className="px-2 py-2 align-middle">
+                              {slot ? (
+                                <div
+                                  className={cn(
+                                    "rounded-lg border p-2 text-center transition-transform hover:scale-[1.03]",
+                                    TURMA_AGENDA_TONES[slot.turma]
+                                  )}
+                                >
+                                  <div className="uppercase tracking-wider text-[10px] font-bold leading-tight">
+                                    {TURMA_LABELS[slot.turma]}
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="text-center text-white/15 text-sm select-none">—</div>
+                              )}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={columns.length + 1} className="px-6 py-16 text-center text-white/30 text-sm italic">
+                        {language === 'pt'
+                          ? 'Horários em atualização. Contacta-nos para mais informações.'
+                          : 'Schedules being updated. Contact us for more information.'}
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
-        
-        <div className="mt-16 bg-card/30 border border-white/5 p-6 rounded-2xl flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left">
-           <div className="w-12 h-12 rounded-full bg-[#E8B55B]/20 flex items-center justify-center shrink-0">
-             <Calendar className="w-6 h-6 text-[#E8B55B]" />
-           </div>
-           <div>
-             <p className="text-sm text-white/60 max-w-2xl leading-relaxed">
-               {C.schedule.observations}
-             </p>
-           </div>
-        </div>
       </div>
-    </section>
+    </SectionShell>
   );
 }

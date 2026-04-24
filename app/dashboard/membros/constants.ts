@@ -18,3 +18,18 @@ export const STATUS_CONFIG: Record<StatusMembro, { label: string; color: string;
   nao_pago: { label: 'Não Pago',  color: 'text-yellow-400', bg: 'bg-yellow-400/10', border: 'border-yellow-400/20' },
   inativo:  { label: 'Inativo',   color: 'text-red-400',    bg: 'bg-red-400/10',    border: 'border-red-400/20' },
 }
+
+// ─── SEGURO (PAGAMENTO ANUAL) ──────────────────────────────────
+export type SeguroPago = 'dinheiro' | 'mbway'
+
+export const SEGURO_LABELS: Record<SeguroPago, string> = {
+  dinheiro: '💵 Dinheiro',
+  mbway: '📱 MBWay',
+}
+
+// Atalhos sugeridos para cota (datalist, NÃO enum — admin escreve qualquer valor)
+export const COTAS_SUGERIDAS = [20, 25, 27.5, 30, 35]
+
+// Estados alinhados com a view membros_status
+// 'em_atraso' substitui semanticamente 'nao_pago' + 'inativo' simplificando o dashboard.
+export type StatusMembroView = 'isento' | 'pago' | 'em_atraso'

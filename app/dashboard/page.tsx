@@ -1,8 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
-import { Users, CreditCard, TrendingUp, Calendar, Activity, ShieldCheck, UserX, UserCheck } from "lucide-react";
+import { Users, CreditCard, TrendingUp, Calendar, Activity, ShieldCheck, UserCheck, UserX, ShieldAlert } from "lucide-react";
 import { calcularEstado } from "./membros/actions";
 import { type StatusMembro } from "./membros/constants";
+import { anoAtual, membroInativo } from "@/lib/membros-estado";
 import Link from "next/link";
+import StatCard from "@/components/shared/StatCard";
 
 export const metadata = {
   title: "Dashboard | Infante Boxing Club",
@@ -23,9 +25,7 @@ export default async function DashboardPage() {
 
   const totalMembros = membrosComStatus.length;
   const ativos = membrosComStatus.filter(m => m.status === 'pago').length;
-  const inativos = membrosComStatus.filter(m => m.status === 'inativo').length;
   const isentos = membrosComStatus.filter(m => m.status === 'isento').length;
-  const naoPagos = membrosComStatus.filter(m => m.status === 'nao_pago').length;
 
   // 2. Buscar últimos logs de atividade
   const { data: logs } = await (supabase
@@ -43,12 +43,58 @@ export default async function DashboardPage() {
     .order('date', { ascending: true })
     .limit(3) as any);
 
-  // 4. Estatística rápida (ex: Receita estimada baseada em 30€ por ativo)
-  const receitaEstimada = (ativos + naoPagos) * 30;
+  // 4. Métricas de tesouraria — pagamentos do mês atual
+  const now = new Date();
+  const mesAtual = now.toISOString().slice(0, 7); // YYYY-MM
+
+  let recebidoMes = 0;
+  let pagamentosCount = 0;
+  try {
+    const { data: pagMes } = await (supabase
+      .from('pagamentos')
+      .select('valor')
+      .eq('mes_referencia', mesAtual) as any);
+    recebidoMes = (pagMes || []).reduce((s: number, p: any) => s + Number(p.valor), 0);
+    pagamentosCount = (pagMes || []).length;
+  } catch {
+    recebidoMes = 0;
+    pagamentosCount = 0;
+  }
+
+  // 5. Receita prevista (soma das cotas dos não-isentos)
+  let receitaPrevista = 0;
+  try {
+    const { data: cotas } = await (supabase
+      .from('membros')
+      .select('cota, is_isento') as any);
+    receitaPrevista = (cotas || [])
+      .filter((m: any) => !m.is_isento)
+      .reduce((s: number, m: any) => s + Number(m.cota || 30), 0);
+  } catch {
+    receitaPrevista = 0;
+  }
+
+  // 6. Inativos — derivado em memória a partir dos pagamentos do mês atual + anterior.
+  const inativos = membrosComStatus.filter((m: any) =>
+    membroInativo(m, (m.pagamentos || []).map((p: any) => p.mes_referencia))
+  ).length;
+
+  // 7. Seguros em falta — membros sem seguro_ano_pago === ano corrente.
+  let segurosEmFalta = 0;
+  try {
+    const ano = anoAtual();
+    const { count } = await (supabase
+      .from('membros')
+      .select('id', { count: 'exact', head: true })
+      .or(`seguro_ano_pago.is.null,seguro_ano_pago.neq.${ano}`) as any);
+    segurosEmFalta = count || 0;
+  } catch {
+    segurosEmFalta = 0;
+  }
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      
+
       {/* Header Greeting */}
       <div className="flex justify-between items-end">
         <div>
@@ -64,52 +110,49 @@ export default async function DashboardPage() {
       </div>
 
       {/* Grid de Métricas Reais */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <Link href="/dashboard/membros" className="bg-[#121212] p-6 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group hover:border-[#E8B55B]/20 transition-all">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-[#E8B55B]/5 rounded-full blur-[30px] -translate-y-1/2 translate-x-1/2" />
-          <div className="flex justify-between items-start mb-4">
-            <Users className="w-5 h-5 text-[#E8B55B]" />
-            <span className="text-[10px] bg-[#E8B55B]/10 text-[#E8B55B] px-2 py-0.5 rounded font-bold">TOTAL</span>
-          </div>
-          <p className="text-3xl font-bold text-white mb-1 tracking-tight">{totalMembros}</p>
-          <p className="text-xs text-white/40 uppercase tracking-wider font-bold">Membros Registados</p>
-        </Link>
-        
-        <Link href="/dashboard/membros?status=pago" className="bg-[#121212] p-6 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group hover:border-green-400/20 transition-all">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-green-400/5 rounded-full blur-[30px] -translate-y-1/2 translate-x-1/2" />
-          <div className="flex justify-between items-start mb-4">
-            <UserCheck className="w-5 h-5 text-green-400" />
-            <span className="text-[10px] bg-green-400/10 text-green-400 px-2 py-0.5 rounded font-bold">ATIVOS</span>
-          </div>
-          <p className="text-3xl font-bold text-white mb-1 tracking-tight">{ativos}</p>
-          <p className="text-xs text-white/40 uppercase tracking-wider font-bold">Pagamento em dia</p>
-        </Link>
-
-        <Link href="/dashboard/membros?status=inativo" className="bg-[#121212] p-6 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group hover:border-red-400/20 transition-all">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-red-400/5 rounded-full blur-[30px] -translate-y-1/2 translate-x-1/2" />
-          <div className="flex justify-between items-start mb-4">
-            <UserX className="w-5 h-5 text-red-400" />
-            <span className="text-[10px] bg-red-400/10 text-red-400 px-2 py-0.5 rounded font-bold">INATIVOS</span>
-          </div>
-          <p className="text-3xl font-bold text-white mb-1 tracking-tight">{inativos}</p>
-          <p className="text-xs text-white/40 uppercase tracking-wider font-bold">Dívidas pendentes</p>
-        </Link>
-
-        <div className="bg-[#121212] p-6 rounded-2xl border border-white/5 shadow-xl relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-[#E8B55B]/5 rounded-full blur-[30px] -translate-y-1/2 translate-x-1/2" />
-          <div className="flex justify-between items-start mb-4">
-            <TrendingUp className="w-5 h-5 text-[#E8B55B]" />
-            <span className="text-[10px] bg-[#E8B55B]/10 text-[#E8B55B] px-2 py-0.5 rounded font-bold">ESTIMATIVA</span>
-          </div>
-          <p className="text-3xl font-bold text-white mb-1 tracking-tight">{receitaEstimada}€</p>
-          <p className="text-xs text-white/40 uppercase tracking-wider font-bold">Receita Mensal Prevista</p>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <StatCard
+          icon={Users}
+          label="Total Membros"
+          value={totalMembros}
+          tone="gold"
+          href="/dashboard/membros"
+        />
+        <StatCard
+          icon={UserCheck}
+          label="Pagos este Mês"
+          value={ativos}
+          tone="green"
+          href="/dashboard/membros?status=pago"
+        />
+        <StatCard
+          icon={UserX}
+          label="Inativos"
+          value={inativos}
+          tone="red"
+          href="/dashboard/membros?estado=inativo"
+          hint="2 meses s/ pagar"
+        />
+        <StatCard
+          icon={TrendingUp}
+          label="Recebido este Mês"
+          value={`${recebidoMes}€`}
+          tone="gold"
+          hint={`de ${receitaPrevista}€`}
+        />
+        <StatCard
+          icon={ShieldAlert}
+          label="Seguros em Falta"
+          value={segurosEmFalta}
+          tone="blue"
+          href="/dashboard/membros?seguro=em_falta"
+          hint={`ano ${anoAtual()}`}
+        />
       </div>
-      
+
       {/* Middle Row: Histórico e Eventos */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-         
+
          {/* Historial de Ações Reais */}
          <div className="lg:col-span-2 bg-[#121212] rounded-2xl border border-white/5 shadow-2xl overflow-hidden">
             <div className="px-6 py-4 border-b border-white/5 bg-white/[0.02] flex justify-between items-center">
@@ -118,7 +161,7 @@ export default async function DashboardPage() {
                </h3>
                <Link href="/dashboard/logs" className="text-[10px] font-bold uppercase text-white/30 hover:text-white transition-colors tracking-widest">Ver Todos</Link>
             </div>
-            
+
             <div className="p-0">
                {logs && logs.length > 0 ? (
                  <div className="divide-y divide-white/5">
@@ -156,7 +199,7 @@ export default async function DashboardPage() {
                  <Calendar className="w-4 h-4" /> Agenda do Clube
                </h3>
             </div>
-            
+
             <div className="p-6 space-y-6">
                {proximosEventos && proximosEventos.length > 0 ? (
                  proximosEventos.map((ev: any) => (
@@ -192,7 +235,7 @@ export default async function DashboardPage() {
             </div>
          </div>
       </div>
-      
+
       {/* Footer Info Quick Links */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
          <div className="bg-[#E8B55B]/5 p-4 rounded-xl border border-[#E8B55B]/10 flex items-center gap-4">
@@ -219,7 +262,7 @@ export default async function DashboardPage() {
             </div>
             <div>
                <p className="text-xs font-bold text-green-400 uppercase tracking-widest">Tesouraria</p>
-               <p className="text-[10px] text-white/40">Pagamentos processados este mês</p>
+               <p className="text-[10px] text-white/40">{pagamentosCount} Pagamentos processados este mês</p>
             </div>
          </div>
       </div>

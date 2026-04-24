@@ -155,3 +155,108 @@ create policy "Admin Insert Documentos" on storage.objects for insert with check
 create policy "Admin Delete Documentos" on storage.objects for delete using ( bucket_id = 'documentos' and auth.role() = 'authenticated' );
 
 
+------------------------------------------------------------------------------------------------------
+-- MIGRATION 2026-04: FICHA DE CLIENTE (alinhamento com ClickUp) + DOCUMENT METADATA
+------------------------------------------------------------------------------------------------------
+
+-- 2026-04.1 Campos adicionais na tabela membros (reproduzem a folha ClickUp)
+-- Seguro: guarda o método (dinheiro|mbway) + o ano em que foi pago. A 1 de
+-- Janeiro volta automaticamente a "em falta" por comparação com o ano corrente.
+-- Inspeção Médica: derivada da existência de document_metadata com
+-- categoria 'inspecao_medica' — sem coluna própria.
+alter table public.membros
+  add column if not exists cota numeric not null default 30,
+  add column if not exists data_vencimento date,
+  add column if not exists seguro_ano_pago int,
+  add column if not exists seguro_pago text check(seguro_pago in ('dinheiro','mbway')),
+  add column if not exists observacoes text;
+
+-- 2026-04.1b Drops defensivos — colunas legado que saíram do modelo.
+alter table public.membros drop column if exists seguro_data;
+alter table public.membros drop column if exists inspecao_medica_anual;
+alter table public.membros drop column if exists inspecao_medica_ano;
+
+-- 2026-04.2 Índices em pagamentos para queries rápidas
+create index if not exists idx_pagamentos_mes_ref on public.pagamentos (mes_referencia);
+create index if not exists idx_pagamentos_membro on public.pagamentos (membro_id);
+
+-- 2026-04.3 View com status derivado (pago / atraso / isento no mês atual)
+create or replace view public.membros_status as
+select
+  m.*,
+  case
+    when m.is_isento then 'isento'
+    when exists(
+      select 1 from public.pagamentos p
+      where p.membro_id = m.id
+        and p.mes_referencia = to_char(now(), 'YYYY-MM')
+    ) then 'pago'
+    else 'em_atraso'
+  end as status
+from public.membros m;
+
+-- 2026-04.4 Tabela de metadata para documentos (storage.objects não permite categoria custom portavel)
+create table if not exists public.document_metadata (
+  id uuid default gen_random_uuid() primary key,
+  membro_id uuid references public.membros(id) on delete cascade not null,
+  storage_path text not null unique,
+  file_name text not null,
+  categoria text not null check(categoria in ('cc','declaracao','inspecao_medica','seguro','autorizacao','contrato','outro')),
+  mime_type text,
+  size_bytes bigint,
+  uploaded_by uuid not null default auth.uid(),
+  uploaded_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.document_metadata enable row level security;
+create policy "Admins access doc metadata" on public.document_metadata for all using (auth.role() = 'authenticated');
+create index if not exists idx_doc_metadata_membro on public.document_metadata(membro_id);
+create index if not exists idx_doc_metadata_categoria on public.document_metadata(categoria);
+
+-- 2026-04.5 Refresh PostgREST schema cache após drop da coluna legado.
+notify pgrst, 'reload schema';
+
+-- 2026-04.6 Ficha de cliente (1:1 com membros) — dados de identidade, emergência, saúde.
+create table if not exists public.fichas_cliente (
+  membro_id uuid primary key references public.membros(id) on delete cascade,
+
+  cc_numero text,
+  nif text,
+  nacionalidade text default 'Portuguesa',
+  morada text,
+
+  emergencia_nome text,
+  emergencia_parentesco text,
+  emergencia_data_nascimento date,
+  emergencia_cc text,
+  emergencia_nif text,
+  emergencia_nacionalidade text,
+  emergencia_morada text,
+  emergencia_telefone text,
+
+  doencas text,
+  medicacao text,
+  saude_observacoes text,
+
+  objetivo text,
+
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now()
+);
+
+alter table public.fichas_cliente enable row level security;
+create policy "Admins access fichas" on public.fichas_cliente for all using (auth.role() = 'authenticated');
+create index if not exists idx_fichas_membro on public.fichas_cliente(membro_id);
+
+
+------------------------------------------------------------------------------------------------------
+-- MIGRATION 2026-04b: Horários estruturados (agenda semanal no Landing)
+-- Campos antigos (descricao/hora) continuam a existir e são auto-preenchidos
+-- pelas server actions a partir dos novos campos.
+------------------------------------------------------------------------------------------------------
+
+alter table public.horarios
+  add column if not exists dias_semana text[] default '{}',
+  add column if not exists hora_inicio time,
+  add column if not exists hora_fim time;
+

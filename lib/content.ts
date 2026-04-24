@@ -10,32 +10,71 @@ interface NavItem {
 }
 
 const navLinksEn: NavItem[] = [
-  { href: "#home", label: "Home", icon: Home },
-  { href: "#about", label: "About us", icon: Info },
-  { href: "#merch", label: "Merch", icon: ShoppingBag },
-  { href: "#events", label: "Events", icon: Calendar },
-  { href: "#schedule", label: "Schedule", icon: Clock },
-  { href: "#contact", label: "Contact", icon: Mail },
+  { href: "/", label: "Home", icon: Home },
+  { href: "/contacto", label: "Contact", icon: Mail },
+  { href: "/sobre", label: "About us", icon: Info },
 ];
 
 const navLinksPt: NavItem[] = [
-  { href: "#home", label: "Início", icon: Home },
-  { href: "#about", label: "Sobre Nós", icon: Info },
-  { href: "#merch", label: "Loja",  icon: ShoppingBag },
-  { href: "#events", label: "Eventos",  icon: Calendar },
-  { href: "#schedule", label: "Cronograma",  icon: Clock },
-  { href: "#contact", label: "Contacto",  icon: Mail }
+  { href: "/", label: "Início", icon: Home },
+  { href: "/contacto", label: "Contacto",  icon: Mail },
+  { href: "/sobre", label: "Sobre Nós", icon: Info },
 ];
 
 export const content = {
   en: {
-    metaDescription: "Infante Boxing Club in Odivelas. We offer competition, maintenance, and educational boxing. Join a community that forges champions.",
+    metaDescription: "Infante Boxing Club in Olhão. Competition, maintenance, and educational boxing affiliated with the Portuguese Boxing Federation. Start with your 1st class free.",
     navLinks: navLinksEn,
     hero: {
       title: "Infante",
       titleHighlight: "Boxing",
+      titleSuffix: "Club",
       subtitle: "Where discipline, strength, and community forge champions inside and outside the ring.",
       cta: "Class Schedule",
+      ctaPrimary: "Start Training Now",
+    },
+    nav: {
+      joinCta: "Join Us",
+    },
+    events: {
+      empty: {
+        title: "No events scheduled",
+        description: "Stay tuned — new events are coming soon.",
+      },
+    },
+    merchExtra: {
+      empty: {
+        title: "Coming soon",
+        description: "Our merchandise will be available shortly.",
+      },
+      soldOut: "Sold out",
+      noImage: "No image available",
+    },
+    modalidadesExtra: {
+      noImagePlaceholder: "Photo coming soon",
+    },
+    status: {
+      pago: "Paid",
+      atraso: "Overdue",
+      isento: "Exempt",
+    },
+    seguroLabels: {
+      dinheiro: "Cash",
+      mbway: "MBWay",
+    },
+    docsCategoria: {
+      cc: "ID Document",
+      declaracao: "Declaration",
+      inspecao_medica: "Medical Inspection",
+      seguro: "Insurance",
+      autorizacao: "Authorization",
+      contrato: "Contract",
+      outro: "Other",
+    },
+    scheduleExtra: {
+      subtitleInline: "Find the perfect class to fit your goals and schedule.",
+      emptyDay: "Rest",
+      fallbackByTurma: "Classes grouped by class below.",
     },
     nextEvent: {
       title: "Upcoming Event",
@@ -49,21 +88,39 @@ export const content = {
       passedEventCta: "Passed Events Gallery",
       cta: "See more",
     },
+    partnerships: {
+      eyebrow: "Partners & Sponsors",
+      title: "Who trusts us",
+      subtitle: "We are backed by companies and institutions that believe in sport, discipline and community.",
+    },
     boxingStyles: {
       title: "Find Your Fight",
       subtitle: "We offer different boxing modalities to suit your level and goals.",
+      ctaLabel: "Learn More",
       styles: [
         {
           title: "Competition Boxing",
-          description: "Competitive Boxing is a nationally and internationally regulated sport. With age, gender, and weight divisions, the competition takes place in a ring, under clear rules and overseen by certified referees. Regular practice develops strength, endurance, coordination, tactical reasoning, and sportsmanship. Athletes receive technical support and have access to local, national, and international competitions, allowing them to progress from beginners to high-performance athletes.",
+          description: "Competitive Boxing is a nationally and internationally regulated sport. With age, gender, and weight divisions, the competition takes place in a ring, under clear rules and overseen by certified referees. Regular practice develops strength, endurance, coordination, tactical reasoning, and sportsmanship.",
+          image: "/boxeCompeticao.png",
+          icon: "Trophy",
+          horario: "Mon/Wed/Fri · 19h-20h",
+          slug: "boxe-competicao",
         },
         {
           title: "Maintenance Boxing",
-          description: "Maintenance Boxing is a non-competitive discipline focused on improving physical fitness through training based on boxing methodology. The program focuses on non-contact technique, combining punching bag exercises, physical circuits, coordination, and joint mobility. Ideal for practitioners of all ages, it promotes physical and mental health in a safe, structured, and motivating environment.",
+          description: "Maintenance Boxing is a non-competitive discipline focused on improving physical fitness through training based on boxing methodology. Non-contact technique, combining punching bag exercises, physical circuits, coordination, and joint mobility. Ideal for all ages.",
+          image: "/boxeManutencao.png",
+          icon: "Dumbbell",
+          horario: "Tue/Thu · 19h-20h",
+          slug: "boxe-manutencao",
         },
         {
           title: "Educational Boxing",
-          description: "Educational Boxing is a methodology recognized by the Portuguese Boxing Federation and international institutions as an effective means of introducing the sport. Non-contact, it promotes technical, motor, and behavioral training and is adapted for different age groups. Used in schools, clubs, and gyms, it is a safe, accessible practice with extensive benefits for the overall development of practitioners.",
+          description: "Educational Boxing is a methodology recognized by the Portuguese Boxing Federation as an effective means of introducing the sport. Non-contact, it promotes technical, motor, and behavioral training, adapted for different age groups.",
+          image: "/boxeEducativo.png",
+          icon: "GraduationCap",
+          horario: "Mon to Fri · 17h30-19h",
+          slug: "boxe-educativo",
         },
       ]
     },
@@ -117,16 +174,32 @@ export const content = {
     },
     team: {
       title: "About the Club",
-      subtitle: "Our association was born from Ricardo Infante's peace in boxing and its lifelong positive impact. With the unconditional support of my people, my family, and my closest friends, my long-standing project has grown with its purpose and become a local and national reference. But as a boxing club, we are an accredited community for entry, we respect the circumstances, and we do not participate in sports activities. Here, we welcome people of all ages—from children to the elderly—we offer a safe, technological approach adapted to everyday life, thus creating a space where boxing is accessible, respected, and valued as a tool for human growth. Our connection with the Portuguese Boxing Federation reinforces our commitment to quality, rigor, and professionalism. But it is with the community that we stand out: together, we build a boxing space that is not just a sport—it is an instrument of transformation, inclusive and united. This is an opportunity. Every person is valued. And every achievement, no matter how it seems, is celebrated together. Here, we don't just train athletes. We train weights.",
+      intro1: "Our association was born from Ricardo Infante's passion for boxing and its positive impact on people's lives. With the unconditional support of family and close friends, the project has grown with purpose and become a local and national reference.",
+      intro2: "More than a boxing club, we are a community built on mutual support, respect, and personal development through sport. Our partnership with the Portuguese Boxing Federation reinforces our commitment to quality, rigor, and professionalism.",
+      pillars: [
+        {
+          icon: "Target",
+          title: "Technique & Rigor",
+          text: "Certified training, Federation-backed methodology, adapted to every age.",
+        },
+        {
+          icon: "Users",
+          title: "Community",
+          text: "An inclusive environment where everyone is welcome — from kids to seniors.",
+        },
+        {
+          icon: "Heart",
+          title: "Transformation",
+          text: "Boxing as a tool for personal growth, discipline, and self-confidence.",
+        },
+      ],
+      teamTitle: "Our Team",
       coaches: [
         {
           name: "Ricardo Infante",
         },
         {
           name: "Rafael",
-        },
-        {
-          name: "Luana Sola",
         },
       ],
     },
@@ -135,6 +208,17 @@ export const content = {
       subtitle: "Ready to join? Have a question or suggestion? Contact us—we promise to get back to you as soon as possible!",
       phone: "+351 910 389 071",
       email: "associacao.infante@gmail.com",
+      address: "Rua Dâmaso da Encarnação Nº5, 8700-247 Olhão",
+      attendanceHours: "Mon–Fri · 17h–21h",
+      mapsEmbedUrl: "https://www.google.com/maps?q=Rua+D%C3%A2maso+da+Encarna%C3%A7%C3%A3o+5+8700-247+Olh%C3%A3o&output=embed",
+      infoLabels: {
+        phone: "Phone",
+        email: "Email",
+        address: "Address",
+        attendanceHours: "Attendance Hours",
+        mapTitle: "Where to find us",
+      },
+      prefillModalidade: "Hello, I would like to know more about",
       form: {
         name: "Your Name",
         email: "Your Email",
@@ -156,6 +240,24 @@ export const content = {
           description: "Thanks for reaching out. We'll get back to you shortly.",
         }
       },
+    },
+    footer: {
+      tagline: "Since 2020. Affiliated with the Portuguese Boxing Federation.",
+      columns: {
+        brand: "Infante Boxing Club",
+        nav: "Explore",
+        contact: "Contact",
+        legal: "Legal",
+      },
+      nav: [
+        { href: "/", label: "Home" },
+        { href: "/contacto", label: "Contact" },
+        { href: "/sobre", label: "About" },
+      ],
+      legal: [
+        { href: "/privacy-policy", label: "Privacy Policy" },
+      ],
+      fullForm: "Contact Form →",
     },
      privacyPolicy: {
       breadcrumbHome: "Home",
@@ -197,17 +299,62 @@ export const content = {
       ]
     },
     rightsReserved: {
-      allRights: "All right reserved to Inafntae Boxing Club - Powered by ",
+      allRights: "All rights reserved to Infante Boxing Club - Powered by ",
     }
   },
   pt: {
-    metaDescription: "Infante Boxing Club em Odivelas. Oferecemos boxe de competição, manutenção e educativo. Junte-se a uma comunidade que forja campeões.",
+    metaDescription: "Infante Boxing Club em Olhão. Boxe de competição, manutenção e educativo afiliado à Federação Portuguesa de Boxe. Começa com a 1ª aula grátis.",
     navLinks: navLinksPt,
     hero: {
       title: "Infante",
       titleHighlight: "Boxing",
+      titleSuffix: "Club",
       subtitle: "Luta pelo teu bem-estar. Vem treinar connosco!",
       cta: "Horário das Aulas",
+      ctaPrimary: "Começa a Treinar Agora",
+    },
+    nav: {
+      joinCta: "Junta-te a nós",
+    },
+    events: {
+      empty: {
+        title: "Sem eventos agendados",
+        description: "Fica atento — novos eventos em breve.",
+      },
+    },
+    merchExtra: {
+      empty: {
+        title: "Brevemente disponível",
+        description: "O nosso merchandising estará disponível em breve.",
+      },
+      soldOut: "Esgotado",
+      noImage: "Imagem indisponível",
+    },
+    modalidadesExtra: {
+      noImagePlaceholder: "Fotografia em breve",
+    },
+    status: {
+      pago: "Pago",
+      atraso: "Em atraso",
+      isento: "Isento",
+    },
+    seguroLabels: {
+      dinheiro: "Dinheiro",
+      mbway: "MBWay",
+    },
+    docsCategoria: {
+      cc: "Documento de Identificação",
+      declaracao: "Declaração",
+      inspecao_medica: "Inspeção Médica",
+      seguro: "Seguro",
+      autorizacao: "Autorização",
+      contrato: "Contrato",
+      outro: "Outro",
+    },
+    scheduleExtra: {
+      subtitleInline: "Encontre a aula perfeita para os seus objetivos e horário.",
+      emptyDay: "Descanso",
+      fallbackByTurma: "Aulas agrupadas por turma em baixo.",
     },
      nextEvent: {
       title: "Próximo Evento",
@@ -220,22 +367,40 @@ export const content = {
       passedEventMessage: "O evento já foi concluido. Vê os melhores momentos na galeria de eventos!",
       passedEventCta: "Galeria de Eventos",
       cta: "Saber Mais",
-    },  
+    },
+    partnerships: {
+      eyebrow: "Parceiros e Patrocinadores",
+      title: "Quem confia em nós",
+      subtitle: "Contamos com o apoio de empresas e instituições que acreditam no desporto, na disciplina e na comunidade.",
+    },
     boxingStyles: {
       title: "Boxe para Todos: Do Bem-Estar à Alta Competição",
-      subtitle: "No nosso clube, todos têm a oportunidade de praticar boxe, seja com o objetivo de melhorar a forma física e manter um estilo de vida saudável, ou com a ambição de competir e evoluir no desporto. Adaptamos os treinos às tuas metas, oferecendo um ambiente acolhedor para iniciantes e desafiante para quem procura superar limites no ringue.",
+      subtitle: "No nosso clube, todos têm a oportunidade de praticar boxe, seja com o objetivo de melhorar a forma física e manter um estilo de vida saudável, ou com a ambição de competir e evoluir no desporto.",
+      ctaLabel: "Saber Mais",
       styles: [
         {
           title: "Boxe de Competição",
-          description: "O Boxe de Competição é uma disciplina desportiva regulamentada a nível nacional e internacional. Com divisões por idade, sexo e peso, a competição decorre em ringue, com regras claras e supervisão por árbitros certificados. A prática regular desenvolve força, resistência, coordenação, raciocínio tático e espírito desportivo. Os atletas são acompanhados tecnicamente e têm acesso a provas locais, nacionais e internacionais, podendo evoluir desde a formação até ao alto rendimento.",
+          description: "Disciplina regulamentada nacional e internacionalmente. Divisões por idade, sexo e peso, em ringue, com regras claras e árbitros certificados. Desenvolve força, resistência, coordenação, raciocínio tático e espírito desportivo.",
+          image: "/boxeCompeticao.png",
+          icon: "Trophy",
+          horario: "Seg/Qua/Sex · 19h-20h",
+          slug: "boxe-competicao",
         },
         {
           title: "Boxe de Manutenção",
-          description: "O Boxe de Manutenção é uma vertente não competitiva, orientada para a melhoria da condição física através de treinos baseados na metodologia do boxe. Trabalha-se a técnica sem contacto, combinando exercícios com saco de boxe, circuitos físicos, coordenação e mobilidade articular. Ideal para praticantes de todas as idades, promove a saúde física e mental num ambiente seguro, estruturado e motivacional.",
+          description: "Vertente não competitiva focada na condição física. Técnica sem contacto, com saco de boxe, circuitos, coordenação e mobilidade. Ideal para todas as idades — saúde física e mental num ambiente seguro.",
+          image: "/boxeManutencao.png",
+          icon: "Dumbbell",
+          horario: "Ter/Qui · 19h-20h",
+          slug: "boxe-manutencao",
         },
         {
           title: "Boxe Educativo",
-          description: "Boxe Educativo é uma metodologia reconhecida pela Federação Portuguesa de Boxe e por instituições internacionais como um meio eficaz de iniciação à modalidade. Sem contacto pleno, promove o ensino técnico, motor e comportamental, sendo adaptado a diferentes faixas etárias. Utilizado em escolas, clubes e academias, é uma prática segura, acessível e com benefícios amplos na formação global dos praticantes.",
+          description: "Metodologia reconhecida pela Federação Portuguesa de Boxe para iniciação à modalidade. Sem contacto pleno, promove ensino técnico, motor e comportamental, adaptado a diferentes faixas etárias.",
+          image: "/boxeEducativo.png",
+          icon: "GraduationCap",
+          horario: "Seg a Sex · 17h30-19h",
+          slug: "boxe-educativo",
         },
       ]
     },
@@ -289,16 +454,32 @@ export const content = {
     },
     team: {
       title: "Sobre o Clube",
-      subtitle: `A nossa associação nasceu da paixão de Ricardo Infante pelo boxe e pelo impacto positivo que este pode ter na vida das pessoas. Com o apoio incondicional da sua mulher, da família e de amigos próximos, o projeto ganhou forma, cresceu com propósito e tornou-se numa referência local e nacional. Mais do que um clube de boxe, somos uma comunidade que acredita na força da entreajuda, no respeito mútuo e no desenvolvimento pessoal através do desporto. Aqui acolhemos pessoas de todas as idades — desde crianças a seniores — oferecendo uma abordagem segura, técnica e adaptada a cada fase da vida criando assim um espaço onde o boxe seja acessível, respeitado e valorizado como ferramenta de crescimento humano. A nossa ligação com a Federação Portuguesa de Boxe reforça o nosso compromisso com a qualidade, rigor e profissionalismo. Mas é a relação próxima com a comunidade que nos distingue: juntos, construímos um espaço onde o boxe é mais do que uma modalidade — é um instrumento de transformação, inclusão e união. Cada treino é uma oportunidade. Cada pessoa é valorizada. E cada conquista, por mais pequena que pareça, é celebrada em conjunto. Aqui não formamos apenas atletas. Formamos pessoas.`,
+      intro1: "A nossa associação nasceu da paixão de Ricardo Infante pelo boxe e pelo impacto positivo que pode ter na vida das pessoas. Com o apoio incondicional da família e amigos próximos, o projeto ganhou forma e tornou-se numa referência local e nacional.",
+      intro2: "Mais do que um clube de boxe, somos uma comunidade que acredita na entreajuda, no respeito mútuo e no desenvolvimento pessoal através do desporto. A ligação com a Federação Portuguesa de Boxe reforça o nosso compromisso com a qualidade, rigor e profissionalismo.",
+      pillars: [
+        {
+          icon: "Target",
+          title: "Técnica e Rigor",
+          text: "Treino certificado, metodologia da Federação, adaptado a cada idade.",
+        },
+        {
+          icon: "Users",
+          title: "Comunidade",
+          text: "Um ambiente inclusivo onde todos são bem-vindos — de crianças a seniores.",
+        },
+        {
+          icon: "Heart",
+          title: "Transformação",
+          text: "O boxe como ferramenta de crescimento pessoal, disciplina e autoconfiança.",
+        },
+      ],
+      teamTitle: "A Nossa Equipa",
       coaches: [
         {
           name: "Ricardo Infante",
         },
         {
           name: "Sérgio Infante",
-        },
-        {
-          name: "Luana Sola",
         },
       ],
     },
@@ -307,6 +488,17 @@ export const content = {
       subtitle: "Pronto para se juntar? Tem uma duvida ou sugestão? Entre em contacto connosco prometemos ser o mais breves possveis!",
       phone: "+351 910 389 071",
       email: "associacao.infante@gmail.com",
+      address: "Rua Dâmaso da Encarnação Nº5, 8700-247 Olhão",
+      attendanceHours: "Seg–Sex · 17h–21h",
+      mapsEmbedUrl: "https://www.google.com/maps?q=Rua+D%C3%A2maso+da+Encarna%C3%A7%C3%A3o+5+8700-247+Olh%C3%A3o&output=embed",
+      infoLabels: {
+        phone: "Telefone",
+        email: "Email",
+        address: "Morada",
+        attendanceHours: "Horário de Atendimento",
+        mapTitle: "Onde nos encontrar",
+      },
+      prefillModalidade: "Olá, gostaria de saber mais sobre",
       form: {
         name: "O seu Nome",
         email: "O seu Email",
@@ -328,6 +520,24 @@ export const content = {
           description: "Obrigado por contactar. Prometemos ser o mais breves possivel!",
         }
       },
+    },
+    footer: {
+      tagline: "Desde 2020. Afiliado à Federação Portuguesa de Boxe.",
+      columns: {
+        brand: "Infante Boxing Club",
+        nav: "Explorar",
+        contact: "Contacto",
+        legal: "Legal",
+      },
+      nav: [
+        { href: "/", label: "Início" },
+        { href: "/contacto", label: "Contacto" },
+        { href: "/sobre", label: "Sobre Nós" },
+      ],
+      legal: [
+        { href: "/privacy-policy", label: "Política de Privacidade" },
+      ],
+      fullForm: "Formulário de Contacto →",
     },
     rightsReserved: {
       allRights: "Todos os direitos reservados a Infante Boxing Club - Fornecido por ",

@@ -1,8 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
-import { Plus, Search, UserCheck, UserX, Trophy, Shield } from 'lucide-react'
+import { Plus, UserCheck, UserX, Trophy, Shield } from 'lucide-react'
 import { TURMA_LABELS, STATUS_CONFIG, type Turma, type StatusMembro } from './constants'
 import { calcularEstado } from './actions'
+import { anoAtual, seguroAtivo, membroInativo } from '@/lib/membros-estado'
+import SortSelect from './SortSelect'
+import FilterSelect from './FilterSelect'
+import SearchInput from './SearchInput'
+import { LinkSpinner } from '@/components/dashboard/PendingLink'
 
 // ─── PÁGINA PRINCIPAL DE MEMBROS ──────────────────────────────
 // Lista todos os sócios com o estado calculado dinamicamente:
@@ -15,7 +20,7 @@ export const metadata = { title: 'Membros | Dashboard' }
 export default async function MembrosPage({
   searchParams,
 }: {
-  searchParams: Promise<{ turma?: string; q?: string; status?: string; error?: string }>
+  searchParams: Promise<{ turma?: string; q?: string; status?: string; seguro?: string; inspecao?: string; estado?: string; sort?: string; error?: string }>
 }) {
   const searchParamsData = await searchParams
   const supabase = await createClient()
@@ -35,24 +40,78 @@ export default async function MembrosPage({
 
   const { data: membros } = await query
 
+  // Quais membros têm inspeção médica enviada (derivado de document_metadata)
+  const { data: inspecoes } = await (supabase
+    .from('document_metadata')
+    .select('membro_id')
+    .eq('categoria', 'inspecao_medica') as any)
+  const comInspecao = new Set<string>((inspecoes || []).map((r: any) => r.membro_id))
+
   // Calcular o estado de cada membro segundo a nova lógica
-  const membrosComStatus = await Promise.all((membros || []).map(async (m: any) => ({
-    ...m,
-    status: await calcularEstado(m) as StatusMembro,
-  })))
+  const membrosComStatus = await Promise.all((membros || []).map(async (m: any) => {
+    const mesesPagos = (m.pagamentos || []).map((p: any) => p.mes_referencia)
+    return {
+      ...m,
+      status: await calcularEstado(m) as StatusMembro,
+      _inativo: membroInativo(m, mesesPagos),
+      _inspecaoOk: comInspecao.has(m.id),
+    }
+  }))
 
   // Filtrar por estado se pedido
-  const membrosFiltrados = searchParamsData.status
+  let membrosFiltrados = searchParamsData.status
     ? membrosComStatus.filter((m: any) => m.status === searchParamsData.status)
     : membrosComStatus
+
+  // Filtrar por estado do seguro (em_dia | em_falta)
+  if (searchParamsData.seguro) {
+    membrosFiltrados = membrosFiltrados.filter((m: any) => {
+      const ok = seguroAtivo(m)
+      return searchParamsData.seguro === 'em_dia' ? ok : !ok
+    })
+  }
+
+  // Filtrar por inspeção médica (em_dia | em_falta)
+  if (searchParamsData.inspecao) {
+    membrosFiltrados = membrosFiltrados.filter((m: any) => {
+      const ok = m._inspecaoOk
+      return searchParamsData.inspecao === 'em_dia' ? ok : !ok
+    })
+  }
+
+  // Filtrar por estado ativo/inativo
+  if (searchParamsData.estado) {
+    membrosFiltrados = membrosFiltrados.filter((m: any) =>
+      searchParamsData.estado === 'inativo' ? m._inativo : !m._inativo
+    )
+  }
+
+  // Ordenação
+  const sort = searchParamsData.sort || 'nome_asc'
+  const TURMA_SORT_ORDER: Turma[] = ['gatinhos', 'suricatas', 'leoes', 'adultos', 'mulheres']
+  const turmaOrder = (t: string) => TURMA_SORT_ORDER.indexOf(t as Turma)
+  membrosFiltrados = [...membrosFiltrados].sort((a: any, b: any) => {
+    switch (sort) {
+      case 'nome_desc': return b.nome.localeCompare(a.nome, 'pt')
+      case 'turma_asc':  return turmaOrder(a.turma) - turmaOrder(b.turma) || a.nome.localeCompare(b.nome, 'pt')
+      case 'turma_desc': return turmaOrder(b.turma) - turmaOrder(a.turma) || a.nome.localeCompare(b.nome, 'pt')
+      case 'seguro_falta':    return Number(seguroAtivo(a)) - Number(seguroAtivo(b))
+      case 'seguro_pago':     return Number(seguroAtivo(b)) - Number(seguroAtivo(a))
+      case 'inspecao_falta':  return Number(a._inspecaoOk) - Number(b._inspecaoOk)
+      case 'inspecao_feita':  return Number(b._inspecaoOk) - Number(a._inspecaoOk)
+      case 'inativos_primeiro': return Number(b._inativo) - Number(a._inativo)
+      default: return a.nome.localeCompare(b.nome, 'pt')
+    }
+  })
 
   // Contadores
   const totalPago = membrosComStatus.filter((m: any) => m.status === 'pago').length
   const totalNaoPago = membrosComStatus.filter((m: any) => m.status === 'nao_pago').length
-  const totalInativo = membrosComStatus.filter((m: any) => m.status === 'inativo').length
+  const totalInativo = membrosComStatus.filter((m: any) => m._inativo).length
   const totalIsento = membrosComStatus.filter((m: any) => m.status === 'isento').length
 
   const turmas: Turma[] = ['gatinhos', 'suricatas', 'leoes', 'adultos', 'mulheres']
+  const ano = anoAtual()
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
@@ -72,6 +131,7 @@ export default async function MembrosPage({
           className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#E8B55B] text-black font-bold uppercase tracking-widest text-xs hover:bg-[#C99C4A] shadow-[0_0_15px_rgba(232,181,91,0.3)] hover:shadow-[0_0_25px_rgba(232,181,91,0.6)] transition-all"
         >
           <Plus className="w-4 h-4" /> Novo Membro
+          <LinkSpinner className="text-black" />
         </Link>
       </div>
 
@@ -89,7 +149,7 @@ export default async function MembrosPage({
           <p className="text-white/50 text-xs uppercase tracking-wider mb-1 flex items-center gap-1"><UserX className="w-3 h-3 text-yellow-400" /> Não Pagos</p>
           <p className="text-2xl font-bold text-yellow-400">{totalNaoPago}</p>
         </Link>
-        <Link href="/dashboard/membros?status=inativo" className={`bg-[#121212] p-4 rounded-2xl border transition-all ${searchParamsData.status === 'inativo' ? 'border-red-400/30' : 'border-white/5 hover:border-white/10'}`}>
+        <Link href="/dashboard/membros?estado=inativo" className={`bg-[#121212] p-4 rounded-2xl border transition-all ${searchParamsData.estado === 'inativo' ? 'border-red-400/30' : 'border-white/5 hover:border-white/10'}`}>
           <p className="text-white/50 text-xs uppercase tracking-wider mb-1 flex items-center gap-1"><UserX className="w-3 h-3 text-red-400" /> Inativos</p>
           <p className="text-2xl font-bold text-red-400">{totalInativo}</p>
         </Link>
@@ -99,28 +159,43 @@ export default async function MembrosPage({
         </Link>
       </div>
 
-      {/* Barra de Pesquisa e Filtros por Turma */}
+      {/* Barra de Pesquisa + Dropdowns de Filtros */}
       <div className="flex flex-col md:flex-row gap-4">
-        <form className="flex-1 relative" method="GET">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
-          <input
-            name="q"
-            defaultValue={searchParamsData.q || ''}
-            placeholder="Pesquisar por nome..."
-            className="w-full pl-12 pr-4 py-3 bg-[#121212] text-white border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent placeholder:text-white/30 text-sm"
-          />
-          {searchParamsData.turma && <input type="hidden" name="turma" value={searchParamsData.turma} />}
-          {searchParamsData.status && <input type="hidden" name="status" value={searchParamsData.status} />}
-        </form>
-        <div className="flex gap-2 flex-wrap">
-          <Link href="/dashboard/membros" className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border ${!searchParamsData.turma ? 'bg-[#E8B55B]/10 text-[#E8B55B] border-[#E8B55B]/30' : 'text-white/50 border-white/5 hover:border-white/20'}`}>
-            Todos
-          </Link>
-          {turmas.map(t => (
-            <Link key={t} href={`/dashboard/membros?turma=${t}`} className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border ${searchParamsData.turma === t ? 'bg-[#E8B55B]/10 text-[#E8B55B] border-[#E8B55B]/30' : 'text-white/50 border-white/5 hover:border-white/20'}`}>
-              {TURMA_LABELS[t]}
-            </Link>
-          ))}
+        <SearchInput initial={searchParamsData.q || ''} />
+      </div>
+
+      <div className="flex gap-3 flex-wrap items-center">
+        <FilterSelect
+          label="Turma"
+          param="turma"
+          value={searchParamsData.turma || ''}
+          options={[
+            { value: '', label: 'Todas' },
+            ...turmas.map(t => ({ value: t, label: TURMA_LABELS[t] })),
+          ]}
+        />
+        <FilterSelect
+          label="Seguro"
+          param="seguro"
+          value={searchParamsData.seguro || ''}
+          options={[
+            { value: '', label: 'Todos' },
+            { value: 'em_dia', label: 'Em dia' },
+            { value: 'em_falta', label: 'Em falta' },
+          ]}
+        />
+        <FilterSelect
+          label="Inspeção"
+          param="inspecao"
+          value={searchParamsData.inspecao || ''}
+          options={[
+            { value: '', label: 'Todos' },
+            { value: 'em_dia', label: 'Em dia' },
+            { value: 'em_falta', label: 'Em falta' },
+          ]}
+        />
+        <div className="ml-auto">
+          <SortSelect value={sort} />
         </div>
       </div>
 
@@ -140,6 +215,8 @@ export default async function MembrosPage({
                 <th className="text-left px-6 py-4 text-white/50 text-xs uppercase tracking-wider font-medium">Nome</th>
                 <th className="text-left px-6 py-4 text-white/50 text-xs uppercase tracking-wider font-medium">Turma</th>
                 <th className="text-left px-6 py-4 text-white/50 text-xs uppercase tracking-wider font-medium">Tags</th>
+                <th className="text-left px-6 py-4 text-white/50 text-xs uppercase tracking-wider font-medium">Seguro</th>
+                <th className="text-left px-6 py-4 text-white/50 text-xs uppercase tracking-wider font-medium">Inspeção</th>
                 <th className="text-left px-6 py-4 text-white/50 text-xs uppercase tracking-wider font-medium">Estado</th>
                 <th className="text-right px-6 py-4 text-white/50 text-xs uppercase tracking-wider font-medium">Ações</th>
               </tr>
@@ -147,7 +224,7 @@ export default async function MembrosPage({
             <tbody>
               {membrosFiltrados.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-center px-6 py-12 text-white/30">
+                  <td colSpan={7} className="text-center px-6 py-12 text-white/30">
                     Nenhum membro encontrado.
                   </td>
                 </tr>
@@ -162,7 +239,14 @@ export default async function MembrosPage({
                             {membro.nome.charAt(0).toUpperCase()}
                           </div>
                           <div>
-                            <p className="text-white/90 font-medium">{membro.nome}</p>
+                            <div className="flex items-center gap-2">
+                              {membro._inativo && (
+                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/30">
+                                  Inativo
+                                </span>
+                              )}
+                              <p className="text-white/90 font-medium">{membro.nome}</p>
+                            </div>
                             {membro.telefone && <p className="text-white/40 text-xs">{membro.telefone}</p>}
                           </div>
                         </div>
@@ -182,6 +266,32 @@ export default async function MembrosPage({
                           )}
                         </div>
                       </td>
+                      <td className="px-6 py-4 text-white/60 text-xs whitespace-nowrap">
+                        {seguroAtivo(membro) ? (
+                          <span className="inline-flex items-center gap-2 text-green-400">
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+                            Pago {ano}
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-2 text-amber-300">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-300"></span>
+                            Em falta
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-white/60 text-xs whitespace-nowrap">
+                        {membro._inspecaoOk ? (
+                          <span className="inline-flex items-center gap-2 text-green-400">
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+                            Entregue
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-2 text-amber-300">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-300"></span>
+                            Em falta
+                          </span>
+                        )}
+                      </td>
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center px-3 py-1 rounded-lg text-xs font-bold ${statusCfg.bg} ${statusCfg.color} ${statusCfg.border} border`}>
                           {statusCfg.label}
@@ -190,9 +300,10 @@ export default async function MembrosPage({
                       <td className="px-6 py-4 text-right">
                         <Link
                           href={`/dashboard/membros/${membro.id}`}
-                          className="px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-[#E8B55B] bg-[#E8B55B]/10 border border-[#E8B55B]/20 hover:bg-[#E8B55B]/20 transition-all opacity-0 group-hover:opacity-100"
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider text-[#E8B55B] bg-[#E8B55B]/10 border border-[#E8B55B]/20 hover:bg-[#E8B55B]/20 transition-all opacity-0 group-hover:opacity-100 group-has-[a:focus]:opacity-100"
                         >
                           Ver Perfil
+                          <LinkSpinner className="w-3.5 h-3.5" />
                         </Link>
                       </td>
                     </tr>

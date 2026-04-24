@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { Turma, TURMA_LABELS, StatusMembro, STATUS_CONFIG } from './constants'
+import { anoAtual } from '@/lib/membros-estado'
 
 // ─── CALCULAR ESTADO ────────────────────────────────────────────
 // Função reutilizável para calcular o estado de um membro com base
@@ -58,6 +59,12 @@ export async function criarMembro(formData: FormData) {
   const turma = formData.get('turma') as Turma
   const is_competicao = formData.get('is_competicao') === 'on'
   const is_isento = formData.get('is_isento') === 'on'
+  const cota = parseFloat(formData.get('cota') as string) || 30
+  const data_vencimento = formData.get('data_vencimento') as string
+  const seguro_pago_raw = (formData.get('seguro_pago') as string) || ''
+  const seguro_pago = seguro_pago_raw === 'dinheiro' || seguro_pago_raw === 'mbway' ? seguro_pago_raw : null
+  const observacoes = formData.get('observacoes') as string
+  const ano = anoAtual()
 
   const { data, error } = await (supabase.from('membros') as any).insert({
     nome,
@@ -67,6 +74,11 @@ export async function criarMembro(formData: FormData) {
     turma,
     is_competicao,
     is_isento,
+    cota,
+    data_vencimento: data_vencimento || null,
+    seguro_pago,
+    seguro_ano_pago: seguro_pago ? ano : null,
+    observacoes: observacoes || null,
   }).select('id').single()
 
   if (error) {
@@ -93,6 +105,12 @@ export async function editarMembro(formData: FormData) {
   const turma = formData.get('turma') as Turma
   const is_competicao = formData.get('is_competicao') === 'on'
   const is_isento = formData.get('is_isento') === 'on'
+  const cota = parseFloat(formData.get('cota') as string) || 30
+  const data_vencimento = formData.get('data_vencimento') as string
+  const seguro_pago_raw = (formData.get('seguro_pago') as string) || ''
+  const seguro_pago = seguro_pago_raw === 'dinheiro' || seguro_pago_raw === 'mbway' ? seguro_pago_raw : null
+  const observacoes = formData.get('observacoes') as string
+  const ano = anoAtual()
 
   const { error } = await (supabase
     .from('membros') as any)
@@ -104,6 +122,11 @@ export async function editarMembro(formData: FormData) {
       turma,
       is_competicao,
       is_isento,
+      cota,
+      data_vencimento: data_vencimento || null,
+      seguro_pago,
+      seguro_ano_pago: seguro_pago ? ano : null,
+      observacoes: observacoes || null,
     })
     .eq('id', id)
 
@@ -209,4 +232,14 @@ export async function eliminarPagamento(formData: FormData) {
 
   revalidatePath(`/dashboard/membros/${membro_id}`)
   redirect(`/dashboard/membros/${membro_id}`)
+}
+
+// ─── MEMBROS EM ATRASO ──────────────────────────────────────────
+// Lê a view derivada `membros_status` (calculada no Postgres) e
+// devolve apenas os que estão 'em_atraso'. Útil para widgets e
+// relatórios do dashboard sem ter de replicar a lógica em TS.
+export async function getMembrosOverdue() {
+  const supabase = await createClient()
+  const { data } = await (supabase.from('membros_status').select('*').eq('status', 'em_atraso') as any)
+  return data || []
 }

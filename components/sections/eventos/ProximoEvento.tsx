@@ -1,11 +1,15 @@
 'use client';
 import Image from "next/image";
-import { CalendarDays, MapPin, ArrowRight, Loader2, CalendarCheck2 } from "lucide-react";
+import { CalendarDays, MapPin, ArrowRight, CalendarCheck2, CalendarX2 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { useLanguage } from "../../../contexts/language-context";
 import { content } from "../../../lib/content";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import SectionShell from "../../shared/SectionShell";
+import SectionHeading from "../../shared/SectionHeading";
+import EmptyState from "../../shared/EmptyState";
+import Skeleton from "../../shared/Skeleton";
 
 export default function ProximoEvento() {
   const { language } = useLanguage();
@@ -19,7 +23,7 @@ export default function ProximoEvento() {
       try {
         const supabase = createClient();
         const today = new Date().toISOString();
-        
+
         // Puxar o próximo evento futuro mais breve
         const { data } = await supabase
            .from('eventos')
@@ -53,19 +57,25 @@ export default function ProximoEvento() {
   }, []);
 
   if (loading) {
-    return <section className="py-20 md:py-28 bg-background flex justify-center"><Loader2 className="animate-spin text-primary" /></section>
+    return (
+      <SectionShell surface="default">
+        <SectionHeading title={C.nextEvent.title} />
+        <Skeleton variant="card" className="h-96" />
+      </SectionShell>
+    );
   }
 
   // Se a DB não tiver mesmo nada
   if (!evento) {
     return (
-      <section className="py-20 md:py-28 bg-background">
-        <div className="container mx-auto px-4 text-center">
-            <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider">{C.nextEvent.title}</h2>
-            <div className="section-divider mt-4 mb-8"></div>
-            <p className="text-muted-foreground">{language === 'pt' ? 'Nenhum evento programado de momento.' : 'No events scheduled right now.'}</p>
-        </div>
-      </section>
+      <SectionShell surface="default">
+        <SectionHeading title={C.nextEvent.title} />
+        <EmptyState
+          icon={CalendarX2}
+          title={C.events.empty.title}
+          description={C.events.empty.description}
+        />
+      </SectionShell>
     );
   }
 
@@ -77,40 +87,35 @@ export default function ProximoEvento() {
   const formattedDate = new Intl.DateTimeFormat(language === 'pt'? 'pt-PT' : 'en-GB', {
     day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
   }).format(eventDate);
-  
+
   return (
-    <section className="py-20 md:py-28 bg-background relative overflow-hidden">
+    <SectionShell surface="default">
       {/* Background Glow sutil para manter premium look */}
       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full z-0 pointer-events-none -translate-y-1/2 -translate-x-1/2" />
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center max-w-3xl mx-auto">
-          <h2 className="font-headline text-5xl md:text-6xl uppercase tracking-wider text-foreground">
-            {C.nextEvent.title} 
-          </h2>
-          <div className="section-divider mt-4"></div>
-        </div>
+      <div className="relative z-10">
+        <SectionHeading title={C.nextEvent.title} />
 
-        <div className={`card-gold-accent mt-14 grid md:grid-cols-2 overflow-hidden relative bg-card/60 backdrop-blur-md rounded-2xl shadow-xl transition-all duration-300 hover:shadow-[0_0_20px_hsl(41_55%_57%/0.15)] border border-primary/20`}>
-          {hasEventPassed && 
+        <div className={`card-gold-accent grid md:grid-cols-2 overflow-hidden relative bg-card/60 backdrop-blur-md rounded-2xl shadow-xl transition-all duration-300 hover:shadow-[0_0_20px_hsl(41_55%_57%/0.15)] border border-primary/20`}>
+          {hasEventPassed &&
             <div className="absolute bg-black/85 backdrop-blur-md z-[99] inset-0 flex flex-col items-center justify-center text-center p-4">
               <CalendarCheck2 size={64} className="text-primary mb-4 drop-shadow-md" />
                 <h3 className="font-headline text-5xl md:text-6xl uppercase tracking-wider text-primary">
-                  {C.nextEvent.passedEventTitle} 
+                  {C.nextEvent.passedEventTitle}
                 </h3>
                 <p className="mt-2 text-lg text-muted-foreground max-w-md">
-                  {C.nextEvent.passedEventMessage} 
+                  {C.nextEvent.passedEventMessage}
                 </p>
               <Button size="lg" className="mt-8 font-bold group uppercase tracking-wider shadow-lg" asChild>
                   <a href="#passedEvents">
-                    {C.nextEvent.passedEventCta} 
+                    {C.nextEvent.passedEventCta}
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </a>
                 </Button>
             </div>
           }
-          
-          <div className="relative">
+
+          <div className="relative aspect-[4/3] md:aspect-auto md:h-full">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card z-10 hidden md:block" />
             <Image
               src={evento.imageurl ?? "/placeholder-boxing.jpg"}
@@ -118,15 +123,13 @@ export default function ProximoEvento() {
               fill
               className="object-cover"
             />
-            {/* Fallback de altura onde o fill precisa existir num container */}
-            <div className="min-h-[400px] md:h-full w-full"></div>
           </div>
 
           <div className="flex flex-col p-8 md:p-12 z-20 bg-card/40 md:bg-transparent">
             <h3 className="font-headline text-4xl uppercase text-foreground text-glow">{evento.title}</h3>
-            
+
             <p className="text-muted-foreground mt-4 leading-relaxed">{evento.description}</p>
-            
+
             <div className="space-y-4 mt-8 text-lg bg-black/50 p-6 rounded-xl border border-primary/10 shadow-inner">
               <div className="flex items-center gap-3">
                 <CalendarDays className="h-6 w-6 text-primary" />
@@ -137,7 +140,7 @@ export default function ProximoEvento() {
                 <span className="font-medium">{evento.location}</span>
               </div>
             </div>
-            
+
             <Button
               size="lg"
               variant="default"
@@ -149,6 +152,6 @@ export default function ProximoEvento() {
           </div>
         </div>
       </div>
-    </section>
+    </SectionShell>
   );
 }

@@ -1,58 +1,23 @@
-'use client';
+import type { Metadata } from "next";
+import HomeClient from "./HomeClient";
 
-import Hero from "../components/sections/Hero";
-import Modalidades from "../components/sections/Modalidades";
-import Sobre from "../components/sections/Sobre";
-import Horario from "../components/sections/Horario";
-import Loc from "../components/sections/Loc";
-import Header from "../components/layout/Header";
-import Loja from "../components/sections/Loja";
-import Eventos from "../components/sections/Eventos";
-import Footer from "../components/layout/Footer";
-import { useEffect } from "react";
-import { useLanguage } from "@/contexts/language-context";
-import { content } from "@/lib/content";
-import Parcerias from "@/components/sections/Parcerias";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://infanteboxingclub.pt";
+
+export const metadata: Metadata = {
+  title: "Infante Boxing Club | Ginásio de Boxe em Olhão",
+  description:
+    "Ginásio de boxe em Olhão filiado na Federação Portuguesa de Boxe. Boxe de competição, manutenção e educativo. Começa com a 1ª aula grátis.",
+  alternates: {
+    canonical: siteUrl,
+  },
+  openGraph: {
+    url: siteUrl,
+    title: "Infante Boxing Club | Ginásio de Boxe em Olhão",
+    description:
+      "Boxe de competição, manutenção e educativo em Olhão. 1ª aula grátis.",
+  },
+};
 
 export default function Home() {
-    const { language } = useLanguage();
-    const C = content[language];
-  
-    
-
-  useEffect(() => {
-    document.querySelector('meta[name="description"]')?.setAttribute('content', C.metaDescription);
-  }, [language, C.metaDescription]);
-
-    return (
-        <>
-            <div className="transition-opacity duration-500">   
-            
-                {/* Header */}                    
-                <Header />
-
-                <main className="flex-grow">
-
-                    <Hero />
-
-                    <Sobre />
-
-                    <Modalidades />
-
-                    <Loja />
-
-                    <Eventos />
-
-                    <Parcerias />
-
-                    <Horario />
-                    
-                    <Loc />
-                </main>
-
-                {/* Footer */}
-                <Footer />
-            </div>
-        </>
-    );
+  return <HomeClient />;
 }
