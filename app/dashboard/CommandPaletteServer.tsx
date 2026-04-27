@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { currentUserIsSuperAdmin } from '@/lib/auth'
 import CommandPalette from './CommandPalette'
 
 // ─── WRAPPER SERVER PARA O COMMAND PALETTE ─────────────────────
@@ -12,5 +13,6 @@ export default async function CommandPaletteServer() {
     .order('nome', { ascending: true })
     .limit(200) as any)
 
-  return <CommandPalette allMembers={data || []} />
+  const isSuperAdmin = await currentUserIsSuperAdmin()
+  return <CommandPalette allMembers={data || []} isSuperAdmin={isSuperAdmin} />
 }
