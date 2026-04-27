@@ -31,3 +31,16 @@ export function membroInativo(
   const anterior = mesRefAnterior()
   return !mesesPagos.includes(atual) && !mesesPagos.includes(anterior)
 }
+
+// Calcula a idade em anos a partir da data de nascimento (formato ISO ou Date).
+// Devolve null se a data for inválida ou inexistente.
+export function calcularIdade(dataNascimento?: string | null): number | null {
+  if (!dataNascimento) return null
+  const nasc = new Date(dataNascimento)
+  if (isNaN(nasc.getTime())) return null
+  const hoje = new Date()
+  let idade = hoje.getFullYear() - nasc.getFullYear()
+  const m = hoje.getMonth() - nasc.getMonth()
+  if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) idade--
+  return idade
+}

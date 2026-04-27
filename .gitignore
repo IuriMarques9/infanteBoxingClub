@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Migrations com dados sensíveis
 migration_*.sql
+
+# Backups de imagens/vídeo originais (gerados por scripts/compress-images.mjs)
+public/*.original.*

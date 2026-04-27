@@ -45,6 +45,13 @@ export default function Hero() {
         loop
         muted
         playsInline
+        // preload="metadata" obtém só os primeiros bytes (duração,
+        // dimensões) — o conteúdo só é descarregado quando o autoPlay
+        // efectivamente arranca, o que liberta a rede para o LCP.
+        preload="metadata"
+        // O poster é o LCP (não o vídeo) — fetchPriority alta ajuda.
+        // @ts-expect-error fetchpriority é HTML attr válido mas não está nos types
+        fetchpriority="high"
         className="absolute top-0 left-0 w-full h-full object-cover"
       />
 

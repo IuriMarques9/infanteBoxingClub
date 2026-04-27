@@ -30,7 +30,7 @@ const Header = () => {
         <div className="flex items-center justify-between rounded-[2rem] bg-[#0A0A0A]/70 backdrop-blur-md border border-[#333333] shadow-2xl px-5 py-2.5 transition-colors duration-300 hover:bg-[#0A0A0A]/80">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center shrink-0" aria-label="Infante Boxing Club">
+          <Link href={`/${language}`} className="flex items-center shrink-0" aria-label="Infante Boxing Club">
             <Image
               src="/infanteLogoSemFundo.png"
               alt="Infante Boxing Club"
@@ -46,7 +46,7 @@ const Header = () => {
             {navLinks.map(({ href, label }) => (
               <Link
                 key={href}
-                href={href}
+                href={href.startsWith('/') && !href.startsWith(`/${language}`) ? `/${language}${href === '/' ? '' : href}` : href}
                 className="text-xs font-bold uppercase tracking-wider text-white/80 transition-all hover:text-[#E8B55B] px-1 py-1 relative group"
               >
                 {label}
@@ -62,7 +62,7 @@ const Header = () => {
               <User className="w-5 h-5" />
             </Link>
             <Button asChild className="rounded-full bg-[#E8B55B] hover:bg-[#C99C4A] text-black font-extrabold uppercase tracking-widest text-xs px-5 py-4 shadow-[0_0_15px_rgba(232,181,91,0.3)] hover:shadow-[0_0_25px_rgba(232,181,91,0.6)] transition-all">
-              <a href="/#visit">{C.nav.joinCta}</a>
+              <a href={`/${language}#visit`}>{C.nav.joinCta}</a>
             </Button>
           </div>
 
@@ -85,7 +85,7 @@ const Header = () => {
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
-              href={href}
+              href={href.startsWith('/') && !href.startsWith(`/${language}`) ? `/${language}${href === '/' ? '' : href}` : href}
               className="text-sm font-bold uppercase tracking-widest text-white/80 transition-colors hover:text-[#E8B55B] flex gap-3 items-center border-b border-white/5 pb-4"
               onClick={() => setIsOpen(false)}
             >
@@ -95,7 +95,7 @@ const Header = () => {
           <div className="flex items-center justify-between pt-4">
              <LanguageSwitcher />
              <Button asChild className="rounded-full bg-[#E8B55B] hover:bg-[#C99C4A] text-black font-extrabold uppercase tracking-widest text-xs px-6">
-                <a href="/#visit" onClick={() => setIsOpen(false)}>{C.nav.joinCta}</a>
+                <a href={`/${language}#visit`} onClick={() => setIsOpen(false)}>{C.nav.joinCta}</a>
              </Button>
           </div>
         </div>

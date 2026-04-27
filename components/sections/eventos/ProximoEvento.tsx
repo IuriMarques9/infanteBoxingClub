@@ -121,6 +121,8 @@ export default function ProximoEvento() {
               src={evento.imageurl ?? "/placeholder-boxing.jpg"}
               alt={evento.title}
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
               className="object-cover"
             />
           </div>

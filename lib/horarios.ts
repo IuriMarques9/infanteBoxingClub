@@ -101,3 +101,18 @@ export function findSlot<T extends HorarioLike>(horarios: T[], day: WeekDay, ran
   }
   return null;
 }
+
+// Versão plural — devolve TODOS os horários (de turmas diferentes)
+// que partilham o mesmo dia + intervalo de tempo. Permite mostrar
+// duas turmas a decorrer em simultâneo na mesma célula da matriz.
+export function findSlots<T extends HorarioLike>(horarios: T[], day: WeekDay, range: TimeRange): T[] {
+  const out: T[] = [];
+  for (const h of horarios) {
+    if (!h.hora_inicio || !h.hora_fim || !h.dias_semana) continue;
+    if (normalizeTime(h.hora_inicio) !== range.inicio) continue;
+    if (normalizeTime(h.hora_fim) !== range.fim) continue;
+    if (!h.dias_semana.includes(day)) continue;
+    out.push(h);
+  }
+  return out;
+}

@@ -3,7 +3,7 @@
 import { useFormStatus } from 'react-dom'
 import { Loader2, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import type { ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 
 export function DeleteButton({ ariaLabel = 'Eliminar', size = 'sm' }: { ariaLabel?: string; size?: 'sm' | 'md' }) {
   const { pending } = useFormStatus()
@@ -41,12 +41,31 @@ export function PrimarySubmit({ children, className }: { children: ReactNode; cl
 
 export function AddSubmit({ ariaLabel }: { ariaLabel: string }) {
   const { pending } = useFormStatus()
+  const btnRef = useRef<HTMLButtonElement>(null)
+  const [hasDay, setHasDay] = useState(false)
+
+  // Observa as checkboxes "dias_semana" do form pai e desactiva o submit
+  // até pelo menos um dia ser escolhido (C5).
+  useEffect(() => {
+    const form = btnRef.current?.closest('form')
+    if (!form) return
+    const update = () => {
+      setHasDay(!!form.querySelector('input[name="dias_semana"]:checked'))
+    }
+    update()
+    form.addEventListener('change', update)
+    return () => form.removeEventListener('change', update)
+  }, [])
+
+  const disabled = pending || !hasDay
   return (
     <button
+      ref={btnRef}
       type="submit"
-      disabled={pending}
-      className="ml-auto flex items-center justify-center w-8 h-8 rounded-md bg-[#E8B55B]/10 text-[#E8B55B] border border-[#E8B55B]/20 hover:bg-[#E8B55B]/20 transition-all disabled:opacity-50 disabled:cursor-wait"
+      disabled={disabled}
+      title={!hasDay ? 'Escolhe pelo menos um dia da semana' : undefined}
       aria-label={ariaLabel}
+      className="ml-auto flex items-center justify-center w-8 h-8 rounded-md bg-[#E8B55B]/10 text-[#E8B55B] border border-[#E8B55B]/20 hover:bg-[#E8B55B]/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-[#E8B55B]/10"
     >
       {pending ? <Loader2 className="w-4 h-4 animate-spin" /> : <span className="text-lg leading-none">+</span>}
     </button>

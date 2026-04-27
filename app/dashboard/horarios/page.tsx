@@ -1,8 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { TURMA_LABELS, type Turma } from '../membros/constants'
-import { criarHorario, eliminarHorario, removerDiaHorario } from './actions'
+import { criarHorario, eliminarHorario, removerDiaHorario, duplicarDiaHorario, migrarHorarioLegacy } from './actions'
 import EditHorarioModal from './EditHorarioModal'
 import { DeleteButton, AddSubmit } from './SubmitAction'
+import DuplicarDiaButton from './DuplicarDiaButton'
 import {
   WEEKDAY_LABELS_SHORT,
   WEEKDAY_LABELS_LONG,
@@ -10,7 +11,7 @@ import {
   TURMA_ACCENT_DOT,
   collectActiveDays,
   collectTimeRanges,
-  findSlot,
+  findSlots,
   type WeekDay,
 } from '@/lib/horarios'
 import { cn } from '@/lib/utils'
@@ -19,7 +20,8 @@ const HOURS = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'))
 const MINUTES = ['00', '10', '20', '30', '40', '50']
 
 function TimeSelect({ prefix, defaultHour = '17', defaultMinute = '00' }: { prefix: string; defaultHour?: string; defaultMinute?: string }) {
-  const selectCls = "min-w-0 px-2 py-1.5 bg-black/30 text-white border border-white/10 rounded-md text-xs focus:outline-none focus:border-[#E8B55B]/40 [color-scheme:dark]"
+  // text-base em mobile evita o auto-zoom do iOS quando o select recebe foco
+  const selectCls = "min-w-0 px-2.5 py-2 sm:py-1.5 bg-black/30 text-white border border-white/10 rounded-md text-base sm:text-xs focus:outline-none focus:border-[#E8B55B]/40 [color-scheme:dark]"
   return (
     <div className="flex items-center gap-1">
       <select name={`${prefix}_h`} defaultValue={defaultHour} required className={selectCls}>
@@ -73,16 +75,18 @@ export default async function HorariosPage({
   const legacyRows = horarios.filter(h => !h.dias_semana || h.dias_semana.length === 0 || !h.hora_inicio)
 
   const errorMessages: Record<string, string> = {
-    missing_fields: 'Escolhe pelo menos um dia e preenche hora de início e fim.',
-    create_failed: 'Não foi possível criar o horário. Tenta novamente.',
-    update_failed: 'Não foi possível guardar as alterações.',
+    missing_fields:  'Escolhe pelo menos um dia e preenche hora de início e fim.',
+    create_failed:   'Não foi possível criar o horário. Tenta novamente.',
+    update_failed:   'Não foi possível guardar as alterações.',
+    conflict:        'Conflito: já existe um horário desta turma sobreposto.',
+    migrate_failed:  'Não foi possível migrar este horário automaticamente.',
   }
   const errorMsg = searchParamsData?.error ? (errorMessages[searchParamsData.error] || 'Ocorreu um erro.') : null
 
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       <div>
-        <h1 className="text-3xl font-headline font-bold text-[#E8B55B] tracking-wider">
+        <h1 className="text-2xl sm:text-3xl font-headline font-bold text-[#E8B55B] tracking-wider">
           Horários e Turmas
         </h1>
         <p className="text-white/50 text-sm mt-1">
@@ -137,27 +141,33 @@ export default async function HorariosPage({
                       {range.inicio} – {range.fim}
                     </td>
                     {columns.map(day => {
-                      const slot = findSlot(horarios, day, range)
+                      const slots = findSlots(horarios, day, range)
                       return (
                         <td key={day} className="px-2 py-2 align-middle">
-                          {slot ? (
-                            <div
-                              className={cn(
-                                "rounded-lg border p-2 text-center group/slot relative",
-                                TURMA_AGENDA_TONES[slot.turma]
-                              )}
-                            >
-                              <div className="uppercase tracking-wider text-[10px] font-bold leading-tight">
-                                {TURMA_LABELS[slot.turma]}
-                              </div>
-                              <div className="absolute top-0.5 right-0.5 flex items-center gap-0.5 opacity-0 group-hover/slot:opacity-100 transition-opacity">
-                                <EditHorarioModal horario={slot} />
-                                <form action={removerDiaHorario}>
-                                  <input type="hidden" name="id" value={slot.id} />
-                                  <input type="hidden" name="dia" value={day} />
-                                  <DeleteButton ariaLabel={`Remover ${WEEKDAY_LABELS_LONG.pt[day]} deste horário`} />
-                                </form>
-                              </div>
+                          {slots.length > 0 ? (
+                            <div className="space-y-1">
+                              {slots.map(slot => (
+                                <div
+                                  key={slot.id}
+                                  className={cn(
+                                    "rounded-lg border p-2 text-center group/slot relative",
+                                    TURMA_AGENDA_TONES[slot.turma]
+                                  )}
+                                >
+                                  <div className="uppercase tracking-wider text-[10px] font-bold leading-tight">
+                                    {TURMA_LABELS[slot.turma]}
+                                  </div>
+                                  <div className="absolute top-0.5 right-0.5 flex items-center gap-0.5 opacity-0 group-hover/slot:opacity-100 focus-within:opacity-100 transition-opacity">
+                                    <DuplicarDiaButton id={slot.id} diasJaCobertos={slot.dias_semana || []} />
+                                    <EditHorarioModal horario={slot} />
+                                    <form action={removerDiaHorario}>
+                                      <input type="hidden" name="id" value={slot.id} />
+                                      <input type="hidden" name="dia" value={day} />
+                                      <DeleteButton ariaLabel={`Remover ${WEEKDAY_LABELS_LONG.pt[day]} deste horário`} />
+                                    </form>
+                                  </div>
+                                </div>
+                              ))}
                             </div>
                           ) : (
                             <div className="text-center text-white/15 text-sm select-none">—</div>
@@ -235,6 +245,16 @@ export default async function HorariosPage({
                   <span className="text-white/70 ml-3">{h.descricao || '—'} · {h.hora || '—'}</span>
                 </div>
                 <div className="flex items-center gap-1">
+                  <form action={migrarHorarioLegacy}>
+                    <input type="hidden" name="id" value={h.id} />
+                    <button
+                      type="submit"
+                      title="Tentar converter automaticamente para o novo formato"
+                      className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded hover:bg-amber-500/20 transition-colors"
+                    >
+                      Migrar
+                    </button>
+                  </form>
                   <EditHorarioModal horario={h} />
                   <form action={eliminarHorario}>
                     <input type="hidden" name="id" value={h.id} />

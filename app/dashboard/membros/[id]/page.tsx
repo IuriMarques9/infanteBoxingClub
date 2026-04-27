@@ -1,11 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import { Trophy, FileText, Shield, Clock, UserCircle2, UserX } from 'lucide-react'
 import { editarMembro, eliminarMembro, calcularEstado } from '../actions'
 import { TURMA_LABELS, STATUS_CONFIG, COTAS_SUGERIDAS, SEGURO_LABELS, type Turma, type SeguroPago } from '../constants'
 import { anoAtual, seguroAtivo, membroInativo } from '@/lib/membros-estado'
 import DocumentUploader from './DocumentUploader'
 import FichaClienteForm from './FichaClienteForm'
+import AvatarUploader from './AvatarUploader'
 import PaymentGrid from './PaymentGrid'
 import DocumentCard from '@/components/dashboard/DocumentCard'
 import EmptyState from '@/components/shared/EmptyState'
@@ -81,6 +83,16 @@ export default async function MembroProfilePage({
   const docsCategoriasOrdenadas = CATEGORIA_ORDER.filter(k => docsGrouped[k]?.length)
   const inspecaoOk = (docsGrouped['inspecao_medica']?.length || 0) > 0
 
+  // Avatar — pega o último upload com categoria 'avatar' e gera signed URL.
+  let avatarUrl: string | null = null
+  const avatarDoc = (docsGrouped['avatar'] || [])[0]
+  if (avatarDoc?.storage_path) {
+    const { data: signed } = await supabase.storage
+      .from('documentos')
+      .createSignedUrl(avatarDoc.storage_path, 60 * 60)  // 1h
+    avatarUrl = signed?.signedUrl ?? null
+  }
+
   // Buscar log de atividades deste membro (para a secção de auditoria)
   const { data: logs } = await (supabase
     .from('activity_log')
@@ -95,11 +107,12 @@ export default async function MembroProfilePage({
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-500">
 
       {/* Cabeçalho */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+      <div className="flex items-start sm:items-center justify-between gap-4">
+        <div className="flex items-start sm:items-center gap-4 flex-1 min-w-0">
           <BackLink href="/dashboard/membros" />
-          <div>
-            <h1 className="text-2xl font-headline font-bold text-[#E8B55B] tracking-wider flex items-center gap-3">
+          <AvatarUploader membroId={id} nome={membro.nome} currentUrl={avatarUrl} />
+          <div className="min-w-0">
+            <h1 className="text-2xl font-headline font-bold text-[#E8B55B] tracking-wider flex items-center gap-3 flex-wrap">
               {membro.nome}
               {membro.is_competicao && <Trophy className="w-5 h-5 text-[#E8B55B]" />}
               {membro.is_isento && <Shield className="w-5 h-5 text-blue-400" />}
@@ -285,9 +298,19 @@ export default async function MembroProfilePage({
 
           {/* Log de Auditoria */}
           <div className="bg-[#121212] rounded-2xl border border-white/5 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
-            <h2 className="text-white/90 font-medium mb-4 text-sm uppercase tracking-wider flex items-center gap-2">
-              <Clock className="w-4 h-4 text-white/50" /> Historial de Alterações
-            </h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-white/90 font-medium text-sm uppercase tracking-wider flex items-center gap-2">
+                <Clock className="w-4 h-4 text-white/50" /> Historial de Alterações
+              </h2>
+              {logs && logs.length > 0 && (
+                <Link
+                  href={`/dashboard/logs?entity=membro&q=${id}`}
+                  className="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-[#E8B55B] transition-colors"
+                >
+                  Ver todos
+                </Link>
+              )}
+            </div>
             {logs && logs.length > 0 ? (
               <div className="space-y-2">
                 {logs.map((log: any) => (

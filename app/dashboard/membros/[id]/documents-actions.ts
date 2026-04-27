@@ -14,6 +14,7 @@ const ALLOWED_CATEGORIAS = [
   'seguro',
   'autorizacao',
   'contrato',
+  'avatar',
   'outro',
 ] as const
 

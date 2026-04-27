@@ -36,7 +36,7 @@ export default function ContactoCTA() {
           </p>
 
           <Link
-            href="/contacto"
+            href={`/${language}/contacto`}
             className="mt-2 inline-flex items-center gap-2 rounded-full bg-primary text-background px-7 py-3 font-extrabold uppercase tracking-widest text-xs shadow-[0_0_15px_rgba(232,181,91,0.3)] hover:bg-primary/90 hover:shadow-[0_0_25px_rgba(232,181,91,0.6)] hover:gap-3 transition-all"
           >
             {copy.cta}
