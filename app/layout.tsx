@@ -119,8 +119,9 @@ export const metadata: Metadata = {
     // 2) Adiciona a propriedade `infanteboxingclub.pt`
     // 3) Escolhe "HTML tag" e copia só o conteúdo do `content="..."`
     // 4) Coloca o token na variável de ambiente
-    //    NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION no `.env.local`
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    //    GOOGLE_SITE_VERIFICATION no `.env.local` (server-only,
+    //    sem prefixo NEXT_PUBLIC_ — não fica exposto ao cliente).
+    google: process.env.GOOGLE_SITE_VERIFICATION,
     // Se também quiseres Bing Webmaster Tools:
     // other: { 'msvalidate.01': process.env.NEXT_PUBLIC_BING_VERIFICATION },
   },
