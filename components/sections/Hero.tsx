@@ -49,9 +49,10 @@ export default function Hero() {
         // dimensões) — o conteúdo só é descarregado quando o autoPlay
         // efectivamente arranca, o que liberta a rede para o LCP.
         preload="metadata"
-        // O poster é o LCP (não o vídeo) — fetchPriority alta ajuda.
-        // @ts-expect-error fetchpriority é HTML attr válido mas não está nos types
-        fetchpriority="high"
+        // O poster é o LCP (não o vídeo) — prioridade alta no fetch.
+        // React 19 types ainda não aceitam fetchPriority em <video>,
+        // por isso injectamos via spread.
+        {...({ fetchPriority: 'high' } as React.VideoHTMLAttributes<HTMLVideoElement>)}
         className="absolute top-0 left-0 w-full h-full object-cover"
       />
 
