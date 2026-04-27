@@ -96,6 +96,15 @@ export async function eliminarAdmin(formData: FormData): Promise<{ ok?: boolean;
   }
 
   const admin = createAdminClient()
+
+  // Defensivo: caso a migration `20260427_profiles_cascade_delete.sql`
+  // ainda não esteja aplicada, a FK profiles → auth.users sem CASCADE
+  // bloqueia a eliminação. Apagamos a linha em `profiles` via service
+  // role primeiro (bypassa RLS), depois eliminamos do auth. Quando
+  // a migration estiver aplicada este passo torna-se redundante mas
+  // inofensivo (a linha já não existe quando o auth.users for apagado).
+  await admin.from('profiles').delete().eq('id', userId)
+
   const { error } = await admin.auth.admin.deleteUser(userId)
   if (error) return { error: error.message }
 
