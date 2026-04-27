@@ -27,7 +27,7 @@ interface QuickAction {
   icon: React.ComponentType<{ className?: string }>
 }
 
-const QUICK_ACTIONS: QuickAction[] = [
+const QUICK_ACTIONS_BASE: QuickAction[] = [
   { type: 'action', label: 'Geral',     href: '/dashboard',           icon: LayoutDashboard },
   { type: 'action', label: 'Membros',   href: '/dashboard/membros',   icon: Users },
   { type: 'action', label: 'Novo Membro', href: '/dashboard/membros/novo', icon: Users, hint: 'Criar' },
@@ -37,7 +37,16 @@ const QUICK_ACTIONS: QuickAction[] = [
   { type: 'action', label: 'Inativos',  href: '/dashboard/membros?estado=inativo', icon: Users, hint: 'Filtro' },
 ]
 
-export default function CommandPalette({ allMembers }: { allMembers: { id: string; nome: string; turma: string | null }[] }) {
+export default function CommandPalette({
+  allMembers,
+  isSuperAdmin = false,
+}: {
+  allMembers: { id: string; nome: string; turma: string | null }[]
+  isSuperAdmin?: boolean
+}) {
+  const QUICK_ACTIONS = isSuperAdmin
+    ? QUICK_ACTIONS_BASE
+    : QUICK_ACTIONS_BASE.filter(a => a.href !== '/dashboard/admins')
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [q, setQ] = useState('')

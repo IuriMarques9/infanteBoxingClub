@@ -41,12 +41,16 @@ const MAIN_LINKS: NavItem[] = [
   { href: '/dashboard/loja', label: 'Loja / Merch', icon: ShoppingBag, disabled: true },
 ]
 
-const ADVANCED_LINKS: NavItem[] = [
+// Item Administradores só aparece para o super admin (filtrado em runtime)
+const ADVANCED_LINKS_BASE: NavItem[] = [
   { href: '/dashboard/admins', label: 'Administradores', icon: ShieldCheck },
   { href: '/dashboard/logs', label: 'Histórico (Logs)', icon: Activity },
 ]
 
-export default function DashboardSidebar() {
+export default function DashboardSidebar({ isSuperAdmin = false }: { isSuperAdmin?: boolean }) {
+  const ADVANCED_LINKS = isSuperAdmin
+    ? ADVANCED_LINKS_BASE
+    : ADVANCED_LINKS_BASE.filter(l => l.href !== '/dashboard/admins')
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)

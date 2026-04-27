@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 import DashboardSidebar from "./DashboardSidebar";
 import CommandPaletteServer from "./CommandPaletteServer";
+import { currentUserIsSuperAdmin } from "@/lib/auth";
 
 // Toda a área administrativa fora dos motores de busca.
 export const metadata: Metadata = {
@@ -13,10 +14,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+export default async function DashboardLayout({ children }: { children: ReactNode }) {
+  const isSuperAdmin = await currentUserIsSuperAdmin()
   return (
     <div className="min-h-screen bg-[#0A0A0A] flex text-white/90 selection:bg-[#E8B55B]/30 font-sans">
-      <DashboardSidebar />
+      <DashboardSidebar isSuperAdmin={isSuperAdmin} />
 
       {/* Main Content Area */}
       <main className="flex-1 overflow-auto relative">

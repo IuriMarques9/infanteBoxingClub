@@ -2,7 +2,10 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { currentUserIsSuperAdmin } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
+
+const NOT_AUTHORIZED = { error: 'Apenas o administrador principal pode gerir contas de admin.' }
 
 // ─── GESTÃO DE ADMINISTRADORES ──────────────────────────────────
 // Cria/lista/elimina contas que conseguem entrar na dashboard.
@@ -19,6 +22,10 @@ export interface AdminRow {
 }
 
 export async function listAdmins(): Promise<AdminRow[]> {
+  // Apenas o super admin pode listar contas — os outros nem sequer
+  // veem a página, mas defensiva extra: devolve [] se não autorizado.
+  if (!(await currentUserIsSuperAdmin())) return []
+
   const admin = createAdminClient()
 
   // Tabela profiles tem 1 linha por user. Faz JOIN com auth.users
@@ -47,6 +54,7 @@ export async function listAdmins(): Promise<AdminRow[]> {
 // de confirmação). A password é definida pelo criador. A trigger
 // vai popular `profiles` automaticamente.
 export async function criarAdmin(formData: FormData): Promise<{ ok?: boolean; error?: string }> {
+  if (!(await currentUserIsSuperAdmin())) return NOT_AUTHORIZED
   const email = (formData.get('email') as string || '').trim().toLowerCase()
   const password = formData.get('password') as string
 
@@ -76,6 +84,7 @@ export async function criarAdmin(formData: FormData): Promise<{ ok?: boolean; er
 }
 
 export async function eliminarAdmin(formData: FormData): Promise<{ ok?: boolean; error?: string }> {
+  if (!(await currentUserIsSuperAdmin())) return NOT_AUTHORIZED
   const userId = formData.get('id') as string
   if (!userId) return { error: 'ID em falta.' }
 
@@ -104,6 +113,7 @@ export async function eliminarAdmin(formData: FormData): Promise<{ ok?: boolean;
 // Repor password — Supabase não permite ler password, mas dá para
 // "set new" via Admin API. Útil quando alguém perde acesso.
 export async function reporPassword(formData: FormData): Promise<{ ok?: boolean; error?: string }> {
+  if (!(await currentUserIsSuperAdmin())) return NOT_AUTHORIZED
   const userId = formData.get('id') as string
   const newPassword = formData.get('password') as string
   if (!userId || !newPassword) return { error: 'Parâmetros em falta.' }
