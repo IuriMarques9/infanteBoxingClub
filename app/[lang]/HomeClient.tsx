@@ -1,13 +1,13 @@
 'use client';
 
-import Hero from "../components/sections/Hero";
-import Modalidades from "../components/sections/Modalidades";
-import Horario from "../components/sections/Horario";
-import ContactoCTA from "../components/sections/ContactoCTA";
-import Header from "../components/layout/Header";
-import Loja from "../components/sections/Loja";
-import Eventos from "../components/sections/Eventos";
-import Footer from "../components/layout/Footer";
+import Hero from "../../components/sections/Hero";
+import Modalidades from "../../components/sections/Modalidades";
+import Horario from "../../components/sections/Horario";
+import ContactoCTA from "../../components/sections/ContactoCTA";
+import Header from "../../components/layout/Header";
+import Loja from "../../components/sections/Loja";
+import Eventos from "../../components/sections/Eventos";
+import Footer from "../../components/layout/Footer";
 import { useEffect } from "react";
 import { useLanguage } from "@/contexts/language-context";
 import { content } from "@/lib/content";

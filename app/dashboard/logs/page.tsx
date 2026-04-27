@@ -1,8 +1,17 @@
 import { createClient } from '@/lib/supabase/server'
-import { User, Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
-import Chip from '@/components/shared/Chip'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import LogFilters from '@/components/dashboard/LogFilters'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+import ExportLogsButton from './ExportLogsButton'
+import SavedFilters from './SavedFilters'
+import LogRow from './LogRow'
+import { getActivityLast30Days } from './actions'
+
+// Sparkline puxa recharts — carrega só quando esta página é visitada.
+const ActivitySparkline = dynamic(() => import('./ActivitySparkline'), {
+  loading: () => <div className="h-[120px] bg-white/[0.02] rounded-2xl animate-pulse" />,
+})
 
 // ─── PÁGINA DE AUDITORIA GLOBAL ──────────────────────────────
 // Permite ver todas as ações realizadas por todos os admins.
@@ -10,19 +19,14 @@ export const metadata = { title: 'Log de Atividades | Dashboard' }
 
 const PAGE_SIZE = 50
 
-const actionTone = (a: string): 'gold' | 'blue' | 'red' | 'green' | 'neutral' => {
-  if (a.startsWith('CRIAR') || a.startsWith('REGISTAR') || a.startsWith('UPLOAD')) return 'gold'
-  if (a.startsWith('EDITAR')) return 'blue'
-  if (a.startsWith('ELIMINAR')) return 'red'
-  return 'neutral'
-}
-
 type SearchParams = {
   action?: string
   admin?: string
   from?: string
   to?: string
   entity?: string
+  /** Filtro por entity_id (ex: vir do perfil de um membro). */
+  q?: string
   page?: string
 }
 
@@ -82,6 +86,10 @@ export default async function ActivityLogPage({
     query = query.eq('entity_type', sp.entity)
     countQuery = countQuery.eq('entity_type', sp.entity)
   }
+  if (sp.q) {
+    query = query.eq('entity_id', sp.q)
+    countQuery = countQuery.eq('entity_id', sp.q)
+  }
   if (sp.from) {
     query = query.gte('created_at', sp.from)
     countQuery = countQuery.gte('created_at', sp.from)
@@ -97,6 +105,7 @@ export default async function ActivityLogPage({
 
   const { data: logs } = await (query.range(fromIdx, toIdx) as any)
   const { count: total } = await (countQuery as any)
+  const sparkline = await getActivityLast30Days()
 
   const totalCount = total || 0
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
@@ -107,6 +116,7 @@ export default async function ActivityLogPage({
     if (sp.action) params.set('action', sp.action)
     if (sp.admin) params.set('admin', sp.admin)
     if (sp.entity) params.set('entity', sp.entity)
+    if (sp.q) params.set('q', sp.q)
     if (sp.from) params.set('from', sp.from)
     if (sp.to) params.set('to', sp.to)
     if (p > 1) params.set('page', String(p))
@@ -118,14 +128,32 @@ export default async function ActivityLogPage({
     <div className="space-y-8 animate-in fade-in duration-500">
 
       {/* Cabeçalho */}
-      <div>
-        <h1 className="text-3xl font-headline font-bold text-[#E8B55B] tracking-wider">
-          Histórico do Sistema
-        </h1>
-        <p className="text-white/50 text-sm mt-1">
-          Monitoriza todas as alterações efetuadas por administradores na plataforma.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-headline font-bold text-[#E8B55B] tracking-wider">
+            Histórico do Sistema
+          </h1>
+          <p className="text-white/50 text-sm mt-1">
+            Monitoriza todas as alterações efetuadas por administradores na plataforma.
+          </p>
+        </div>
+        <ExportLogsButton
+          filters={{
+            action: sp.action,
+            admin: sp.admin,
+            entity: sp.entity,
+            q: sp.q,
+            from: sp.from,
+            to: sp.to,
+          }}
+        />
       </div>
+
+      {/* Sparkline 30 dias (D3) */}
+      <ActivitySparkline data={sparkline} />
+
+      {/* Presets de filtros guardados (D4) */}
+      <SavedFilters />
 
       {/* Filtros */}
       <LogFilters
@@ -139,42 +167,15 @@ export default async function ActivityLogPage({
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-white/10 bg-white/[0.02]">
-                <th className="text-left px-6 py-4 text-white/50 text-xs uppercase tracking-wider font-medium">Data/Hora</th>
-                <th className="text-left px-6 py-4 text-white/50 text-xs uppercase tracking-wider font-medium">Admin</th>
-                <th className="text-left px-6 py-4 text-white/50 text-xs uppercase tracking-wider font-medium">Ação</th>
-                <th className="text-left px-6 py-4 text-white/50 text-xs uppercase tracking-wider font-medium">Detalhes</th>
+                <th className="text-left px-3 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium">Data/Hora</th>
+                <th className="text-left px-3 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium hidden md:table-cell">Admin</th>
+                <th className="text-left px-3 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium">Ação</th>
+                <th className="text-left px-3 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium hidden sm:table-cell">Detalhes</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
               {logs && logs.length > 0 ? (
-                logs.map((log: any) => (
-                  <tr key={log.id} className="hover:bg-white/[0.01] transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-2 text-white/70">
-                         <Calendar className="w-3.5 h-3.5 text-[#E8B55B]/50" />
-                         {new Date(log.created_at).toLocaleString('pt-PT')}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-[10px] font-bold text-[#E8B55B]">
-                          <User className="w-3 h-3" />
-                        </div>
-                        <span className="text-white/80 font-medium">
-                          {log.profiles?.email?.split('@')[0] || 'Admin'}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <Chip tone={actionTone(log.action)} size="sm">
-                        {log.action}
-                      </Chip>
-                    </td>
-                    <td className="px-6 py-4 text-white/40">
-                      {log.description}
-                    </td>
-                  </tr>
-                ))
+                logs.map((log: any) => <LogRow key={log.id} log={log} />)
               ) : (
                 <tr>
                   <td colSpan={4} className="px-6 py-20 text-center text-white/20 italic">

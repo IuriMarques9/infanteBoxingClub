@@ -1,10 +1,19 @@
 import { createClient } from "@/lib/supabase/server";
-import { Users, CreditCard, TrendingUp, Calendar, Activity, ShieldCheck, UserCheck, UserX, ShieldAlert } from "lucide-react";
+import { Users, CreditCard, TrendingUp, Calendar, Activity, ShieldCheck, UserCheck, UserX, ShieldAlert, ChevronRight, AlertTriangle, FileWarning, BarChart3 } from "lucide-react";
 import { calcularEstado } from "./membros/actions";
 import { type StatusMembro } from "./membros/constants";
 import { anoAtual, membroInativo } from "@/lib/membros-estado";
 import Link from "next/link";
 import StatCard from "@/components/shared/StatCard";
+import dynamic from "next/dynamic";
+import { getActivityLabel, getEntityHref, formatRelativeTime } from "@/lib/activity-log-labels";
+import { getRelatorioMensal } from "./pagamentos/actions";
+
+// Carregamento dinâmico — recharts (~45KB) só entra no bundle quando
+// o utilizador chega à página geral, e não bloqueia o First Load JS.
+const MonthlyRevenueChart = dynamic(() => import("@/components/dashboard/MonthlyRevenueChart"), {
+  loading: () => <div className="h-[300px] bg-white/[0.02] rounded-lg animate-pulse" />,
+});
 
 export const metadata = {
   title: "Dashboard | Infante Boxing Club",
@@ -92,25 +101,64 @@ export default async function DashboardPage() {
     segurosEmFalta = 0;
   }
 
+  // 8. Recebido no mês anterior — para calcular delta MoM (A2).
+  const mesAnterior = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    .toISOString().slice(0, 7);
+  let recebidoMesAnterior = 0;
+  try {
+    const { data: pagAnt } = await (supabase
+      .from('pagamentos')
+      .select('valor')
+      .eq('mes_referencia', mesAnterior) as any);
+    recebidoMesAnterior = (pagAnt || []).reduce((s: number, p: any) => s + Number(p.valor), 0);
+  } catch {
+    recebidoMesAnterior = 0;
+  }
+  // Delta percentual; null se mês anterior é zero (não dividir por zero).
+  const deltaPct = recebidoMesAnterior > 0
+    ? Math.round(((recebidoMes - recebidoMesAnterior) / recebidoMesAnterior) * 100)
+    : null;
+  const deltaAbs = recebidoMes - recebidoMesAnterior;
+
+  // 9. Relatório mensal (12 meses do ano corrente) — alimenta o gráfico (A1).
+  const relatorioMensal = await getRelatorioMensal(now.getFullYear());
+
+  // 10. Alertas Urgentes (A3) — derivações em memória sobre membros já carregados.
+  //   • inativosCriticos: 3+ meses sem pagar (mês atual, anterior e o anterior a esse).
+  //   • inspeccoesEmFalta: descomentar quando houver query a documents (placeholder = 0).
+  //   • seguros expiram este mês (futura impl). Por agora reuso segurosEmFalta.
+  const mes2Atras = new Date(now.getFullYear(), now.getMonth() - 2, 1)
+    .toISOString().slice(0, 7);
+  const inativosCriticos = membrosComStatus.filter((m: any) => {
+    if (m.is_isento) return false;
+    const mp: string[] = (m.pagamentos || []).map((p: any) => p.mes_referencia);
+    return !mp.includes(mesAtual) && !mp.includes(mesAnterior) && !mp.includes(mes2Atras);
+  });
+  const algumAlertaUrgente = inativosCriticos.length > 0 || segurosEmFalta > 0;
+
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
 
       {/* Header Greeting */}
-      <div className="flex justify-between items-end">
+      <div className="flex justify-between items-end gap-4">
         <div>
-          <h2 className="text-white/40 text-lg font-medium tracking-wide">Bem-vindo,</h2>
-          <h1 className="text-3xl font-headline font-bold text-[#E8B55B] tracking-wider mt-1 drop-shadow-[0_0_10px_rgba(232,181,91,0.3)]">Admin IBC</h1>
+          <h2 className="text-white/40 text-base sm:text-lg font-medium tracking-wide">Bem-vindo,</h2>
+          <h1 className="text-2xl sm:text-3xl font-headline font-bold text-[#E8B55B] tracking-wider mt-1 drop-shadow-[0_0_10px_rgba(232,181,91,0.3)]">Admin IBC</h1>
         </div>
-        <div className="text-right hidden md:block">
-           <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Estado do Sistema</p>
-           <p className="text-xs text-green-400 font-medium flex items-center gap-2 justify-end mt-1">
-             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span> Online & Sincronizado
-           </p>
-        </div>
+        {/* Última atividade real, derivada do log mais recente. Substitui o indicador "Online" estático. */}
+        {logs && logs.length > 0 && (
+          <div className="text-right hidden md:block">
+             <p className="text-[10px] text-white/30 uppercase tracking-widest font-bold">Última Atividade</p>
+             <p className="text-xs text-white/70 font-medium flex items-center gap-2 justify-end mt-1">
+               <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+               {formatRelativeTime(logs[0].created_at)}
+             </p>
+          </div>
+        )}
       </div>
 
       {/* Grid de Métricas Reais */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
         <StatCard
           icon={Users}
           label="Total Membros"
@@ -138,7 +186,11 @@ export default async function DashboardPage() {
           label="Recebido este Mês"
           value={`${recebidoMes}€`}
           tone="gold"
-          hint={`de ${receitaPrevista}€`}
+          hint={
+            deltaPct === null
+              ? `de ${receitaPrevista}€`
+              : `${deltaPct >= 0 ? '▲' : '▼'} ${Math.abs(deltaPct)}% vs mês anterior (${deltaAbs >= 0 ? '+' : ''}${deltaAbs}€)`
+          }
         />
         <StatCard
           icon={ShieldAlert}
@@ -150,8 +202,76 @@ export default async function DashboardPage() {
         />
       </div>
 
+      {/* Alertas Urgentes (A3) — só aparece se houver algum alerta ativo. */}
+      {algumAlertaUrgente && (
+        <div className="bg-gradient-to-br from-red-500/[0.06] to-amber-500/[0.04] border border-red-500/20 rounded-2xl p-5 sm:p-6 shadow-2xl">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-red-300 flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4" /> Alertas Urgentes
+            </h3>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-white/40">
+              Requer ação
+            </span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {inativosCriticos.length > 0 && (
+              <Link
+                href="/dashboard/membros?estado=inativo"
+                className="group flex items-start gap-3 p-4 bg-red-500/5 hover:bg-red-500/10 border border-red-500/20 rounded-xl transition-colors"
+              >
+                <div className="w-10 h-10 rounded-lg bg-red-500/15 border border-red-500/30 flex items-center justify-center text-red-300 shrink-0">
+                  <UserX className="w-5 h-5" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-red-300 font-bold text-sm">
+                    {inativosCriticos.length} membro{inativosCriticos.length !== 1 ? 's' : ''} 3+ meses sem pagar
+                  </p>
+                  <p className="text-white/50 text-xs mt-0.5 truncate">
+                    {inativosCriticos.slice(0, 3).map((m: any) => m.nome).join(', ')}
+                    {inativosCriticos.length > 3 && ` +${inativosCriticos.length - 3}`}
+                  </p>
+                </div>
+                <ChevronRight className="w-4 h-4 text-white/30 group-hover:text-red-300 mt-1 shrink-0" />
+              </Link>
+            )}
+            {segurosEmFalta > 0 && (
+              <Link
+                href="/dashboard/membros?seguro=em_falta"
+                className="group flex items-start gap-3 p-4 bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/20 rounded-xl transition-colors"
+              >
+                <div className="w-10 h-10 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-300 shrink-0">
+                  <FileWarning className="w-5 h-5" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-amber-300 font-bold text-sm">
+                    {segurosEmFalta} seguro{segurosEmFalta !== 1 ? 's' : ''} por regularizar
+                  </p>
+                  <p className="text-white/50 text-xs mt-0.5">
+                    Ano {anoAtual()} sem comprovativo
+                  </p>
+                </div>
+                <ChevronRight className="w-4 h-4 text-white/30 group-hover:text-amber-300 mt-1 shrink-0" />
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Gráfico de Receita Mensal (A1) — usa MonthlyRevenueChart já existente. */}
+      <div className="bg-[#121212] rounded-2xl border border-white/5 p-5 sm:p-6 shadow-2xl">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-bold uppercase tracking-widest text-[#E8B55B] flex items-center gap-2">
+            <BarChart3 className="w-4 h-4" /> Receita Mensal · {now.getFullYear()}
+          </h3>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-white/40">
+            Total: {relatorioMensal.reduce((s: number, m: any) => s + m.total, 0)}€
+          </span>
+        </div>
+        <MonthlyRevenueChart data={relatorioMensal} />
+      </div>
+
       {/* Middle Row: Histórico e Eventos */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
 
          {/* Historial de Ações Reais */}
          <div className="lg:col-span-2 bg-[#121212] rounded-2xl border border-white/5 shadow-2xl overflow-hidden">
@@ -165,24 +285,43 @@ export default async function DashboardPage() {
             <div className="p-0">
                {logs && logs.length > 0 ? (
                  <div className="divide-y divide-white/5">
-                   {logs.map((log: any) => (
-                     <div key={log.id} className="p-4 hover:bg-white/[0.02] transition-colors flex items-center justify-between group">
-                        <div className="flex items-center gap-4">
-                           <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-[#E8B55B]/50 font-bold group-hover:bg-[#E8B55B]/10 group-hover:text-[#E8B55B] transition-all">
-                              {log.action.charAt(0)}
-                           </div>
-                           <div>
-                              <p className="text-sm text-white/80 font-medium">{log.description}</p>
-                              <p className="text-[10px] text-white/30 font-bold uppercase tracking-wider mt-0.5">
-                                {new Date(log.created_at).toLocaleDateString('pt-PT')} às {new Date(log.created_at).toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}
-                              </p>
-                           </div>
-                        </div>
-                        <div className="text-[10px] font-bold text-white/20 uppercase group-hover:text-[#E8B55B]/40 transition-colors">
-                           #{log.action}
-                        </div>
-                     </div>
-                   ))}
+                   {logs.map((log: any) => {
+                     const labelInfo = getActivityLabel(log.action)
+                     const href = getEntityHref(log.entity_type, log.entity_id)
+                     const Icon = labelInfo.icon
+                     const toneCls =
+                       labelInfo.tone === 'gold'  ? 'text-[#E8B55B] bg-[#E8B55B]/10 border-[#E8B55B]/20' :
+                       labelInfo.tone === 'green' ? 'text-emerald-300 bg-emerald-500/10 border-emerald-500/20' :
+                       labelInfo.tone === 'red'   ? 'text-red-300 bg-red-500/10 border-red-500/20' :
+                       labelInfo.tone === 'blue'  ? 'text-sky-300 bg-sky-500/10 border-sky-500/20' :
+                       'text-white/60 bg-white/5 border-white/10'
+                     const inner = (
+                       <>
+                          <div className="flex items-center gap-4 min-w-0">
+                             <div className={`w-8 h-8 rounded-lg border flex items-center justify-center shrink-0 transition-all ${toneCls}`}>
+                                <Icon className="w-4 h-4" />
+                             </div>
+                             <div className="min-w-0">
+                                <p className="text-sm text-white/80 font-medium truncate">{log.description}</p>
+                                <p className="text-[10px] text-white/40 font-medium mt-0.5 flex items-center gap-2">
+                                  <span className="font-bold uppercase tracking-wider text-white/30">{labelInfo.label}</span>
+                                  <span className="w-0.5 h-0.5 rounded-full bg-white/20"></span>
+                                  <span>{formatRelativeTime(log.created_at)}</span>
+                                </p>
+                             </div>
+                          </div>
+                          {href && (
+                            <ChevronRight className="w-4 h-4 text-white/20 group-hover:text-[#E8B55B] transition-colors shrink-0" />
+                          )}
+                       </>
+                     )
+                     const baseCls = `p-4 transition-colors flex items-center justify-between gap-3 group ${href ? 'hover:bg-white/[0.03] cursor-pointer' : ''}`
+                     return href ? (
+                       <Link key={log.id} href={href} title={`#${log.action}`} className={baseCls}>{inner}</Link>
+                     ) : (
+                       <div key={log.id} title={`#${log.action}`} className={baseCls}>{inner}</div>
+                     )
+                   })}
                  </div>
                ) : (
                  <div className="p-12 text-center text-white/20 italic">
@@ -237,7 +376,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Footer Info Quick Links */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
          <div className="bg-[#E8B55B]/5 p-4 rounded-xl border border-[#E8B55B]/10 flex items-center gap-4">
             <div className="w-10 h-10 rounded-full bg-[#E8B55B]/20 flex items-center justify-center">
                <ShieldCheck className="w-5 h-5 text-[#E8B55B]" />

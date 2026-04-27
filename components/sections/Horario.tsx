@@ -13,7 +13,7 @@ import {
   TURMA_AGENDA_TONES,
   collectTimeRanges,
   collectActiveDays,
-  findSlot,
+  findSlots,
   type WeekDay,
 } from "@/lib/horarios";
 import { cn } from "@/lib/utils";
@@ -109,19 +109,24 @@ export default function Schedule() {
                           {range.inicio} – {range.fim}
                         </td>
                         {columns.map(day => {
-                          const slot = findSlot(horarios, day, range);
+                          const slots = findSlots(horarios, day, range);
                           return (
                             <td key={day} className="px-2 py-2 align-middle">
-                              {slot ? (
-                                <div
-                                  className={cn(
-                                    "rounded-lg border p-2 text-center transition-transform hover:scale-[1.03]",
-                                    TURMA_AGENDA_TONES[slot.turma]
-                                  )}
-                                >
-                                  <div className="uppercase tracking-wider text-[10px] font-bold leading-tight">
-                                    {TURMA_LABELS[slot.turma]}
-                                  </div>
+                              {slots.length > 0 ? (
+                                <div className="space-y-1">
+                                  {slots.map(slot => (
+                                    <div
+                                      key={slot.id}
+                                      className={cn(
+                                        "rounded-lg border p-2 text-center transition-transform hover:scale-[1.03]",
+                                        TURMA_AGENDA_TONES[slot.turma]
+                                      )}
+                                    >
+                                      <div className="uppercase tracking-wider text-[10px] font-bold leading-tight">
+                                        {TURMA_LABELS[slot.turma]}
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
                               ) : (
                                 <div className="text-center text-white/15 text-sm select-none">—</div>

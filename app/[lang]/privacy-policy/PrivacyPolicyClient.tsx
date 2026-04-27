@@ -1,9 +1,9 @@
 'use client';
-import { useLanguage } from '../../contexts/language-context';
-import { content } from '../../lib/content';
-import Header from '../../components/layout/Header';
-import Footer from '../../components/layout/Footer';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
+import { useLanguage } from '../../../contexts/language-context';
+import { content } from '../../../lib/content';
+import Header from '../../../components/layout/Header';
+import Footer from '../../../components/layout/Footer';
+import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 
 export default function PrivacyPolicyClient() {
   const { language } = useLanguage();

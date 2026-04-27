@@ -35,7 +35,7 @@ export default async function PaymentBatchForm() {
       </p>
 
       <form action={registarPagamentosLote} className="space-y-5">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="space-y-1">
             <label className="text-[11px] font-bold uppercase tracking-wider text-white/50">
               Mês de Referência

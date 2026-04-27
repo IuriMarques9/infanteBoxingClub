@@ -19,8 +19,11 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Roboto', 'sans-serif'],
-        headline: ['Teko', 'sans-serif'],
+        // Variáveis CSS expostas pelo `next/font` em app/layout.tsx
+        // (--font-roboto, --font-teko). Fallback Roboto/Teko mantém
+        // compatibilidade caso a variável não esteja definida.
+        body: ['var(--font-roboto)', 'Roboto', 'sans-serif'],
+        headline: ['var(--font-teko)', 'Teko', 'sans-serif'],
       },
       spacing: {
         'section-sm': '5rem',

@@ -68,7 +68,7 @@ const Footer = () => {
             <ul className="space-y-2.5">
               {F.nav.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-white/70 hover:text-primary transition-colors">
+                  <Link href={link.href === '/' ? `/${language}` : `/${language}${link.href}`} className="text-sm text-white/70 hover:text-primary transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -97,7 +97,7 @@ const Footer = () => {
                 <span>{C.contact.address}</span>
               </li>
             </ul>
-            <Link href="/contacto" className="inline-block mt-4 text-xs font-bold uppercase tracking-wider text-primary hover:text-primary/80 transition-colors">
+            <Link href={`/${language}/contacto`} className="inline-block mt-4 text-xs font-bold uppercase tracking-wider text-primary hover:text-primary/80 transition-colors">
               {F.fullForm}
             </Link>
           </div>
@@ -108,7 +108,7 @@ const Footer = () => {
             <ul className="space-y-2.5">
               {F.legal.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-white/70 hover:text-primary transition-colors">
+                  <Link href={link.href === '/' ? `/${language}` : `/${language}${link.href}`} className="text-sm text-white/70 hover:text-primary transition-colors">
                     {link.label}
                   </Link>
                 </li>

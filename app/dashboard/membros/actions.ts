@@ -5,7 +5,8 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { Turma, TURMA_LABELS, StatusMembro, STATUS_CONFIG } from './constants'
-import { anoAtual } from '@/lib/membros-estado'
+import { anoAtual, calcularIdade } from '@/lib/membros-estado'
+import { toCSV } from '@/lib/csv'
 
 // ─── CALCULAR ESTADO ────────────────────────────────────────────
 // Função reutilizável para calcular o estado de um membro com base
@@ -242,4 +243,125 @@ export async function getMembrosOverdue() {
   const supabase = await createClient()
   const { data } = await (supabase.from('membros_status').select('*').eq('status', 'em_atraso') as any)
   return data || []
+}
+
+// ─── MARCAR PAGAMENTO USANDO COTA DO MEMBRO ───────────────────
+// Para cada ID, regista um pagamento com o valor da `cota` do
+// próprio membro (em vez de um valor fixo). Ignora membros isentos
+// silenciosamente. Mantém um único registo no activity_log por
+// ação em lote (mesmo padrão de `registarPagamentosLote`).
+export async function marcarPagamentosCota(
+  ids: string[],
+  mes_referencia: string,
+): Promise<{ ok?: boolean; count?: number; ignorados?: number; error?: string }> {
+  const supabase = await createClient()
+  if (!ids.length || !mes_referencia) return { error: 'Parâmetros em falta.' }
+
+  // Buscar cotas + isenção dos membros selecionados
+  const { data: membros, error: fetchErr } = await (supabase
+    .from('membros')
+    .select('id, cota, is_isento')
+    .in('id', ids) as any)
+  if (fetchErr) return { error: fetchErr.message }
+
+  const elegíveis = (membros || []).filter((m: any) => !m.is_isento)
+  if (elegíveis.length === 0) return { error: 'Nenhum membro elegível (todos isentos).' }
+
+  const rows = elegíveis.map((m: any) => ({
+    membro_id: m.id,
+    mes_referencia,
+    valor: Number(m.cota ?? 30),  // fallback 30€ se cota for null
+  }))
+
+  const total = rows.reduce((s: number, r: { valor: number }) => s + r.valor, 0)
+
+  const { error: insertErr } = await (supabase.from('pagamentos') as any).insert(rows)
+  if (insertErr) return { error: insertErr.message }
+
+  await (supabase.from('activity_log') as any).insert({
+    action: 'REGISTAR_PAGAMENTOS_LOTE',
+    description: `Registou ${rows.length} pagamento(s) (total ${total}€) referentes a ${mes_referencia}`,
+    entity_type: 'pagamento',
+  })
+
+  revalidatePath('/dashboard/membros')
+  revalidatePath('/dashboard')
+
+  return { ok: true, count: rows.length, ignorados: ids.length - rows.length }
+}
+
+// ─── ELIMINAR MEMBROS EM LOTE ──────────────────────────────────
+// Apaga vários membros de uma vez. Cada um regista no activity_log.
+// Pagamentos/documentos relacionados devem ter ON DELETE CASCADE.
+export async function eliminarMembrosLote(
+  ids: string[],
+): Promise<{ ok?: boolean; count?: number; error?: string }> {
+  const supabase = await createClient()
+  if (!ids.length) return { error: 'Nenhum membro selecionado.' }
+
+  // Buscar nomes para o log
+  const { data: membros } = await (supabase
+    .from('membros')
+    .select('id, nome')
+    .in('id', ids) as any)
+  const nomes = (membros || []).map((m: any) => m.nome)
+
+  const { error } = await (supabase.from('membros') as any).delete().in('id', ids)
+  if (error) return { error: error.message }
+
+  await (supabase.from('activity_log') as any).insert({
+    action: 'ELIMINAR_MEMBRO',
+    description: `Eliminou ${ids.length} membro(s): ${nomes.slice(0, 5).join(', ')}${nomes.length > 5 ? `, +${nomes.length - 5}` : ''}`,
+    entity_type: 'membro',
+  })
+
+  revalidatePath('/dashboard/membros')
+  revalidatePath('/dashboard')
+
+  return { ok: true, count: ids.length }
+}
+
+// ─── EXPORT CSV DE MEMBROS ──────────────────────────────────────
+// Recebe uma lista de IDs e devolve um CSV com os dados principais
+// dos membros (nome, email, telefone, turma, idade, cota, isento).
+// Se ids vier vazio, devolve TODOS os membros (export total).
+export async function exportMembrosCSV(ids: string[]): Promise<string> {
+  const supabase = await createClient()
+
+  let query: any = (supabase.from('membros') as any)
+    .select('id, nome, email, telefone, turma, data_nascimento, cota, is_isento, is_competicao, seguro_ano_pago, observacoes')
+    .order('nome', { ascending: true })
+
+  if (ids && ids.length > 0) {
+    query = query.in('id', ids)
+  }
+
+  const { data } = await query
+  const rows = (data || []).map((m: any) => ({
+    nome: m.nome,
+    email: m.email || '',
+    telefone: m.telefone || '',
+    turma: TURMA_LABELS[m.turma as Turma] || m.turma,
+    idade: calcularIdade(m.data_nascimento) ?? '',
+    data_nascimento: m.data_nascimento || '',
+    cota: m.cota ?? '',
+    isento: m.is_isento ? 'Sim' : 'Não',
+    competicao: m.is_competicao ? 'Sim' : 'Não',
+    seguro_ano_pago: m.seguro_ano_pago ?? '',
+    observacoes: m.observacoes || '',
+  }))
+
+  return toCSV(rows, [
+    { key: 'nome',            label: 'Nome' },
+    { key: 'email',           label: 'Email' },
+    { key: 'telefone',        label: 'Telefone' },
+    { key: 'turma',           label: 'Turma' },
+    { key: 'idade',           label: 'Idade' },
+    { key: 'data_nascimento', label: 'Data Nascimento' },
+    { key: 'cota',            label: 'Cota (€)' },
+    { key: 'isento',          label: 'Isento' },
+    { key: 'competicao',      label: 'Competição' },
+    { key: 'seguro_ano_pago', label: 'Seguro (Ano)' },
+    { key: 'observacoes',     label: 'Observações' },
+  ])
 }

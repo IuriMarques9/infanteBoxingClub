@@ -139,7 +139,7 @@ export default function Contacto({ defaultMessage = "" }: ContactoProps) {
               <div className="space-y-1 leading-none">
                 <FormLabel className="text-white/70">
                   {C.contact.form.privacyPolicy.preLink}{' '}
-                  <Link href="/privacy-policy" className="underline font-bold hover:text-primary">
+                  <Link href={`/${language}/privacy-policy`} className="underline font-bold hover:text-primary">
                     {C.contact.form.privacyPolicy.linkText}
                   </Link>
                   .

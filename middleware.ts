@@ -1,7 +1,44 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+const SUPPORTED_LOCALES = ['pt', 'en'] as const
+type Locale = typeof SUPPORTED_LOCALES[number]
+const DEFAULT_LOCALE: Locale = 'pt'
+// Rotas que NÃO devem ser prefixadas com /pt ou /en — administração + auth.
+const NON_LOCALIZED_PREFIXES = ['/dashboard', '/login', '/api', '/_next', '/sitemap.xml', '/robots.txt']
+
+function detectLocale(req: NextRequest): Locale {
+  // 1) Cookie de preferência (set pelo LanguageSwitcher)
+  const cookieLang = req.cookies.get('NEXT_LOCALE')?.value as Locale | undefined
+  if (cookieLang && SUPPORTED_LOCALES.includes(cookieLang)) return cookieLang
+  // 2) Accept-Language header — pega primeiro idioma suportado
+  const accept = req.headers.get('accept-language') ?? ''
+  const langs = accept.split(',').map(s => s.split(';')[0].trim().toLowerCase())
+  for (const l of langs) {
+    if (l.startsWith('pt')) return 'pt'
+    if (l.startsWith('en')) return 'en'
+  }
+  return DEFAULT_LOCALE
+}
+
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // 1) Rotas administrativas / técnicas — saltar i18n e ir direto à auth Supabase.
+  const isNonLocalized = NON_LOCALIZED_PREFIXES.some(p => pathname.startsWith(p))
+
+  // 2) Aplicar i18n routing apenas para o site público.
+  if (!isNonLocalized) {
+    const firstSeg = pathname.split('/')[1]
+    const hasLocale = SUPPORTED_LOCALES.includes(firstSeg as Locale)
+    if (!hasLocale) {
+      const locale = detectLocale(request)
+      const url = request.nextUrl.clone()
+      url.pathname = `/${locale}${pathname === '/' ? '' : pathname}`
+      return NextResponse.redirect(url)
+    }
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })
