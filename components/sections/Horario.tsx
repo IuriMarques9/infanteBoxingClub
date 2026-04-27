@@ -74,6 +74,7 @@ export default function Schedule() {
         {loading ? (
           <Skeleton variant="rect" className="h-80 rounded-2xl" />
         ) : (
+          <>
           <div className="card-gold-accent bg-card/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-2xl">
             <div className="overflow-x-auto">
               <table className="w-full border-collapse min-w-[640px]">
@@ -149,6 +150,37 @@ export default function Schedule() {
               </table>
             </div>
           </div>
+
+          <div className="mt-6 flex flex-col items-center gap-3">
+            <div className="font-headline uppercase tracking-[0.25em] text-primary text-[11px] font-bold">
+              {C.scheduleExtra.legendTitle}
+            </div>
+            <ul className="flex flex-wrap justify-center gap-2">
+              {(['gatinhos', 'suricatas', 'leoes'] as const).map(turma => {
+                const ages: Record<typeof turma, string> = {
+                  gatinhos: '5-7',
+                  suricatas: '8-11',
+                  leoes: '11-13',
+                };
+                return (
+                  <li
+                    key={turma}
+                    className={cn(
+                      "rounded-full border px-3 py-1.5 text-xs font-semibold flex items-center gap-2",
+                      TURMA_AGENDA_TONES[turma]
+                    )}
+                  >
+                    <span className="text-base leading-none">{TURMA_LABELS[turma].split(' ')[0]}</span>
+                    <span className="uppercase tracking-wider">{TURMA_LABELS[turma].split(' ').slice(1).join(' ')}</span>
+                    <span className="opacity-70 normal-case tracking-normal">
+                      {ages[turma]} {C.scheduleExtra.ageSuffix}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          </>
         )}
       </div>
     </SectionShell>

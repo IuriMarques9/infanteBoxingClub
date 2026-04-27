@@ -75,6 +75,8 @@ export const content = {
       subtitleInline: "Find the perfect class to fit your goals and schedule.",
       emptyDay: "Rest",
       fallbackByTurma: "Classes grouped by class below.",
+      legendTitle: "Age groups",
+      ageSuffix: "yrs",
     },
     nextEvent: {
       title: "Upcoming Event",
@@ -165,7 +167,7 @@ export const content = {
       classes: [
         "Gatinhos (5-7 years)",
         "Suricatas (8-11 years)",
-        "Leões (12-14 years)",
+        "Leões (11-13 years)",
         "Adults",
         "Closed",
         "Open Gym",
@@ -355,6 +357,8 @@ export const content = {
       subtitleInline: "Encontre a aula perfeita para os seus objetivos e horário.",
       emptyDay: "Descanso",
       fallbackByTurma: "Aulas agrupadas por turma em baixo.",
+      legendTitle: "Escalões",
+      ageSuffix: "anos",
     },
      nextEvent: {
       title: "Próximo Evento",
@@ -445,7 +449,7 @@ export const content = {
       classes: [
         "Gatinhos (5-7 anos)",
         "Suricatas (8-11 anos)",
-        "Leões (12-14 anos)",
+        "Leões (11-13 anos)",
         "Adultos",
         "Fechado",
         "Ginasio Aberto",
