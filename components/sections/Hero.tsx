@@ -45,14 +45,7 @@ export default function Hero() {
         loop
         muted
         playsInline
-        // preload="metadata" obtém só os primeiros bytes (duração,
-        // dimensões) — o conteúdo só é descarregado quando o autoPlay
-        // efectivamente arranca, o que liberta a rede para o LCP.
-        preload="metadata"
-        // O poster é o LCP (não o vídeo) — prioridade alta no fetch.
-        // React 19 types ainda não aceitam fetchPriority em <video>,
-        // por isso injectamos via spread.
-        {...({ fetchPriority: 'high' } as React.VideoHTMLAttributes<HTMLVideoElement>)}
+        preload="auto"
         className="absolute top-0 left-0 w-full h-full object-cover"
       />
 
