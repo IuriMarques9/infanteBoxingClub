@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Lock, AlertCircle } from "lucide-react";
 import { login } from "./actions";
+import LoginSubmit from "./LoginSubmit";
 
 export const metadata = {
   title: "Login | Infante Boxing Club",
@@ -79,12 +80,7 @@ export default async function LoginPage({
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg py-3 px-4 rounded-lg transition-all flex items-center justify-center hover:shadow-[0_0_20px_hsl(41_55%_57%/0.4)]"
-          >
-            Iniciar Sessão
-          </button>
+          <LoginSubmit />
         </form>
         
         <div className="text-center">
