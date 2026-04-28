@@ -142,8 +142,7 @@ export default async function DashboardPage() {
       {/* Header Greeting */}
       <div className="flex justify-between items-end gap-4">
         <div>
-          <h2 className="text-white/40 text-base sm:text-lg font-medium tracking-wide">Bem-vindo,</h2>
-          <h1 className="text-2xl sm:text-3xl font-headline font-bold text-[#E8B55B] tracking-wider mt-1 drop-shadow-[0_0_10px_rgba(232,181,91,0.3)]">Admin IBC</h1>
+          <h1 className="text-2xl sm:text-3xl font-headline font-bold text-[#E8B55B] tracking-wider drop-shadow-[0_0_10px_rgba(232,181,91,0.3)]">Bem-vindo</h1>
         </div>
         {/* Última atividade real, derivada do log mais recente. Substitui o indicador "Online" estático. */}
         {logs && logs.length > 0 && (

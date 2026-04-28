@@ -22,7 +22,8 @@ export default function AdminsListClient({ admins, currentId }: { admins: AdminR
       if (res.error) {
         toast.error(res.error)
       } else {
-        toast.success('Administrador criado')
+        const email = (formData.get('email') as string || '').trim()
+        toast.success(`Convite enviado para ${email}`)
         setShowCreate(false)
         router.refresh()
       }
@@ -139,8 +140,8 @@ export default function AdminsListClient({ admins, currentId }: { admins: AdminR
           <div className="bg-[#121212] border border-[#E8B55B]/20 rounded-2xl shadow-2xl p-6 max-w-md w-full" onClick={e => e.stopPropagation()}>
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h3 className="text-lg font-headline font-bold text-[#E8B55B] tracking-wider">Novo Administrador</h3>
-                <p className="text-white/50 text-xs mt-1">A conta é criada confirmada — pode entrar logo.</p>
+                <h3 className="text-lg font-headline font-bold text-[#E8B55B] tracking-wider">Convidar Administrador</h3>
+                <p className="text-white/50 text-xs mt-1">Vai receber um email para definir a password e ativar a conta.</p>
               </div>
               <button type="button" onClick={() => !pending && setShowCreate(false)} aria-label="Fechar" className="w-8 h-8 rounded-lg text-white/50 hover:text-white hover:bg-white/5 flex items-center justify-center">
                 <X className="w-4 h-4" />
@@ -157,18 +158,7 @@ export default function AdminsListClient({ admins, currentId }: { admins: AdminR
                   placeholder="exemplo@infante.pt"
                   className="w-full px-3 py-2.5 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] text-sm"
                 />
-              </div>
-              <div>
-                <label className="text-[11px] font-bold uppercase tracking-wider text-white/50 block mb-1">Password (mín. 8)</label>
-                <input
-                  type="password"
-                  name="password"
-                  required
-                  minLength={8}
-                  placeholder="Mínimo 8 caracteres"
-                  className="w-full px-3 py-2.5 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] text-sm"
-                />
-                <p className="text-[10px] text-white/30 mt-1">Comunica-a com segurança ao novo admin — ele pode mudar depois.</p>
+                <p className="text-[10px] text-white/30 mt-1">A conta fica ativa quando a pessoa definir a password pelo link no email.</p>
               </div>
               <div className="flex justify-end gap-2 pt-2">
                 <button type="button" onClick={() => setShowCreate(false)} disabled={pending} className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-white/60 hover:text-white hover:bg-white/5">
@@ -176,7 +166,7 @@ export default function AdminsListClient({ admins, currentId }: { admins: AdminR
                 </button>
                 <button type="submit" disabled={pending} className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-black bg-[#E8B55B] hover:bg-[#C99C4A] disabled:opacity-50">
                   {pending && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                  Criar
+                  Enviar Convite
                 </button>
               </div>
             </form>

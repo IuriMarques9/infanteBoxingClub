@@ -4,6 +4,9 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { currentUserIsSuperAdmin } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
+import { Resend } from 'resend'
+import { render } from '@react-email/render'
+import { AdminInviteEmail } from '@/components/templates/admin-invite-email'
 
 const NOT_AUTHORIZED = { error: 'Apenas o administrador principal pode gerir contas de admin.' }
 
@@ -50,33 +53,63 @@ export async function listAdmins(): Promise<AdminRow[]> {
   })).sort((a, b) => a.email.localeCompare(b.email))
 }
 
-// Cria uma nova conta de admin já confirmada (sem precisar do email
-// de confirmação). A password é definida pelo criador. A trigger
-// vai popular `profiles` automaticamente.
+// Cria uma nova conta de admin SEM password e envia email de convite
+// com link único (Supabase invite) para a pessoa definir a sua password.
+// O email é enviado via Resend usando template com cores do clube.
 export async function criarAdmin(formData: FormData): Promise<{ ok?: boolean; error?: string }> {
   if (!(await currentUserIsSuperAdmin())) return NOT_AUTHORIZED
   const email = (formData.get('email') as string || '').trim().toLowerCase()
-  const password = formData.get('password') as string
 
-  if (!email || !password) return { error: 'Email e password obrigatórios.' }
+  if (!email) return { error: 'Email obrigatório.' }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { error: 'Email inválido.' }
-  if (password.length < 8) return { error: 'Password tem de ter pelo menos 8 caracteres.' }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
   const admin = createAdminClient()
-  const { data, error } = await admin.auth.admin.createUser({
-    email,
-    password,
-    email_confirm: true,  // já confirmado — pode fazer login imediato
-  })
-  if (error) return { error: error.message }
 
-  // Log da ação
+  // 1. Gerar link de invite — cria utilizador SEM password se ainda não existir.
+  //    O link contém access_token + refresh_token no fragmento (#) e
+  //    redireciona para /auth/set-password.
+  const { data: linkData, error: linkError } = await admin.auth.admin.generateLink({
+    type: 'invite',
+    email,
+    options: { redirectTo: `${siteUrl}/auth/set-password` },
+  })
+  if (linkError) return { error: linkError.message }
+
+  const inviteUrl = linkData?.properties?.action_link
+  const newUserId = linkData?.user?.id
+  if (!inviteUrl) return { error: 'Não foi possível gerar o link de convite.' }
+
+  // 2. Buscar email do super admin (para mostrar no template)
   const supabase = await createClient()
+  const { data: { user: inviter } } = await supabase.auth.getUser()
+
+  // 3. Enviar email via Resend
+  if (!process.env.RESEND_API_KEY) {
+    return { error: 'RESEND_API_KEY não configurada — não foi possível enviar email.' }
+  }
+  const resend = new Resend(process.env.RESEND_API_KEY)
+  const html = await render(
+    AdminInviteEmail({ inviteUrl, inviterEmail: inviter?.email || undefined })
+  )
+
+  const { error: sendError } = await resend.emails.send({
+    from: 'Infante Boxing Club <onboarding@resend.dev>',
+    to: email,
+    subject: 'Convite para administrar o Infante Boxing Club',
+    html,
+  })
+  if (sendError) {
+    // Conta já foi criada via generateLink — devolve erro mas mantém estado.
+    return { error: `Conta criada mas falhou envio do email: ${sendError.message}` }
+  }
+
+  // 4. Log da ação
   await (supabase.from('activity_log') as any).insert({
     action: 'CRIAR_ADMIN',
-    description: `Criou administrador "${email}"`,
+    description: `Convidou administrador "${email}"`,
     entity_type: 'admin',
-    entity_id: data.user?.id,
+    entity_id: newUserId,
   })
 
   revalidatePath('/dashboard/admins')
