@@ -94,7 +94,7 @@ export async function criarAdmin(formData: FormData): Promise<{ ok?: boolean; er
   )
 
   const { error: sendError } = await resend.emails.send({
-    from: 'Infante Boxing Club <onboarding@resend.dev>',
+    from: 'Infante Boxing Club <noreply@associacaoinfante.pt>',
     to: email,
     subject: 'Convite para administrar o Infante Boxing Club',
     html,
