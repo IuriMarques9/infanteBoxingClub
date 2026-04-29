@@ -5,7 +5,7 @@ const SUPPORTED_LOCALES = ['pt', 'en'] as const
 type Locale = typeof SUPPORTED_LOCALES[number]
 const DEFAULT_LOCALE: Locale = 'pt'
 // Rotas que NÃO devem ser prefixadas com /pt ou /en — administração + auth.
-const NON_LOCALIZED_PREFIXES = ['/dashboard', '/login', '/api', '/_next', '/sitemap.xml', '/robots.txt']
+const NON_LOCALIZED_PREFIXES = ['/dashboard', '/login', '/auth', '/api', '/_next', '/sitemap.xml', '/robots.txt']
 
 function detectLocale(req: NextRequest): Locale {
   // 1) Cookie de preferência (set pelo LanguageSwitcher)
@@ -88,6 +88,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|webm|mp4|mp3|ico|woff|woff2|ttf|otf)$).*)',
   ],
 }
