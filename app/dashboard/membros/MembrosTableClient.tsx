@@ -193,18 +193,17 @@ export default function MembrosTableClient({ membros, ano }: Props) {
                   />
                 </th>
                 <th className="text-left px-2 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium">Nome</th>
+                <th className="text-left px-2 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium">Estado</th>
                 <th className="text-left px-2 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium hidden sm:table-cell">Turma</th>
-                <th className="text-left px-2 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium hidden lg:table-cell">Tags</th>
                 <th className="text-left px-2 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium hidden md:table-cell">Seguro</th>
                 <th className="text-left px-2 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium hidden lg:table-cell">Inspeção</th>
-                <th className="text-left px-2 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium">Estado</th>
                 <th className="text-right px-2 sm:px-6 py-4 text-white/50 text-[10px] sm:text-xs uppercase tracking-wider font-medium">Ações</th>
               </tr>
             </thead>
             <tbody>
               {membros.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="text-center px-6 py-12 text-white/30">
+                  <td colSpan={7} className="text-center px-6 py-12 text-white/30">
                     Nenhum membro encontrado.
                   </td>
                 </tr>
@@ -234,15 +233,20 @@ export default function MembrosTableClient({ membros, ano }: Props) {
                           </div>
                           <div className="min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              {membro._inativo && (
-                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/30">
-                                  Inativo
-                                </span>
-                              )}
                               <p className="text-white/90 font-medium truncate">{membro.nome}</p>
                               {idade !== null && (
                                 <span className="text-white/40 text-[11px] font-medium" title={`Nascimento: ${membro.data_nascimento}`}>
                                   · {idade} anos
+                                </span>
+                              )}
+                              {membro.is_competicao && (
+                                <span title="Competição" className="text-[#E8B55B]/70 hover:text-[#E8B55B]">
+                                  <Trophy className="w-3.5 h-3.5" />
+                                </span>
+                              )}
+                              {membro.is_isento && (
+                                <span title="Isento de cota" className="text-blue-400/70 hover:text-blue-400">
+                                  <Shield className="w-3.5 h-3.5" />
                                 </span>
                               )}
                               {membro.observacoes && (
@@ -269,21 +273,12 @@ export default function MembrosTableClient({ membros, ano }: Props) {
                           </div>
                         </div>
                       </td>
-                      <td className="px-2 sm:px-6 py-4 text-white/70 hidden sm:table-cell">{TURMA_LABELS[membro.turma as Turma] ?? membro.turma}</td>
-                      <td className="px-2 sm:px-6 py-4 hidden lg:table-cell">
-                        <div className="flex gap-2">
-                          {membro.is_competicao && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#E8B55B]/10 text-[#E8B55B] border border-[#E8B55B]/20">
-                              <Trophy className="w-3 h-3" /> Comp.
-                            </span>
-                          )}
-                          {membro.is_isento && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-400/10 text-blue-400 border border-blue-400/20">
-                              <Shield className="w-3 h-3" /> Isento
-                            </span>
-                          )}
-                        </div>
+                      <td className="px-2 sm:px-6 py-4">
+                        <span className={`inline-flex items-center px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs font-bold whitespace-nowrap ${statusCfg.bg} ${statusCfg.color} ${statusCfg.border} border`}>
+                          {statusCfg.label}
+                        </span>
                       </td>
+                      <td className="px-2 sm:px-6 py-4 text-white/70 hidden sm:table-cell">{TURMA_LABELS[membro.turma as Turma] ?? membro.turma}</td>
                       <td className="px-2 sm:px-6 py-4 text-white/60 text-xs whitespace-nowrap hidden md:table-cell">
                         {membro._seguroOk ? (
                           <span className="inline-flex items-center gap-2 text-green-400">
@@ -309,11 +304,6 @@ export default function MembrosTableClient({ membros, ano }: Props) {
                             Em falta
                           </span>
                         )}
-                      </td>
-                      <td className="px-2 sm:px-6 py-4">
-                        <span className={`inline-flex items-center px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs font-bold whitespace-nowrap ${statusCfg.bg} ${statusCfg.color} ${statusCfg.border} border`}>
-                          {statusCfg.label}
-                        </span>
                       </td>
                       <td className="px-2 sm:px-6 py-4 text-right">
                         <MembroKebabMenu membro={membro} />

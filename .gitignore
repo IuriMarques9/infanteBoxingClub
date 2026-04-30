@@ -45,3 +45,8 @@ migration_*.sql
 
 # Backups de imagens/vídeo originais (gerados por scripts/compress-images.mjs)
 public/*.original.*
+
+# Artifacts gerados por scripts/importar-documentos.ts
+skipped.csv
+errors.csv
+import-log.txt
