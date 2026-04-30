@@ -1,6 +1,7 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
@@ -477,6 +478,43 @@ function MembroKebabMenu({ membro }: { membro: MembroRow }) {
   const [open, setOpen] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [busy, setBusy] = useState<null | 'pay' | 'copy' | 'del'>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  // Coordenadas calculadas dinamicamente quando o menu abre. `placement`
+  // é 'bottom' por defeito mas inverte para 'top' se o menu não couber
+  // por baixo (típico nas últimas linhas da tabela).
+  const [menuPos, setMenuPos] = useState<{ top: number; left: number; placement: 'top' | 'bottom' } | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
+
+  // Calcula a posição quando o menu abre OU a janela faz scroll/resize
+  // (usuário pode fazer scroll com o menu aberto e ele tem de seguir).
+  useLayoutEffect(() => {
+    if (!open) return
+    const compute = () => {
+      const trigger = triggerRef.current
+      if (!trigger) return
+      const rect = trigger.getBoundingClientRect()
+      const MENU_HEIGHT = 200  // estimativa: 4 itens × ~40px + paddings
+      const MENU_WIDTH = 180
+      const gap = 4
+      const spaceBelow = window.innerHeight - rect.bottom
+      const placement = spaceBelow < MENU_HEIGHT + gap ? 'top' : 'bottom'
+      const top = placement === 'bottom'
+        ? rect.bottom + gap
+        : rect.top - gap
+      // Alinha o menu pela direita do trigger, mas trava à esquerda da viewport
+      const left = Math.max(8, Math.min(rect.right - MENU_WIDTH, window.innerWidth - MENU_WIDTH - 8))
+      setMenuPos({ top, left, placement })
+    }
+    compute()
+    window.addEventListener('scroll', compute, true)
+    window.addEventListener('resize', compute)
+    return () => {
+      window.removeEventListener('scroll', compute, true)
+      window.removeEventListener('resize', compute)
+    }
+  }, [open])
 
   async function quickPay() {
     if (membro.is_isento) return
@@ -540,8 +578,9 @@ function MembroKebabMenu({ membro }: { membro: MembroRow }) {
   }
 
   return (
-    <div className="relative inline-flex justify-end">
+    <div className="inline-flex justify-end">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(v => !v)}
         aria-label={`Ações para ${membro.nome}`}
@@ -551,7 +590,11 @@ function MembroKebabMenu({ membro }: { membro: MembroRow }) {
       >
         {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <MoreVertical className="w-4 h-4" />}
       </button>
-      {open && (
+      {/* Menu renderizado num portal — escapa ao overflow:hidden da tabela e
+          consegue posicionar-se por cima de qualquer secção abaixo. Posição
+          é fixed (relativa à viewport) para acompanhar o trigger durante
+          scroll. Inverte para cima quando não há espaço por baixo. */}
+      {open && mounted && menuPos && createPortal(
         <>
           <button
             type="button"
@@ -559,7 +602,17 @@ function MembroKebabMenu({ membro }: { membro: MembroRow }) {
             className="fixed inset-0 z-40"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute right-0 top-full mt-1 z-50 bg-[#1A1A1A] border border-[#E8B55B]/20 rounded-xl shadow-2xl py-1 min-w-[180px]">
+          <div
+            role="menu"
+            style={{
+              position: 'fixed',
+              top: menuPos.placement === 'bottom' ? menuPos.top : undefined,
+              bottom: menuPos.placement === 'top' ? window.innerHeight - menuPos.top : undefined,
+              left: menuPos.left,
+              minWidth: 180,
+            }}
+            className="z-50 bg-[#1A1A1A] border border-[#E8B55B]/20 rounded-xl shadow-2xl py-1"
+          >
             <Link
               href={`/dashboard/membros/${membro.id}`}
               onClick={() => setOpen(false)}
@@ -594,7 +647,8 @@ function MembroKebabMenu({ membro }: { membro: MembroRow }) {
               <Trash2 className="w-3.5 h-3.5" /> Eliminar
             </button>
           </div>
-        </>
+        </>,
+        document.body,
       )}
       <ConfirmDeleteDialog
         open={confirmDelete}

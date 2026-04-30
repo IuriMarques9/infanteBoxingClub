@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Trophy, FileText, Shield, Clock, UserCircle2, UserX } from 'lucide-react'
 import { editarMembro, calcularEstado } from '../actions'
 import { TURMA_LABELS, STATUS_CONFIG, COTAS_SUGERIDAS, SEGURO_LABELS, type Turma, type SeguroPago } from '../constants'
-import { anoAtual, seguroAtivo, membroInativo } from '@/lib/membros-estado'
+import { anoAtual, seguroAtivo, membroInativo, calcularIdade } from '@/lib/membros-estado'
 import DocumentUploader from './DocumentUploader'
 import FichaClienteForm from './FichaClienteForm'
 import AvatarUploader from './AvatarUploader'
@@ -294,7 +294,7 @@ export default async function MembroProfilePage({
                 />
               </div>
             )}
-            <DocumentUploader membroId={membro.id} />
+            <DocumentUploader membroId={membro.id} idade={calcularIdade(membro.data_nascimento)} />
           </div>
 
           {/* Log de Auditoria */}

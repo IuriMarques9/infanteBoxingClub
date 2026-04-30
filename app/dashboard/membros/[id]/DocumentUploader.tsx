@@ -11,9 +11,11 @@ import { uploadDocument } from './documents-actions'
 // A categoria tem de ser escolhida antes do upload para alimentar o chip no card.
 // Suporta drag-and-drop e mostra feedback do ficheiro a ser enviado.
 
-const CATEGORIAS = [
+// `requiresMinor: true` significa que a categoria só faz sentido para
+// membros menores de 18 — escondida no dropdown se idade ≥ 18.
+const CATEGORIAS: { value: string; label: string; requiresMinor?: boolean }[] = [
   { value: 'cc', label: '🪪 Documentos de identificação' },
-  { value: 'declaracao', label: '📄 Declaração dos Pais' },
+  { value: 'declaracao', label: '📄 Declaração dos Pais', requiresMinor: true },
   { value: 'seguro', label: '🛡️ Comprovativo de Seguro' },
   { value: 'inspecao_medica', label: '🏥 Inspeção Médica' },
   { value: 'outro', label: '📎 Outro' },
@@ -21,8 +23,11 @@ const CATEGORIAS = [
 
 const ACCEPTED = '.pdf,.jpg,.jpeg,.png,.doc,.docx'
 
-export default function DocumentUploader({ membroId }: { membroId: string }) {
-  const [categoria, setCategoria] = useState('declaracao')
+export default function DocumentUploader({ membroId, idade }: { membroId: string; idade?: number | null }) {
+  const isMinor = idade !== null && idade !== undefined && idade < 18
+  const categoriasVisiveis = CATEGORIAS.filter(c => !c.requiresMinor || isMinor)
+  const defaultCategoria = isMinor ? 'declaracao' : 'cc'
+  const [categoria, setCategoria] = useState(defaultCategoria)
   const [error, setError] = useState<string | null>(null)
   const [pendingFile, setPendingFile] = useState<string | null>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -76,7 +81,7 @@ export default function DocumentUploader({ membroId }: { membroId: string }) {
           disabled={isPending}
           className="w-full px-4 py-3 sm:py-2 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] text-base sm:text-sm appearance-none"
         >
-          {CATEGORIAS.map(c => (
+          {categoriasVisiveis.map(c => (
             <option key={c.value} value={c.value}>{c.label}</option>
           ))}
         </select>
