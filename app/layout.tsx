@@ -67,11 +67,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/infanteLogoSemFundo.png", type: "image/png" },
+      { url: "/infanteLogo.png", type: "image/png" },
     ],
-    apple: "/infanteLogoSemFundo.png",
-    shortcut: "/favicon.ico",
+    apple: "/infanteLogo.png",
+    shortcut: "/infanteLogo.png",
   },
   manifest: undefined,
   openGraph: {
