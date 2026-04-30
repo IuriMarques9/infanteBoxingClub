@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Lock, AlertCircle, Loader2, CheckCircle2 } from "lucide-react";
 
 type SessionState = "loading" | "ready" | "invalid" | "success";
+type FlowType = "invite" | "recovery" | "unknown";
 
 export default function SetPasswordForm() {
   const router = useRouter();
@@ -16,6 +17,18 @@ export default function SetPasswordForm() {
   const [password, setPassword] = useState("");
   const [confirmar, setConfirmar] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [flowType, setFlowType] = useState<FlowType>("unknown");
+
+  // Textos contextuais conforme o fluxo (invite vs recovery)
+  const titulo =
+    flowType === "recovery" ? "Nova Password" : "Definir Password";
+  const subtitulo =
+    flowType === "recovery"
+      ? "Escolhe uma nova password para a tua conta."
+      : "Escolhe uma password para ativar a tua conta.";
+  const botao = flowType === "recovery" ? "Atualizar password" : "Ativar conta";
+  const sucessoTitulo =
+    flowType === "recovery" ? "Password atualizada" : "Password definida";
 
   // O link do invite vem com tokens no fragmento (#) da URL.
   // Lemos os tokens, criamos a sessão, e só depois aceitamos a nova password.
@@ -27,6 +40,11 @@ export default function SetPasswordForm() {
     const accessToken = params.get("access_token");
     const refreshToken = params.get("refresh_token");
     const errorDescription = params.get("error_description");
+    const type = params.get("type");
+
+    if (type === "invite" || type === "recovery") {
+      setFlowType(type);
+    }
 
     if (errorDescription) {
       setSessionError(decodeURIComponent(errorDescription));
@@ -35,7 +53,9 @@ export default function SetPasswordForm() {
     }
 
     if (!accessToken || !refreshToken) {
-      setSessionError("Link inválido ou expirado. Pede um novo convite ao administrador.");
+      setSessionError(
+        "Link inválido ou expirado. Pede um novo link na página de login.",
+      );
       setSessionState("invalid");
       return;
     }
@@ -107,7 +127,7 @@ export default function SetPasswordForm() {
           <CheckCircle2 className="w-6 h-6 text-emerald-400" />
         </div>
         <h1 className="text-xl font-headline font-bold text-emerald-300 uppercase tracking-wider">
-          Password definida
+          {sucessoTitulo}
         </h1>
         <p className="text-white/50 text-sm mt-2">A redirecionar para o dashboard…</p>
       </div>
@@ -121,10 +141,10 @@ export default function SetPasswordForm() {
           <Lock className="w-6 h-6 text-primary" />
         </div>
         <h1 className="text-2xl font-headline font-bold text-foreground uppercase tracking-wider text-glow">
-          Definir Password
+          {titulo}
         </h1>
         <p className="text-muted-foreground text-sm">
-          Escolhe uma password para ativar a tua conta.
+          {subtitulo}
         </p>
       </div>
 
@@ -175,7 +195,7 @@ export default function SetPasswordForm() {
           className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-sm font-bold uppercase tracking-wider text-black bg-[#E8B55B] hover:bg-[#C99C4A] disabled:opacity-50 transition-colors"
         >
           {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
-          Ativar conta
+          {botao}
         </button>
       </form>
     </>

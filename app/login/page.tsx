@@ -68,6 +68,12 @@ export default async function LoginPage({
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <label htmlFor="password" className="text-sm font-medium text-foreground">Palavra-passe</label>
+                <Link
+                  href="/auth/forgot-password"
+                  className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Esqueci-me
+                </Link>
               </div>
               <input
                 id="password"
