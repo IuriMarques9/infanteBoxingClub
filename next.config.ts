@@ -29,6 +29,27 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // ─── SECURITY HEADERS ──────────────────────────────────────────
+  // Aplicados a todas as rotas. Lighthouse "Best Practices" e Mozilla
+  // Observatory pontuam estes cabeçalhos. CSP propositadamente omitido
+  // — mal configurado parte inline scripts/styles do Next em produção.
+  // HSTS sem `preload` por agora (preload é cache irreversível dos
+  // browsers; activar só após 6 meses estáveis).
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), payment=()' },
+          { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+          { key: 'X-DNS-Prefetch-Control', value: 'on' },
+        ],
+      },
+    ]
+  },
 };
 
 export default nextConfig;

@@ -7,6 +7,7 @@ import { Menu, X, User, Facebook, Instagram, Mail } from "lucide-react";
 import { Button } from "../ui/button";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
+import { BUSINESS, WHATSAPP_URL, MAILTO_URL } from "../../lib/business";
 import LanguageSwitcher from "../../components/templates/language-switcher";
 
 const Header = () => {
@@ -98,7 +99,7 @@ const Header = () => {
                  O LanguageSwitcher já está disponível na barra do topo do navbar. */}
              <div className="flex items-center gap-2 flex-wrap">
                 <a
-                   href="https://www.facebook.com/profile.php?id=100088583096544"
+                   href={BUSINESS.social.facebook}
                    target="_blank"
                    rel="noopener noreferrer"
                    aria-label="Facebook"
@@ -107,7 +108,7 @@ const Header = () => {
                    <Facebook className="w-4 h-4" />
                 </a>
                 <a
-                   href="https://www.instagram.com/infanteboxing_club/"
+                   href={BUSINESS.social.instagram}
                    target="_blank"
                    rel="noopener noreferrer"
                    aria-label="Instagram"
@@ -116,7 +117,7 @@ const Header = () => {
                    <Instagram className="w-4 h-4" />
                 </a>
                 <a
-                   href={`https://wa.me/${C.contact.phone.replace(/\D/g, '')}`}
+                   href={WHATSAPP_URL}
                    target="_blank"
                    rel="noopener noreferrer"
                    aria-label="WhatsApp"
@@ -127,7 +128,7 @@ const Header = () => {
                    </svg>
                 </a>
                 <a
-                   href={`mailto:${C.contact.email}`}
+                   href={MAILTO_URL}
                    aria-label="Email"
                    className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:bg-[#E8B55B]/10 hover:border-[#E8B55B]/40 hover:text-[#E8B55B] transition-all"
                 >

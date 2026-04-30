@@ -18,12 +18,12 @@ export default function Collection( { images }: { images: ImageData[] }) {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-h-[70vh]">
             {images.map(image => (
                 <DialogTrigger asChild key={image.id} onClick={() => setSelectedImage(image)}>
-                    <Image 
-                        src={image.url} 
-                        alt={image.id} 
-                        width={400} 
-                        height={400} 
-                        className="w-full h-full object-cover aspect-square transition-all duration-300 hover:brightness-75 cursor-pointer" 
+                    <Image
+                        src={image.url}
+                        alt="Foto de evento do Infante Boxing Club"
+                        width={400}
+                        height={400}
+                        className="w-full h-full object-cover aspect-square transition-all duration-300 hover:brightness-75 cursor-pointer"
                     />
                 </DialogTrigger>
             ))}

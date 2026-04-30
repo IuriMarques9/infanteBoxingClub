@@ -85,9 +85,10 @@ export default function Team() {
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-primary/80 mb-2">
               {teamEyebrow}
             </p>
-            <h3 className="font-headline text-3xl md:text-4xl uppercase tracking-wider text-white drop-shadow-[0_0_10px_rgba(232,181,91,0.2)]">
+            {/* h1 da página /sobre — é o único título principal da rota */}
+            <h1 className="font-headline text-3xl md:text-4xl uppercase tracking-wider text-white drop-shadow-[0_0_10px_rgba(232,181,91,0.2)]">
               {C.team.teamTitle}
-            </h3>
+            </h1>
             <p className="text-white/50 text-sm mt-2 max-w-xl">
               {teamSubtitle}
             </p>

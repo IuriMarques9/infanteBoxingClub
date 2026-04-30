@@ -47,7 +47,9 @@ export default function DiaAdia() {
                   <div className="overflow-hidden rounded-lg border border-zinc-800 hover:border-primary/50 transition-all duration-300 group cursor-pointer">
                     <Image
                       src={image.url}
-                      alt={image.id}
+                      alt={language === 'pt'
+                        ? 'Treino de boxe no Infante Boxing Club em Olhão'
+                        : 'Boxing training at Infante Boxing Club in Olhão'}
                       width={400}
                       height={400}
                       className="w-full h-full object-cover aspect-square transition-transform duration-500 group-hover:scale-105 group-hover:brightness-75"

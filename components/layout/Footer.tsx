@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
+import { BUSINESS, WHATSAPP_URL } from "../../lib/business";
 import RightsReserved from "./RightsReserved";
 
 const Footer = () => {
@@ -24,7 +25,7 @@ const Footer = () => {
             <p className="text-white/50 text-sm leading-relaxed">{F.tagline}</p>
             <div className="flex gap-3 pt-2">
               <a
-                href="https://www.facebook.com/profile.php?id=100088583096544"
+                href={BUSINESS.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:bg-primary/10 hover:border-primary/40 hover:text-primary transition-all"
@@ -33,7 +34,7 @@ const Footer = () => {
                 <Facebook className="w-4 h-4" />
               </a>
               <a
-                href="https://www.instagram.com/infanteboxing_club/"
+                href={BUSINESS.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:bg-primary/10 hover:border-primary/40 hover:text-primary transition-all"
@@ -42,7 +43,7 @@ const Footer = () => {
                 <Instagram className="w-4 h-4" />
               </a>
               <a
-                href={`https://wa.me/${C.contact.phone.replace(/\D/g, '')}`}
+                href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/70 hover:bg-primary/10 hover:border-primary/40 hover:text-primary transition-all"

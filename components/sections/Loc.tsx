@@ -3,12 +3,13 @@ import { MapPin } from "lucide-react";
 import { useLanguage } from "../../contexts/language-context";
 import SectionShell from "../shared/SectionShell";
 import SectionHeading from "../shared/SectionHeading";
+import { BUSINESS } from "@/lib/business";
 
 export default function Loc() {
     const { language } = useLanguage();
     const eyebrow = language === 'pt' ? 'LOCALIZAÇÃO' : 'LOCATION';
     const title = language === 'pt' ? 'Onde Nos Encontrar' : 'Find Us';
-    const address = "Rua Dâmaso da Encarnação Nº4, 8700-247 Olhão";
+    const address = BUSINESS.address.full;
     const mapQuery = encodeURIComponent(address);
     const mapsLink = `https://maps.google.com/?q=${mapQuery}`;
 

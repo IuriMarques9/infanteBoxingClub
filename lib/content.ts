@@ -1,5 +1,6 @@
 import { Home, Info, ShoppingBag, Calendar, Clock, Mail } from "lucide-react";
 import { FC, SVGProps } from "react";
+import { BUSINESS, MAPS_EMBED_URL } from "./business";
 
 type IconType = FC<SVGProps<SVGSVGElement>>;
 
@@ -208,11 +209,11 @@ export const content = {
     contact: {
       title: "Contact Us",
       subtitle: "Ready to join? Have a question or suggestion? Contact us—we promise to get back to you as soon as possible!",
-      phone: "+351 910 389 071",
-      email: "associacao.infante@gmail.com",
-      address: "Rua Dâmaso da Encarnação Nº5, 8700-247 Olhão",
-      attendanceHours: "Mon–Fri · 17h–21h",
-      mapsEmbedUrl: "https://www.google.com/maps?q=Rua+D%C3%A2maso+da+Encarna%C3%A7%C3%A3o+5+8700-247+Olh%C3%A3o&output=embed",
+      phone: BUSINESS.phone,
+      email: BUSINESS.email,
+      address: BUSINESS.address.full,
+      attendanceHours: BUSINESS.hours.label.en,
+      mapsEmbedUrl: MAPS_EMBED_URL,
       infoLabels: {
         phone: "Phone",
         email: "Email",
@@ -293,8 +294,8 @@ export const content = {
             type: 'contact',
             text: "For any questions about this policy or your data, you can contact us at:",
             details: {
-              email: "associacao.infante@gmail.com",
-              phone: "910389071"
+              email: BUSINESS.email,
+              phone: BUSINESS.phoneDigits.replace(/^351/, '')
             }
           }
         }
@@ -490,11 +491,11 @@ export const content = {
     contact: {
       title: "Contacte-nos",
       subtitle: "Pronto para se juntar? Tem uma duvida ou sugestão? Entre em contacto connosco prometemos ser o mais breves possveis!",
-      phone: "+351 910 389 071",
-      email: "associacao.infante@gmail.com",
-      address: "Rua Dâmaso da Encarnação Nº5, 8700-247 Olhão",
-      attendanceHours: "Seg–Sex · 17h–21h",
-      mapsEmbedUrl: "https://www.google.com/maps?q=Rua+D%C3%A2maso+da+Encarna%C3%A7%C3%A3o+5+8700-247+Olh%C3%A3o&output=embed",
+      phone: BUSINESS.phone,
+      email: BUSINESS.email,
+      address: BUSINESS.address.full,
+      attendanceHours: BUSINESS.hours.label.pt,
+      mapsEmbedUrl: MAPS_EMBED_URL,
       infoLabels: {
         phone: "Telefone",
         email: "Email",
@@ -578,8 +579,8 @@ export const content = {
             type: 'contact',
             text: "Para qualquer questão sobre esta política ou sobre os seus dados, pode contactar-nos através de:",
             details: {
-              email: "associacao.infante@gmail.com",
-              phone: "910389071"
+              email: BUSINESS.email,
+              phone: BUSINESS.phoneDigits.replace(/^351/, '')
             }
           }
         }

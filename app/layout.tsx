@@ -4,6 +4,7 @@ import { Toaster } from "../components/ui/toaster";
 import { Toaster as SonnerToaster } from "sonner";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
+import { BUSINESS } from "@/lib/business";
 
 // Fontes auto-hospedadas pelo Next.js — eliminam render-blocking dos
 // pedidos a fonts.googleapis.com e o FOIT do display=swap externo.
@@ -72,7 +73,7 @@ export const metadata: Metadata = {
     apple: "/infanteLogo.png",
     shortcut: "/infanteLogo.png",
   },
-  manifest: undefined,
+  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     locale: "pt_PT",
@@ -126,16 +127,23 @@ export const metadata: Metadata = {
   },
 };
 
-// SportsActivityLocation + LocalBusiness combinados — Google interpreta
-// LocalBusiness para Maps/horários e SportsActivityLocation para nicho desporto.
+// SportsActivityLocation + LocalBusiness + SportsClub combinados — Google
+// interpreta LocalBusiness para Maps/horários, SportsActivityLocation para
+// nicho desporto e SportsClub habilita rich-results de organização desportiva.
+// Todos os dados vêm de `lib/business.ts` (single source of truth).
+const dayOfWeekFull: Record<string, string> = {
+  Mo: 'Monday', Tu: 'Tuesday', We: 'Wednesday', Th: 'Thursday',
+  Fr: 'Friday', Sa: 'Saturday', Su: 'Sunday',
+}
+
 const organizationJsonLd = {
   "@context": "https://schema.org",
-  "@type": ["SportsActivityLocation", "LocalBusiness"],
+  "@type": ["SportsActivityLocation", "LocalBusiness", "SportsClub"],
   "@id": `${siteUrl}#organization`,
-  name: "Infante Boxing Club",
-  alternateName: "Infante Boxing",
-  description:
-    "Ginásio de boxe em Olhão filiado na Federação Portuguesa de Boxe. Aulas de boxe de competição, manutenção e educativo.",
+  name: BUSINESS.name,
+  alternateName: BUSINESS.alternateName,
+  legalName: BUSINESS.legalName,
+  description: BUSINESS.description.pt,
   url: siteUrl,
   logo: {
     "@type": "ImageObject",
@@ -144,46 +152,61 @@ const organizationJsonLd = {
     height: 664,
   },
   image: `${siteUrl}/infanteLogo.png`,
-  telephone: "+351 910 389 071",
-  email: "infanteboxingclub@gmail.com",
-  priceRange: "€€",
+  telephone: BUSINESS.phone,
+  email: BUSINESS.email,
+  priceRange: BUSINESS.priceRange,
   sport: ["Boxing", "Boxe"],
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Rua Dâmaso da Encarnação Nº4",
-    addressLocality: "Olhão",
-    postalCode: "8700-247",
-    addressRegion: "Faro",
-    addressCountry: "PT",
+    streetAddress: BUSINESS.address.street,
+    addressLocality: BUSINESS.address.locality,
+    postalCode: BUSINESS.address.postalCode,
+    addressRegion: BUSINESS.address.region,
+    addressCountry: BUSINESS.address.country,
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 37.029,
-    longitude: -7.841,
+    latitude: BUSINESS.geo.lat,
+    longitude: BUSINESS.geo.lng,
   },
   areaServed: [
-    { "@type": "City", name: "Olhão" },
+    { "@type": "City", name: BUSINESS.address.locality },
     { "@type": "AdministrativeArea", name: "Algarve" },
   ],
   memberOf: {
-    "@type": "Organization",
-    name: "Federação Portuguesa de Boxe",
-    url: "https://www.fpboxe.pt",
+    "@type": "SportsOrganization",
+    name: BUSINESS.parent.name,
+    url: BUSINESS.parent.url,
   },
-  sameAs: [
-    "https://www.facebook.com/profile.php?id=100088583096544",
-    "https://www.instagram.com/infanteboxing_club/",
-  ],
-  // Horário de funcionamento — segundas a sextas, treinos do final do dia.
+  sameAs: [BUSINESS.social.facebook, BUSINESS.social.instagram],
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "17:00",
-      closes: "22:00",
+      dayOfWeek: BUSINESS.hours.days.map(d => dayOfWeekFull[d]),
+      opens: BUSINESS.hours.open,
+      closes: BUSINESS.hours.close,
     },
   ],
-  foundingDate: "2020",
+  foundingDate: BUSINESS.founded,
+  // Catálogo de turmas — alimenta rich result "Services" no Google.
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Aulas de Boxe",
+    itemListElement: BUSINESS.services.map(s => ({
+      "@type": "Service",
+      name: s.name,
+      provider: { "@id": `${siteUrl}#organization` },
+      areaServed: { "@type": "City", name: BUSINESS.address.locality },
+      serviceType: "Aulas de boxe",
+      audience: 'audienceType' in s
+        ? { "@type": "PeopleAudience", audienceType: s.audienceType }
+        : {
+            "@type": "PeopleAudience",
+            ...(s.minAge ? { suggestedMinAge: s.minAge } : {}),
+            ...('maxAge' in s && s.maxAge ? { suggestedMaxAge: s.maxAge } : {}),
+          },
+    })),
+  },
 };
 
 // Schema do WebSite — habilita sitelinks searchbox no Google.
@@ -229,7 +252,7 @@ const faqJsonLd = {
       name: "Onde fica o ginásio?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Rua Dâmaso da Encarnação Nº4, 8700-247 Olhão (Algarve, Portugal).",
+        text: `${BUSINESS.address.full} (Algarve, Portugal).`,
       },
     },
     {
@@ -252,7 +275,11 @@ export default function RootLayout({
     <html translate="no" lang="pt-PT" className={`!scroll-smooth dark ${roboto.variable} ${teko.variable}`}>
       <head>
         <meta name="google" content="notranslate" />
-        {/* Supabase Storage para signed URLs de avatares e documentos */}
+        {/* preconnect/dns-prefetch para domínios externos críticos —
+            poupa o handshake TLS quando o browser começar a pedir
+            imagens optimizadas / signed URLs */}
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://sbpmmkooygjqmxxasknq.supabase.co" />
         <script
           type="application/ld+json"

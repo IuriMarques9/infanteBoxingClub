@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import SobrePageClient from "./SobrePageClient";
+import { breadcrumbJsonLd } from "@/lib/seo/breadcrumb";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://infanteboxingclub.pt";
 
@@ -36,6 +37,20 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   }
 }
 
-export default function SobrePage() {
-  return <SobrePageClient />;
+export default async function SobrePage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params
+  const isPt = lang === 'pt'
+  const ld = breadcrumbJsonLd(siteUrl, [
+    { name: isPt ? 'Início' : 'Home', url: `/${lang}` },
+    { name: isPt ? 'Sobre' : 'About', url: `/${lang}/sobre` },
+  ])
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+      />
+      <SobrePageClient />
+    </>
+  );
 }
