@@ -224,11 +224,14 @@ export async function atualizarNomeAdmin(formData: FormData): Promise<{ ok?: boo
 
   // Usa service role para bypassar RLS — profiles só tem política SELECT
   // para authenticated; UPDATE silencioso (0 rows, sem error) com anon key.
+  // Nota: cast `as any` em `from('profiles')` porque os tipos gerados em
+  // lib/supabase/types.ts ainda não foram regenerados após a migration
+  // 20260430_profiles_nome.sql (a coluna `nome` existe na BD mas não nos
+  // tipos TS). Sem o cast, o build falha em produção.
   const admin = createAdminClient()
-  const { error } = await (admin
-    .from('profiles')
+  const { error } = await (admin.from('profiles') as any)
     .update({ nome: nome || null })
-    .eq('id', userId) as any)
+    .eq('id', userId)
   if (error) return { error: error.message }
 
   revalidatePath('/dashboard/admins')
