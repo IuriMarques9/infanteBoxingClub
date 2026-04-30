@@ -5,15 +5,19 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import {
   UserPlus, Loader2, Trash2, KeyRound, Mail, X,
-  ShieldCheck, Clock,
+  ShieldCheck, Clock, Pencil, Check,
 } from 'lucide-react'
-import { criarAdmin, eliminarAdmin, reporPassword, type AdminRow } from './actions'
+import { criarAdmin, eliminarAdmin, reporPassword, atualizarNomeAdmin, type AdminRow } from './actions'
 import { formatRelativeTime } from '@/lib/activity-log-labels'
+import ConfirmDeleteDialog from '@/components/dashboard/ConfirmDeleteDialog'
 
 export default function AdminsListClient({ admins, currentId }: { admins: AdminRow[]; currentId: string | null }) {
   const router = useRouter()
   const [showCreate, setShowCreate] = useState(false)
   const [resetTarget, setResetTarget] = useState<AdminRow | null>(null)
+  const [deleteTarget, setDeleteTarget] = useState<AdminRow | null>(null)
+  const [editingNomeId, setEditingNomeId] = useState<string | null>(null)
+  const [nomeInput, setNomeInput] = useState('')
   const [pending, start] = useTransition()
 
   async function handleCreate(formData: FormData) {
@@ -30,33 +34,62 @@ export default function AdminsListClient({ admins, currentId }: { admins: AdminR
     })
   }
 
-  async function handleDelete(admin: AdminRow) {
+  function handleDeleteClick(admin: AdminRow) {
     if (admin.id === currentId) {
       toast.error('Não podes eliminar a tua própria conta.')
       return
     }
-    if (!window.confirm(`Eliminar o administrador "${admin.email}"?\nA conta perderá acesso à dashboard.`)) return
+    setDeleteTarget(admin)
+  }
+
+  async function handleDeleteConfirm() {
+    if (!deleteTarget) return
     start(async () => {
       const fd = new FormData()
-      fd.append('id', admin.id)
+      fd.append('id', deleteTarget.id)
       const res = await eliminarAdmin(fd)
       if (res.error) {
         toast.error(res.error)
       } else {
         toast.success('Administrador eliminado')
+        setDeleteTarget(null)
         router.refresh()
       }
     })
   }
 
-  async function handleResetPassword(formData: FormData) {
+  async function handleResetPassword() {
+    if (!resetTarget) return
     start(async () => {
-      const res = await reporPassword(formData)
+      const fd = new FormData()
+      fd.append('id', resetTarget.id)
+      const res = await reporPassword(fd)
       if (res.error) {
         toast.error(res.error)
       } else {
-        toast.success('Password atualizada')
+        toast.success(`Email de reposição enviado para ${resetTarget.email}`)
         setResetTarget(null)
+        router.refresh()
+      }
+    })
+  }
+
+  function startEditNome(admin: AdminRow) {
+    setEditingNomeId(admin.id)
+    setNomeInput(admin.nome || '')
+  }
+
+  async function handleSaveNome(adminId: string) {
+    start(async () => {
+      const fd = new FormData()
+      fd.append('id', adminId)
+      fd.append('nome', nomeInput)
+      const res = await atualizarNomeAdmin(fd)
+      if (res.error) {
+        toast.error(res.error)
+      } else {
+        toast.success('Nome atualizado')
+        setEditingNomeId(null)
         router.refresh()
       }
     })
@@ -88,6 +121,7 @@ export default function AdminsListClient({ admins, currentId }: { admins: AdminR
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div className="flex-1 min-w-0">
+                  {/* Email + "Tu" badge */}
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-white font-medium truncate flex items-center gap-2">
                       <Mail className="w-3.5 h-3.5 text-white/40" />
@@ -99,6 +133,57 @@ export default function AdminsListClient({ admins, currentId }: { admins: AdminR
                       </span>
                     )}
                   </div>
+
+                  {/* Nome (editável inline) */}
+                  {editingNomeId === a.id ? (
+                    <div className="flex items-center gap-2 mt-1.5">
+                      <input
+                        autoFocus
+                        type="text"
+                        value={nomeInput}
+                        onChange={e => setNomeInput(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter') handleSaveNome(a.id)
+                          if (e.key === 'Escape') setEditingNomeId(null)
+                        }}
+                        placeholder="Nome de apresentação"
+                        className="flex-1 px-2.5 py-1 bg-[#1A1A1A] text-white text-sm border border-[#E8B55B]/30 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#E8B55B] placeholder:text-white/20"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleSaveNome(a.id)}
+                        disabled={pending}
+                        className="w-7 h-7 rounded-lg bg-[#E8B55B]/15 border border-[#E8B55B]/30 text-[#E8B55B] flex items-center justify-center hover:bg-[#E8B55B]/25 disabled:opacity-50"
+                        title="Guardar"
+                      >
+                        {pending ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setEditingNomeId(null)}
+                        className="w-7 h-7 rounded-lg bg-white/5 border border-white/10 text-white/50 flex items-center justify-center hover:bg-white/10"
+                        title="Cancelar"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-1.5 mt-0.5 group/nome">
+                      <span className={`text-sm font-medium ${a.nome ? 'text-white/80' : 'text-white/25 italic'}`}>
+                        {a.nome || '(sem nome)'}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => startEditNome(a)}
+                        className="w-5 h-5 rounded text-white/30 hover:text-[#E8B55B] flex items-center justify-center opacity-0 group-hover/nome:opacity-100 transition-opacity"
+                        title="Editar nome"
+                      >
+                        <Pencil className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Meta: último login, data de criação */}
                   <p className="text-white/40 text-[11px] mt-1 flex items-center gap-3 flex-wrap">
                     <span className="inline-flex items-center gap-1">
                       <Clock className="w-3 h-3" />
@@ -120,7 +205,7 @@ export default function AdminsListClient({ admins, currentId }: { admins: AdminR
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleDelete(a)}
+                    onClick={() => handleDeleteClick(a)}
                     disabled={pending || a.id === currentId}
                     title={a.id === currentId ? 'Não podes eliminar a tua própria conta' : 'Eliminar admin'}
                     className="inline-flex items-center justify-center w-9 h-9 rounded-lg text-red-300 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
@@ -133,6 +218,15 @@ export default function AdminsListClient({ admins, currentId }: { admins: AdminR
           )}
         </div>
       </div>
+
+      {/* ConfirmDeleteDialog para eliminar admin */}
+      <ConfirmDeleteDialog
+        open={!!deleteTarget}
+        onOpenChange={open => { if (!open) setDeleteTarget(null) }}
+        title={`Eliminar "${deleteTarget?.nome || deleteTarget?.email}"?`}
+        description="A conta perderá acesso imediato à dashboard. O histórico de atividade é preservado."
+        onConfirm={handleDeleteConfirm}
+      />
 
       {/* Dialog: criar admin */}
       {showCreate && (
@@ -174,42 +268,39 @@ export default function AdminsListClient({ admins, currentId }: { admins: AdminR
         </div>
       )}
 
-      {/* Dialog: repor password */}
+      {/* Dialog: enviar email de reposição de password */}
       {resetTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm" onClick={() => !pending && setResetTarget(null)}>
           <div className="bg-[#121212] border border-sky-500/20 rounded-2xl shadow-2xl p-6 max-w-md w-full" onClick={e => e.stopPropagation()}>
             <div className="flex items-start justify-between mb-4">
-              <div>
-                <h3 className="text-lg font-headline font-bold text-sky-300 tracking-wider">Repor Password</h3>
-                <p className="text-white/50 text-xs mt-1 truncate">Para <span className="text-white/80 font-medium">{resetTarget.email}</span></p>
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-300 shrink-0">
+                  <Mail className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-headline font-bold text-sky-300 tracking-wider">Reposição de Password</h3>
+                  <p className="text-white/50 text-xs mt-1 truncate">Para <span className="text-white/80 font-medium">{resetTarget.email}</span></p>
+                </div>
               </div>
               <button type="button" onClick={() => !pending && setResetTarget(null)} aria-label="Fechar" className="w-8 h-8 rounded-lg text-white/50 hover:text-white hover:bg-white/5 flex items-center justify-center">
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <form action={handleResetPassword} className="space-y-4">
-              <input type="hidden" name="id" value={resetTarget.id} />
-              <div>
-                <label className="text-[11px] font-bold uppercase tracking-wider text-white/50 block mb-1">Nova password (mín. 8)</label>
-                <input
-                  type="password"
-                  name="password"
-                  required
-                  minLength={8}
-                  autoFocus
-                  className="w-full px-3 py-2.5 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm"
-                />
-              </div>
-              <div className="flex justify-end gap-2 pt-2">
-                <button type="button" onClick={() => setResetTarget(null)} disabled={pending} className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-white/60 hover:text-white hover:bg-white/5">
-                  Cancelar
-                </button>
-                <button type="submit" disabled={pending} className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-sky-500 hover:bg-sky-600 disabled:opacity-50">
-                  {pending && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                  Atualizar
-                </button>
-              </div>
-            </form>
+            <p className="text-white/70 text-sm leading-relaxed mb-2">
+              Vai ser enviado um email com um link seguro para o administrador definir uma nova password.
+            </p>
+            <p className="text-white/40 text-xs leading-relaxed mb-5">
+              O link expira automaticamente. Tu não vês a nova password — só o próprio administrador a define.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button type="button" onClick={() => setResetTarget(null)} disabled={pending} className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-white/60 hover:text-white hover:bg-white/5">
+                Cancelar
+              </button>
+              <button type="button" onClick={handleResetPassword} disabled={pending} className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-sky-500 hover:bg-sky-600 disabled:opacity-50">
+                {pending ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Mail className="w-3.5 h-3.5" />}
+                Enviar Email
+              </button>
+            </div>
           </div>
         </div>
       )}

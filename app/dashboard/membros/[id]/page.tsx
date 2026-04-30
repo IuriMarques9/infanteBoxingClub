@@ -2,16 +2,17 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Trophy, FileText, Shield, Clock, UserCircle2, UserX } from 'lucide-react'
-import { editarMembro, eliminarMembro, calcularEstado } from '../actions'
+import { editarMembro, calcularEstado } from '../actions'
 import { TURMA_LABELS, STATUS_CONFIG, COTAS_SUGERIDAS, SEGURO_LABELS, type Turma, type SeguroPago } from '../constants'
 import { anoAtual, seguroAtivo, membroInativo } from '@/lib/membros-estado'
 import DocumentUploader from './DocumentUploader'
 import FichaClienteForm from './FichaClienteForm'
 import AvatarUploader from './AvatarUploader'
 import PaymentGrid from './PaymentGrid'
+import DeleteMembroButton from './DeleteMembroButton'
 import DocumentCard from '@/components/dashboard/DocumentCard'
 import EmptyState from '@/components/shared/EmptyState'
-import { SubmitPrimary, SubmitDelete } from '@/components/dashboard/FormButtons'
+import { SubmitPrimary } from '@/components/dashboard/FormButtons'
 import { BackLink } from '@/components/dashboard/PendingLink'
 
 // ─── PÁGINA DE PERFIL INDIVIDUAL DO MEMBRO ─────────────────────
@@ -94,9 +95,10 @@ export default async function MembroProfilePage({
   }
 
   // Buscar log de atividades deste membro (para a secção de auditoria)
+  // JOIN com profiles para mostrar nome/email do admin (não UUID truncado).
   const { data: logs } = await (supabase
     .from('activity_log')
-    .select('*')
+    .select('*, profiles:admin_id ( email, nome )')
     .eq('entity_id', id)
     .order('created_at', { ascending: false })
     .limit(10) as any)
@@ -142,16 +144,15 @@ export default async function MembroProfilePage({
           </div>
         </div>
 
-        <form action={eliminarMembro}>
-          <input type="hidden" name="id" value={membro.id} />
-          <SubmitDelete>Eliminar</SubmitDelete>
-        </form>
+        <DeleteMembroButton id={membro.id} nome={membro.nome} />
       </div>
 
       {/* Erros */}
       {searchParamsData?.error && (
         <div className="bg-red-500/10 text-red-400 border border-red-500/20 px-4 py-3 rounded-xl text-sm">
-          Ocorreu um erro. Tenta novamente.
+          {searchParamsData.error === 'ja_pago'
+            ? 'Este membro já tem um pagamento registado para esse mês. Não é possível registar duas vezes.'
+            : 'Ocorreu um erro. Tenta novamente.'}
         </div>
       )}
 
@@ -318,7 +319,12 @@ export default async function MembroProfilePage({
                     <div className="w-2 h-2 rounded-full bg-[#E8B55B]/50 mt-1.5 shrink-0"></div>
                     <div className="flex-1">
                       <p className="text-white/70">{log.description}</p>
-                      <p className="text-white/30 mt-1">{new Date(log.created_at).toLocaleString('pt-PT')} · Admin: {log.admin_id?.slice(0, 8)}...</p>
+                      <p className="text-white/30 mt-1">
+                        {new Date(log.created_at).toLocaleString('pt-PT')} ·{' '}
+                        <span className="text-[#E8B55B]/70 font-medium">
+                          {log.profiles?.nome || log.profiles?.email?.split('@')[0] || 'Admin eliminado'}
+                        </span>
+                      </p>
                     </div>
                   </div>
                 ))}

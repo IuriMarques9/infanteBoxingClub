@@ -22,6 +22,15 @@ export const metadata = {
 export default async function DashboardPage() {
   const supabase = await createClient();
 
+  // 0. Nome do admin autenticado — para o greeting personalizado
+  const { data: { user: currentUser } } = await supabase.auth.getUser()
+  const { data: adminProfile } = await (supabase
+    .from('profiles')
+    .select('nome, email')
+    .eq('id', currentUser?.id ?? '')
+    .maybeSingle() as any)
+  const nomeAdmin = adminProfile?.nome || adminProfile?.email?.split('@')[0] || currentUser?.email?.split('@')[0] || 'Admin'
+
   // 1. Buscar membros e seus pagamentos para calcular estados reais
   const { data: membros } = await (supabase
     .from('membros')
@@ -36,10 +45,11 @@ export default async function DashboardPage() {
   const ativos = membrosComStatus.filter(m => m.status === 'pago').length;
   const isentos = membrosComStatus.filter(m => m.status === 'isento').length;
 
-  // 2. Buscar últimos logs de atividade
+  // 2. Buscar últimos logs de atividade — JOIN com profiles para mostrar
+  //    o nome (ou prefixo do email) do admin responsável por cada acção.
   const { data: logs } = await (supabase
     .from('activity_log')
-    .select('*')
+    .select('*, profiles:admin_id ( email, nome )')
     .order('created_at', { ascending: false })
     .limit(5) as any);
 
@@ -142,7 +152,7 @@ export default async function DashboardPage() {
       {/* Header Greeting */}
       <div className="flex justify-between items-end gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-headline font-bold text-[#E8B55B] tracking-wider drop-shadow-[0_0_10px_rgba(232,181,91,0.3)]">Bem-vindo</h1>
+          <h1 className="text-2xl sm:text-3xl font-headline font-bold text-[#E8B55B] tracking-wider drop-shadow-[0_0_10px_rgba(232,181,91,0.3)]">Bem-vindo, {nomeAdmin}</h1>
         </div>
         {/* Última atividade real, derivada do log mais recente. Substitui o indicador "Online" estático. */}
         {logs && logs.length > 0 && (
@@ -302,8 +312,12 @@ export default async function DashboardPage() {
                              </div>
                              <div className="min-w-0">
                                 <p className="text-sm text-white/80 font-medium truncate">{log.description}</p>
-                                <p className="text-[10px] text-white/40 font-medium mt-0.5 flex items-center gap-2">
+                                <p className="text-[10px] text-white/40 font-medium mt-0.5 flex items-center gap-2 flex-wrap">
                                   <span className="font-bold uppercase tracking-wider text-white/30">{labelInfo.label}</span>
+                                  <span className="w-0.5 h-0.5 rounded-full bg-white/20"></span>
+                                  <span className="text-[#E8B55B]/70 font-bold">
+                                    {log.profiles?.nome || log.profiles?.email?.split('@')[0] || 'Admin eliminado'}
+                                  </span>
                                   <span className="w-0.5 h-0.5 rounded-full bg-white/20"></span>
                                   <span>{formatRelativeTime(log.created_at)}</span>
                                 </p>

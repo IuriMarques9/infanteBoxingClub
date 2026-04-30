@@ -49,7 +49,7 @@ export async function exportLogsCSV(filters: LogsExportFilters): Promise<string>
   const supabase = await createClient()
 
   let query: any = (supabase.from('activity_log') as any)
-    .select('created_at, action, entity_type, entity_id, description, profiles:admin_id(email)')
+    .select('created_at, action, entity_type, entity_id, description, profiles:admin_id(email, nome)')
     .order('created_at', { ascending: false })
     .limit(5000)
 
@@ -69,7 +69,7 @@ export async function exportLogsCSV(filters: LogsExportFilters): Promise<string>
 
   const rows = (data || []).map((log: any) => ({
     data_hora: new Date(log.created_at).toLocaleString('pt-PT'),
-    admin: log.profiles?.email?.split('@')[0] || log.profiles?.email || 'Admin',
+    admin: log.profiles?.nome || log.profiles?.email?.split('@')[0] || log.profiles?.email || 'Admin',
     acao_codigo: log.action,
     acao_label: getActivityLabel(log.action).label,
     entidade: log.entity_type || '',

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Bookmark, Plus, Trash2, Star } from 'lucide-react'
+import { Bookmark, Plus, Trash2, Check } from 'lucide-react'
 
 // ─── PRESETS DE FILTROS GUARDADOS (D4) ─────────────────────────
 // Guarda combos de querystring em localStorage; permite criar a
@@ -118,8 +118,9 @@ export default function SavedFilters() {
             disabled={!name.trim()}
             className="px-2 py-1.5 text-[#E8B55B] hover:bg-[#E8B55B]/10 disabled:opacity-30 transition-colors border-l border-white/10"
             aria-label="Guardar preset"
+            title="Guardar"
           >
-            <Star className="w-3 h-3" />
+            <Check className="w-3 h-3" />
           </button>
         </span>
       ) : (

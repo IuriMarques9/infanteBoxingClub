@@ -11,6 +11,7 @@ import { TURMA_LABELS, STATUS_CONFIG, type Turma, type StatusMembro } from './co
 import { calcularIdade } from '@/lib/membros-estado'
 import { exportMembrosCSV, eliminarMembro, marcarPagamentosCota, eliminarMembrosLote } from './actions'
 import { toast } from 'sonner'
+import ConfirmDeleteDialog from '@/components/dashboard/ConfirmDeleteDialog'
 
 // ─── TABELA DE MEMBROS COM AÇÕES EM LOTE ───────────────────────
 // Wrapper client-side da tabela que estava em page.tsx. Adiciona:
@@ -48,6 +49,7 @@ export default function MembrosTableClient({ membros, ano }: Props) {
   const router = useRouter()
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [showPayDialog, setShowPayDialog] = useState(false)
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [busy, setBusy] = useState<null | 'pay' | 'csv' | 'del' | 'copy'>(null)
   const [copyOk, setCopyOk] = useState(false)
 
@@ -140,16 +142,21 @@ export default function MembrosTableClient({ membros, ano }: Props) {
       setShowPayDialog(false)
       clear()
       router.refresh()
-      const ignoradosTxt = res.ignorados ? ` · ${res.ignorados} isento(s) ignorado(s)` : ''
-      toast.success(`${res.count} pagamento(s) registado(s)${ignoradosTxt}`)
+      const extras: string[] = []
+      if (res.isentos) extras.push(`${res.isentos} isento(s)`)
+      if (res.jaPagos) extras.push(`${res.jaPagos} já pago(s)`)
+      const extraTxt = extras.length ? ` · ${extras.join(' + ')} ignorado(s)` : ''
+      if ((res.count ?? 0) > 0) {
+        toast.success(`${res.count} pagamento(s) registado(s)${extraTxt}`)
+      } else {
+        toast.warning(`Nenhum pagamento registado${extraTxt}`)
+      }
     } finally {
       setBusy(null)
     }
   }
 
   async function handleBulkDelete() {
-    const n = selected.size
-    if (!window.confirm(`Eliminar ${n} membro(s) selecionado(s)?\nEsta ação não pode ser revertida.`)) return
     setBusy('del')
     try {
       const res = await eliminarMembrosLote(Array.from(selected))
@@ -158,6 +165,7 @@ export default function MembrosTableClient({ membros, ano }: Props) {
         return
       }
       clear()
+      setShowDeleteDialog(false)
       router.refresh()
       toast.success(`${res.count} membro(s) eliminado(s)`)
     } catch (e: any) {
@@ -341,7 +349,7 @@ export default function MembrosTableClient({ membros, ano }: Props) {
               </button>
               <button
                 type="button"
-                onClick={handleBulkDelete}
+                onClick={() => setShowDeleteDialog(true)}
                 disabled={busy !== null}
                 title={`Eliminar ${selected.size} membro(s)`}
                 className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-[11px] sm:text-xs font-bold uppercase tracking-wider text-red-300 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
@@ -381,6 +389,16 @@ export default function MembrosTableClient({ membros, ano }: Props) {
           </div>
         </div>
       )}
+
+      {/* Bulk delete confirm */}
+      <ConfirmDeleteDialog
+        open={showDeleteDialog}
+        onOpenChange={(o) => { if (!busy) setShowDeleteDialog(o) }}
+        title={`Eliminar ${selected.size} membro(s)?`}
+        description="Esta ação não pode ser revertida. Todos os pagamentos, documentos e registos associados serão removidos."
+        confirmLabel={busy === 'del' ? 'A eliminar…' : `Eliminar ${selected.size}`}
+        onConfirm={handleBulkDelete}
+      />
 
       {/* Bulk payment dialog */}
       {showPayDialog && (
@@ -467,6 +485,7 @@ export default function MembrosTableClient({ membros, ano }: Props) {
 function MembroKebabMenu({ membro }: { membro: MembroRow }) {
   const router = useRouter()
   const [open, setOpen] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const [busy, setBusy] = useState<null | 'pay' | 'copy' | 'del'>(null)
 
   async function quickPay() {
@@ -478,6 +497,10 @@ function MembroKebabMenu({ membro }: { membro: MembroRow }) {
       const res = await marcarPagamentosCota([membro.id], new Date().toISOString().slice(0, 7))
       if (res.error) {
         toast.error(res.error)
+      } else if (res.jaPagos) {
+        toast.warning(`${membro.nome} já tem pagamento registado este mês.`)
+      } else if ((res.count ?? 0) === 0) {
+        toast.warning('Nenhum pagamento registado.')
       } else {
         router.refresh()
         toast.success(`Pagamento de ${cota}€ registado para ${membro.nome}`)
@@ -505,7 +528,6 @@ function MembroKebabMenu({ membro }: { membro: MembroRow }) {
   }
 
   async function remove() {
-    if (!window.confirm(`Tens a certeza que queres eliminar "${membro.nome}"?\nEsta ação não pode ser revertida.`)) return
     setBusy('del')
     try {
       const fd = new FormData()
@@ -514,9 +536,15 @@ function MembroKebabMenu({ membro }: { membro: MembroRow }) {
       toast.success(`${membro.nome} eliminado`)
       router.refresh()
     } catch (e: any) {
+      // NEXT_REDIRECT é um throw legítimo do redirect — não tratar como erro
+      if (e?.digest?.startsWith?.('NEXT_REDIRECT')) {
+        toast.success(`${membro.nome} eliminado`)
+        return
+      }
       toast.error(e?.message || 'Falha ao eliminar')
     } finally {
       setBusy(null)
+      setConfirmDelete(false)
       setOpen(false)
     }
   }
@@ -570,7 +598,7 @@ function MembroKebabMenu({ membro }: { membro: MembroRow }) {
             <div className="my-1 border-t border-white/5" />
             <button
               type="button"
-              onClick={remove}
+              onClick={() => { setOpen(false); setConfirmDelete(true) }}
               className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-300/80 hover:bg-red-500/10 hover:text-red-300 transition-colors"
             >
               <Trash2 className="w-3.5 h-3.5" /> Eliminar
@@ -578,6 +606,14 @@ function MembroKebabMenu({ membro }: { membro: MembroRow }) {
           </div>
         </>
       )}
+      <ConfirmDeleteDialog
+        open={confirmDelete}
+        onOpenChange={(o) => { if (!busy) setConfirmDelete(o) }}
+        title={`Eliminar ${membro.nome}?`}
+        description="Esta ação não pode ser revertida. Todos os pagamentos, documentos e registos associados serão removidos."
+        confirmLabel={busy === 'del' ? 'A eliminar…' : 'Eliminar'}
+        onConfirm={remove}
+      />
     </div>
   )
 }

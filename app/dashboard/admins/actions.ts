@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache'
 import { Resend } from 'resend'
 import { render } from '@react-email/render'
 import { AdminInviteEmail } from '@/components/templates/admin-invite-email'
+import { PasswordResetEmail } from '@/components/templates/password-reset-email'
 
 const NOT_AUTHORIZED = { error: 'Apenas o administrador principal pode gerir contas de admin.' }
 
@@ -19,6 +20,7 @@ const NOT_AUTHORIZED = { error: 'Apenas o administrador principal pode gerir con
 export interface AdminRow {
   id: string
   email: string
+  nome: string | null
   role: string | null
   last_sign_in_at: string | null
   created_at: string
@@ -40,13 +42,14 @@ export async function listAdmins(): Promise<AdminRow[]> {
   const supabase = await createClient()
   const { data: profiles } = await (supabase
     .from('profiles')
-    .select('id, email, role') as any)
+    .select('id, email, role, nome') as any)
 
   const profMap = new Map<string, any>((profiles || []).map((p: any) => [p.id, p]))
 
   return authUsers.map(u => ({
     id: u.id,
     email: u.email || '(sem email)',
+    nome: profMap.get(u.id)?.nome ?? null,
     role: profMap.get(u.id)?.role ?? 'admin',
     last_sign_in_at: u.last_sign_in_at ?? null,
     created_at: u.created_at,
@@ -152,27 +155,83 @@ export async function eliminarAdmin(formData: FormData): Promise<{ ok?: boolean;
   return { ok: true }
 }
 
-// Repor password — Supabase não permite ler password, mas dá para
-// "set new" via Admin API. Útil quando alguém perde acesso.
+// Repor password — gera link de recovery do Supabase e envia email para
+// o admin em causa. O super-admin nunca toca na password (mais seguro
+// que definir uma manualmente e ter de comunicá-la noutro canal).
 export async function reporPassword(formData: FormData): Promise<{ ok?: boolean; error?: string }> {
   if (!(await currentUserIsSuperAdmin())) return NOT_AUTHORIZED
   const userId = formData.get('id') as string
-  const newPassword = formData.get('password') as string
-  if (!userId || !newPassword) return { error: 'Parâmetros em falta.' }
-  if (newPassword.length < 8) return { error: 'Password tem de ter pelo menos 8 caracteres.' }
+  if (!userId) return { error: 'ID em falta.' }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
   const admin = createAdminClient()
-  const { error } = await admin.auth.admin.updateUserById(userId, { password: newPassword })
-  if (error) return { error: error.message }
 
+  // 1. Buscar email do admin alvo (vem do auth.users via Admin API).
+  const { data: targetUser, error: getUserError } = await admin.auth.admin.getUserById(userId)
+  if (getUserError || !targetUser?.user?.email) {
+    return { error: 'Não foi possível encontrar o email deste administrador.' }
+  }
+  const targetEmail = targetUser.user.email
+
+  // 2. Gerar link de recovery (mesma flow do /auth/forgot-password).
+  const { data: linkData, error: linkError } = await admin.auth.admin.generateLink({
+    type: 'recovery',
+    email: targetEmail,
+    options: { redirectTo: `${siteUrl}/auth/set-password` },
+  })
+  if (linkError || !linkData?.properties?.action_link) {
+    return { error: linkError?.message || 'Não foi possível gerar o link de recuperação.' }
+  }
+  const resetUrl = linkData.properties.action_link
+
+  // 3. Enviar email via Resend com o template já existente.
+  if (!process.env.RESEND_API_KEY) {
+    return { error: 'RESEND_API_KEY não configurada — não foi possível enviar email.' }
+  }
+  const resend = new Resend(process.env.RESEND_API_KEY)
+  const html = await render(PasswordResetEmail({ resetUrl }))
+
+  const { error: sendError } = await resend.emails.send({
+    from: 'Infante Boxing Club <noreply@associacaoinfante.pt>',
+    to: targetEmail,
+    subject: 'Recuperar password — Infante Boxing Club',
+    html,
+  })
+  if (sendError) {
+    return { error: `Falhou envio do email: ${sendError.message}` }
+  }
+
+  // 4. Log da ação.
   const supabase = await createClient()
   await (supabase.from('activity_log') as any).insert({
     action: 'EDITAR_ADMIN',
-    description: `Repôs password de administrador (id ${userId.slice(0, 8)}…)`,
+    description: `Enviou email de reposição de password para "${targetEmail}"`,
     entity_type: 'admin',
     entity_id: userId,
   })
 
   revalidatePath('/dashboard/admins')
+  return { ok: true }
+}
+
+// Actualizar nome de apresentação de um admin.
+// O nome aparece na coluna "Admin" do histórico de atividade.
+export async function atualizarNomeAdmin(formData: FormData): Promise<{ ok?: boolean; error?: string }> {
+  if (!(await currentUserIsSuperAdmin())) return NOT_AUTHORIZED
+  const userId = formData.get('id') as string
+  const nome = ((formData.get('nome') as string) || '').trim()
+  if (!userId) return { error: 'ID em falta.' }
+
+  // Usa service role para bypassar RLS — profiles só tem política SELECT
+  // para authenticated; UPDATE silencioso (0 rows, sem error) com anon key.
+  const admin = createAdminClient()
+  const { error } = await (admin
+    .from('profiles')
+    .update({ nome: nome || null })
+    .eq('id', userId) as any)
+  if (error) return { error: error.message }
+
+  revalidatePath('/dashboard/admins')
+  revalidatePath('/dashboard/logs')
   return { ok: true }
 }

@@ -4,6 +4,7 @@
 create table public.profiles (
   id uuid references auth.users not null primary key,
   email text,
+  nome text,
   role text default 'admin',
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
@@ -201,7 +202,7 @@ create table if not exists public.document_metadata (
   membro_id uuid references public.membros(id) on delete cascade not null,
   storage_path text not null unique,
   file_name text not null,
-  categoria text not null check(categoria in ('cc','declaracao','inspecao_medica','seguro','autorizacao','contrato','outro')),
+  categoria text not null check(categoria in ('cc','declaracao','inspecao_medica','seguro','autorizacao','contrato','avatar','outro')),
   mime_type text,
   size_bytes bigint,
   uploaded_by uuid not null default auth.uid(),

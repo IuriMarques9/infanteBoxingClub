@@ -44,8 +44,8 @@ export async function exportPagamentosCSV(params: {
 
 // ─── REGISTAR PAGAMENTOS EM LOTE ────────────────────────────────
 // Recebe múltiplos membro_ids (checkboxes), um mês de referência
-// e um valor. Insere todas as linhas de uma vez e regista um
-// ÚNICO registo no activity_log descrevendo o lote.
+// e um valor. Filtra os que já têm pagamento desse mês e insere
+// apenas os restantes. Regista um único log com a contagem.
 export async function registarPagamentosLote(formData: FormData): Promise<void> {
   const supabase = await createClient()
 
@@ -57,7 +57,21 @@ export async function registarPagamentosLote(formData: FormData): Promise<void> 
     return
   }
 
-  const rows = ids.map(membro_id => ({ membro_id, mes_referencia, valor }))
+  // Filtrar os que já têm pagamento neste mês (idempotência)
+  const { data: existentes } = await (supabase
+    .from('pagamentos')
+    .select('membro_id')
+    .in('membro_id', ids)
+    .eq('mes_referencia', mes_referencia) as any)
+  const idsJaPagos = new Set((existentes || []).map((p: any) => p.membro_id))
+  const idsParaInserir = ids.filter(id => !idsJaPagos.has(id))
+
+  if (idsParaInserir.length === 0) {
+    revalidatePath('/dashboard/pagamentos')
+    return
+  }
+
+  const rows = idsParaInserir.map(membro_id => ({ membro_id, mes_referencia, valor }))
 
   const { error } = await (supabase.from('pagamentos') as any).insert(rows)
 
@@ -66,9 +80,11 @@ export async function registarPagamentosLote(formData: FormData): Promise<void> 
     return
   }
 
+  const ignorados = idsJaPagos.size
+  const descricaoIgnorados = ignorados > 0 ? ` (${ignorados} já pago(s) ignorado(s))` : ''
   await (supabase.from('activity_log') as any).insert({
     action: 'REGISTAR_PAGAMENTOS_LOTE',
-    description: `Registou ${ids.length} pagamento(s) de ${valor}€ referentes a ${mes_referencia}`,
+    description: `Registou ${rows.length} pagamento(s) de ${valor}€ referentes a ${mes_referencia}${descricaoIgnorados}`,
     entity_type: 'pagamento',
   })
 

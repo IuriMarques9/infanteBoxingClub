@@ -45,7 +45,7 @@ export default async function ActivityLogPage({
   // 1. Distinct values to populate the filters (first 500 rows is a practical sample)
   const { data: distinct } = await (supabase
     .from('activity_log')
-    .select('action, entity_type, admin_id, profiles:admin_id(email)')
+    .select('action, entity_type, admin_id, profiles:admin_id(email, nome)')
     .limit(500) as any)
 
   const availableActions = Array.from(
@@ -59,7 +59,8 @@ export default async function ActivityLogPage({
   const adminMap = new Map<string, string>()
   ;(distinct || []).forEach((r: any) => {
     if (r.admin_id) {
-      adminMap.set(r.admin_id, r.profiles?.email?.split('@')[0] || r.admin_id.slice(0, 8))
+      const label = r.profiles?.nome || r.profiles?.email?.split('@')[0] || r.admin_id.slice(0, 8)
+      adminMap.set(r.admin_id, label)
     }
   })
   const availableAdmins = Array.from(adminMap.entries()).map(([id, label]) => ({ id, label }))
@@ -67,7 +68,7 @@ export default async function ActivityLogPage({
   // 2. Build the filtered query
   let query = supabase
     .from('activity_log')
-    .select(`*, profiles:admin_id ( email )`)
+    .select(`*, profiles:admin_id ( email, nome )`)
     .order('created_at', { ascending: false })
 
   let countQuery = supabase
@@ -106,6 +107,11 @@ export default async function ActivityLogPage({
   const { data: logs } = await (query.range(fromIdx, toIdx) as any)
   const { count: total } = await (countQuery as any)
   const sparkline = await getActivityLast30Days()
+
+  // Mini-stats: hoje, últimos 7 dias e últimos 30 dias (do array do sparkline)
+  const todayCount = sparkline[sparkline.length - 1]?.count ?? 0
+  const weekCount = sparkline.slice(-7).reduce((s, d) => s + d.count, 0)
+  const monthCount = sparkline.reduce((s, d) => s + d.count, 0)
 
   const totalCount = total || 0
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
@@ -147,6 +153,20 @@ export default async function ActivityLogPage({
             to: sp.to,
           }}
         />
+      </div>
+
+      {/* Mini-stats: Hoje / Semana / 30 dias */}
+      <div className="grid grid-cols-3 gap-3 sm:gap-4">
+        {[
+          { label: 'Hoje', value: todayCount },
+          { label: 'Últimos 7 dias', value: weekCount },
+          { label: 'Últimos 30 dias', value: monthCount },
+        ].map(({ label, value }) => (
+          <div key={label} className="bg-[#121212] rounded-2xl border border-white/5 px-4 py-3 text-center shadow-md">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-1">{label}</p>
+            <p className="text-2xl font-bold text-[#E8B55B]">{value}</p>
+          </div>
+        ))}
       </div>
 
       {/* Sparkline 30 dias (D3) */}

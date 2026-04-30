@@ -40,7 +40,7 @@ export default function LogRow({ log }: { log: any }) {
               <User className="w-3 h-3" />
             </div>
             <span className="text-white/80 font-medium">
-              {log.profiles?.email?.split('@')[0] || 'Admin'}
+              {log.profiles?.nome || log.profiles?.email?.split('@')[0] || 'Admin eliminado'}
             </span>
           </div>
         </td>
@@ -99,7 +99,11 @@ export default function LogRow({ log }: { log: any }) {
                     <span className="text-white/40 text-xs">{formatRelativeTime(log.created_at)}</span>
                   </Field>
                   <Field label="Admin">
-                    <span className="text-white/80">{log.profiles?.email || '—'}</span>
+                    <span className="text-white/80">
+                      {log.profiles?.nome
+                        ? `${log.profiles.nome} (${log.profiles.email})`
+                        : log.profiles?.email || 'Admin eliminado'}
+                    </span>
                   </Field>
                   <Field label="Descrição">
                     <p className="text-white/80 leading-relaxed">{log.description || '(vazio)'}</p>

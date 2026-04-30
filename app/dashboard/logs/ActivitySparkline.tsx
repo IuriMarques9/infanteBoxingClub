@@ -2,6 +2,14 @@
 
 import { LineChart, Line, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
 
+// Helper: parse "YYYY-MM-DD" como data LOCAL (não UTC).
+// new Date("YYYY-MM-DD") interpreta como UTC midnight → em Portugal (UTC+1)
+// toLocaleDateString daria o dia anterior. Com este helper evitamos o shift.
+function parseLocalDate(s: string) {
+  const [y, m, d] = s.split('-').map(Number)
+  return new Date(y, m - 1, d)
+}
+
 // ─── SPARKLINE DE ATIVIDADE (D3) ──────────────────────────────
 // Recebe 30 dias com contagem de eventos no log e desenha uma linha
 // suave para mostrar tendência. Sem eixos a poluir o espaço.
@@ -20,7 +28,7 @@ export default function ActivitySparkline({ data }: { data: { date: string; coun
         {peak > 0 && peakDay && (
           <p className="text-[10px] text-white/40 text-right">
             Pico: <span className="text-white/70 font-bold">{peak}</span> em <br />
-            {new Date(peakDay.date).toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' })}
+            {parseLocalDate(peakDay.date).toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' })}
           </p>
         )}
       </div>
@@ -39,7 +47,7 @@ export default function ActivitySparkline({ data }: { data: { date: string; coun
                 padding: '4px 8px',
               }}
               labelFormatter={(label: any) =>
-                new Date(label).toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' })
+                parseLocalDate(String(label)).toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' })
               }
               formatter={(value: any) => [value, 'eventos']}
             />

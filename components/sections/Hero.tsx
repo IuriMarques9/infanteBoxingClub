@@ -64,7 +64,7 @@ export default function Hero() {
         </p>
 
         <div className="hero-elem mt-10">
-          <Button variant="default" size="default" asChild className="rounded-full bg-[#E8B55B] hover:bg-[#C99C4A] text-black font-extrabold uppercase tracking-widest text-sm md:text-base px-6 py-5 shadow-[0_0_20px_rgba(232,181,91,0.4)] hover:shadow-[0_0_35px_rgba(232,181,91,0.7)] transition-all hover:scale-105">
+          <Button variant="default" size="lg" asChild className="rounded-full bg-[#E8B55B] hover:bg-[#C99C4A] text-black font-extrabold uppercase tracking-widest text-sm md:text-xl px-6 py-5 md:px-10 md:py-8 shadow-[0_0_20px_rgba(232,181,91,0.4)] hover:shadow-[0_0_35px_rgba(232,181,91,0.7)] transition-all hover:scale-105">
              <a href="#visit">{C.hero.ctaPrimary}</a>
           </Button>
         </div>

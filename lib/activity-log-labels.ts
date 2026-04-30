@@ -83,6 +83,25 @@ export function getActivityLabel(action: string | null | undefined): ActivityLab
   }
 }
 
+// Mapa simples para apresentar o `entity_type` em português. Usado nos
+// dropdowns de filtro do histórico (em vez de mostrar "membro" / "pagamento"
+// directamente da BD, mostramos "Membros" / "Pagamentos").
+const ENTITY_LABELS: Record<string, string> = {
+  membro:    'Membros',
+  pagamento: 'Pagamentos',
+  horario:   'Horários',
+  documento: 'Documentos',
+  ficha:     'Fichas',
+  evento:    'Eventos',
+  produto:   'Produtos',
+  admin:     'Administradores',
+}
+
+export function getEntityLabel(entityType: string | null | undefined): string {
+  if (!entityType) return 'Entidade'
+  return ENTITY_LABELS[entityType] ?? entityType.charAt(0).toUpperCase() + entityType.slice(1)
+}
+
 // Permite navegação a partir de uma linha de log para o recurso afetado.
 export function getEntityHref(entityType: string | null, entityId: string | null): string | null {
   if (!entityType) return null

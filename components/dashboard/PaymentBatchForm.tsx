@@ -10,19 +10,27 @@ import { Users } from 'lucide-react'
 export default async function PaymentBatchForm() {
   const supabase = await createClient()
 
-  const { data: membros } = await (supabase.from('membros') as any)
-    .select('id, nome, turma, is_isento')
-    .order('nome', { ascending: true })
+  const mesAtual = new Date().toISOString().slice(0, 7)
+
+  const [{ data: membros }, { data: pagamentosMes }] = await Promise.all([
+    (supabase.from('membros') as any)
+      .select('id, nome, turma, is_isento')
+      .order('nome', { ascending: true }),
+    (supabase.from('pagamentos') as any)
+      .select('membro_id')
+      .eq('mes_referencia', mesAtual),
+  ])
+
+  const idsJaPagos = new Set((pagamentosMes || []).map((p: any) => p.membro_id))
 
   // Agrupar por turma
   const grupos: Record<string, any[]> = {}
   for (const m of (membros || []) as any[]) {
     const t = m.turma as string
     if (!grupos[t]) grupos[t] = []
-    grupos[t].push(m)
+    grupos[t].push({ ...m, _jaPago: idsJaPagos.has(m.id) })
   }
 
-  const mesAtual = new Date().toISOString().slice(0, 7)
   const turmas: Turma[] = ['gatinhos', 'suricatas', 'leoes', 'adultos', 'mulheres']
 
   return (
@@ -32,6 +40,7 @@ export default async function PaymentBatchForm() {
       </h2>
       <p className="text-white/40 text-xs mb-5">
         Seleciona membros e regista o mesmo pagamento para todos de uma vez.
+        Membros já pagos no mês de referência abaixo aparecem desactivados.
       </p>
 
       <form action={registarPagamentosLote} className="space-y-5">
@@ -77,28 +86,36 @@ export default async function PaymentBatchForm() {
                   <span className="text-[10px] text-white/30">{lista.length}</span>
                 </div>
                 <div className="space-y-1.5">
-                  {lista.map((m: any) => (
-                    <label
-                      key={m.id}
-                      className="flex items-center gap-3 p-2.5 bg-white/[0.02] hover:bg-white/5 rounded-lg border border-white/5 cursor-pointer transition-colors text-sm"
-                    >
-                      <input
-                        type="checkbox"
-                        name="membro_ids[]"
-                        value={m.id}
-                        disabled={m.is_isento}
-                        className="w-4 h-4 accent-[#E8B55B] disabled:opacity-30"
-                      />
-                      <span className={`flex-1 ${m.is_isento ? 'text-white/30' : 'text-white/80'}`}>
-                        {m.nome}
-                        {m.is_isento && (
-                          <span className="ml-2 text-[10px] text-blue-400 uppercase tracking-wider">
-                            Isento
-                          </span>
-                        )}
-                      </span>
-                    </label>
-                  ))}
+                  {lista.map((m: any) => {
+                    const bloqueado = m.is_isento || m._jaPago
+                    return (
+                      <label
+                        key={m.id}
+                        className={`flex items-center gap-3 p-2.5 bg-white/[0.02] rounded-lg border border-white/5 transition-colors text-sm ${bloqueado ? 'cursor-not-allowed' : 'hover:bg-white/5 cursor-pointer'}`}
+                      >
+                        <input
+                          type="checkbox"
+                          name="membro_ids[]"
+                          value={m.id}
+                          disabled={bloqueado}
+                          className="w-4 h-4 accent-[#E8B55B] disabled:opacity-30"
+                        />
+                        <span className={`flex-1 ${bloqueado ? 'text-white/30' : 'text-white/80'}`}>
+                          {m.nome}
+                          {m.is_isento && (
+                            <span className="ml-2 text-[10px] text-blue-400 uppercase tracking-wider">
+                              Isento
+                            </span>
+                          )}
+                          {m._jaPago && !m.is_isento && (
+                            <span className="ml-2 text-[10px] text-green-400 uppercase tracking-wider">
+                              Pago
+                            </span>
+                          )}
+                        </span>
+                      </label>
+                    )
+                  })}
                 </div>
               </div>
             )

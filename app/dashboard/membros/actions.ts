@@ -184,6 +184,17 @@ export async function registarPagamento(formData: FormData) {
   // Buscar nome do membro para o log
   const { data: membro } = await (supabase.from('membros').select('nome').eq('id', membro_id).single() as any)
 
+  // Bloquear duplicados (índice único também protege na BD).
+  const { data: existente } = await (supabase
+    .from('pagamentos')
+    .select('id')
+    .eq('membro_id', membro_id)
+    .eq('mes_referencia', mes_referencia)
+    .maybeSingle() as any)
+  if (existente) {
+    redirect(`/dashboard/membros/${membro_id}?error=ja_pago`)
+  }
+
   const { data, error } = await (supabase.from('pagamentos') as any).insert({
     membro_id,
     mes_referencia,
@@ -192,7 +203,9 @@ export async function registarPagamento(formData: FormData) {
 
   if (error) {
     console.error('Erro ao registar pagamento:', error.message)
-    redirect(`/dashboard/membros/${membro_id}?error=payment_failed`)
+    // Postgres unique_violation = 23505 (caso a corrida atravesse o select acima).
+    const code = (error as any).code
+    redirect(`/dashboard/membros/${membro_id}?error=${code === '23505' ? 'ja_pago' : 'payment_failed'}`)
   }
 
   await logAction(
@@ -248,12 +261,12 @@ export async function getMembrosOverdue() {
 // ─── MARCAR PAGAMENTO USANDO COTA DO MEMBRO ───────────────────
 // Para cada ID, regista um pagamento com o valor da `cota` do
 // próprio membro (em vez de um valor fixo). Ignora membros isentos
-// silenciosamente. Mantém um único registo no activity_log por
-// ação em lote (mesmo padrão de `registarPagamentosLote`).
+// e os que já têm pagamento desse mês. Mantém um único registo no
+// activity_log por ação em lote.
 export async function marcarPagamentosCota(
   ids: string[],
   mes_referencia: string,
-): Promise<{ ok?: boolean; count?: number; ignorados?: number; error?: string }> {
+): Promise<{ ok?: boolean; count?: number; isentos?: number; jaPagos?: number; error?: string }> {
   const supabase = await createClient()
   if (!ids.length || !mes_referencia) return { error: 'Parâmetros em falta.' }
 
@@ -264,8 +277,23 @@ export async function marcarPagamentosCota(
     .in('id', ids) as any)
   if (fetchErr) return { error: fetchErr.message }
 
-  const elegíveis = (membros || []).filter((m: any) => !m.is_isento)
-  if (elegíveis.length === 0) return { error: 'Nenhum membro elegível (todos isentos).' }
+  const naoIsentos = (membros || []).filter((m: any) => !m.is_isento)
+  const isentos = (membros || []).length - naoIsentos.length
+  if (naoIsentos.length === 0) return { error: 'Nenhum membro elegível (todos isentos).' }
+
+  // Filtrar os que já têm pagamento neste mês
+  const { data: existentes } = await (supabase
+    .from('pagamentos')
+    .select('membro_id')
+    .in('membro_id', naoIsentos.map((m: any) => m.id))
+    .eq('mes_referencia', mes_referencia) as any)
+
+  const idsJaPagos = new Set((existentes || []).map((p: any) => p.membro_id))
+  const elegíveis = naoIsentos.filter((m: any) => !idsJaPagos.has(m.id))
+
+  if (elegíveis.length === 0) {
+    return { ok: true, count: 0, isentos, jaPagos: idsJaPagos.size }
+  }
 
   const rows = elegíveis.map((m: any) => ({
     membro_id: m.id,
@@ -287,7 +315,7 @@ export async function marcarPagamentosCota(
   revalidatePath('/dashboard/membros')
   revalidatePath('/dashboard')
 
-  return { ok: true, count: rows.length, ignorados: ids.length - rows.length }
+  return { ok: true, count: rows.length, isentos, jaPagos: idsJaPagos.size }
 }
 
 // ─── ELIMINAR MEMBROS EM LOTE ──────────────────────────────────
