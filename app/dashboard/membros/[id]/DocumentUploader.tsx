@@ -12,6 +12,7 @@ import { uploadDocument } from './documents-actions'
 // Suporta drag-and-drop e mostra feedback do ficheiro a ser enviado.
 
 const CATEGORIAS = [
+  { value: 'cc', label: '🪪 Documentos de identificação' },
   { value: 'declaracao', label: '📄 Declaração dos Pais' },
   { value: 'seguro', label: '🛡️ Comprovativo de Seguro' },
   { value: 'inspecao_medica', label: '🏥 Inspeção Médica' },
