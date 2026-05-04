@@ -281,11 +281,12 @@ export async function marcarPagamentosCota(
   const isentos = (membros || []).length - naoIsentos.length
   if (naoIsentos.length === 0) return { error: 'Nenhum membro elegível (todos isentos).' }
 
-  // Filtrar os que já têm pagamento neste mês
+  // Filtrar os que já têm cota deste mês (idempotência por tipo='cota')
   const { data: existentes } = await (supabase
     .from('pagamentos')
     .select('membro_id')
     .in('membro_id', naoIsentos.map((m: any) => m.id))
+    .eq('tipo', 'cota')
     .eq('mes_referencia', mes_referencia) as any)
 
   const idsJaPagos = new Set((existentes || []).map((p: any) => p.membro_id))
@@ -299,6 +300,7 @@ export async function marcarPagamentosCota(
     membro_id: m.id,
     mes_referencia,
     valor: Number(m.cota ?? 30),  // fallback 30€ se cota for null
+    tipo: 'cota',
   }))
 
   const total = rows.reduce((s: number, r: { valor: number }) => s + r.valor, 0)
@@ -313,6 +315,7 @@ export async function marcarPagamentosCota(
   })
 
   revalidatePath('/dashboard/membros')
+  revalidatePath('/dashboard/pagamentos')
   revalidatePath('/dashboard')
 
   return { ok: true, count: rows.length, isentos, jaPagos: idsJaPagos.size }

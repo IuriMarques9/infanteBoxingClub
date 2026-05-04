@@ -105,10 +105,17 @@ create table public.membros (
 create table public.pagamentos (
   id uuid default gen_random_uuid() primary key,
   membro_id uuid references public.membros(id) on delete cascade not null,
-  mes_referencia text not null,                -- Exemplo: "2026-04"
+  -- mes_referencia é OPCIONAL: só `tipo='cota'` o preenche.
+  -- Seguros/loja/eventos identificam-se pelo `data_pagamento` + `tipo`.
+  mes_referencia text,                         -- Exemplo: "2026-04" (só cotas)
   valor numeric not null,
   data_pagamento timestamp with time zone default timezone('utc'::text, now()) not null,
-  admin_id uuid not null default auth.uid()    -- AUDITORIA: Qual admin registou este pagamento
+  admin_id uuid not null default auth.uid(),   -- AUDITORIA: Qual admin registou este pagamento
+  -- Tipo polimórfico para suportar todos os fluxos monetários do clube.
+  tipo text not null default 'cota'
+    check (tipo in ('cota','seguro','loja','evento','outro')),
+  descricao text,
+  referencia_id uuid                           -- FK opcional p/ produto/evento (futuro)
 );
 
 create table public.horarios (

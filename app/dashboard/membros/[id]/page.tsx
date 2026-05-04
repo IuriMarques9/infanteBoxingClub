@@ -10,6 +10,8 @@ import FichaClienteForm from './FichaClienteForm'
 import AvatarUploader from './AvatarUploader'
 import PaymentGrid from './PaymentGrid'
 import DeleteMembroButton from './DeleteMembroButton'
+import MembroPagamentosSection from './MembroPagamentosSection'
+import { getPagamentosMembro } from '@/app/dashboard/pagamentos/actions'
 import DocumentCard from '@/components/dashboard/DocumentCard'
 import EmptyState from '@/components/shared/EmptyState'
 import { SubmitPrimary } from '@/components/dashboard/FormButtons'
@@ -102,6 +104,9 @@ export default async function MembroProfilePage({
     .eq('entity_id', id)
     .order('created_at', { ascending: false })
     .limit(10) as any)
+
+  // Pagamentos por tipo do ano seleccionado (matriz cotas + último seguro)
+  const pagamentosMembro = await getPagamentosMembro(id, anoGrid)
 
   const turmas: Turma[] = ['gatinhos', 'suricatas', 'leoes', 'adultos', 'mulheres']
 
@@ -337,6 +342,24 @@ export default async function MembroProfilePage({
 
         {/* Coluna Direita: Pagamentos (2/5) */}
         <div className="lg:col-span-2 space-y-6">
+          {/* Nova secção: matriz visual + registo de seguro */}
+          <MembroPagamentosSection
+            membroId={membro.id}
+            cotasPagas={pagamentosMembro.cotasPagas}
+            isIsento={!!membro.is_isento}
+            cota={Number(membro.cota ?? 30)}
+            year={anoGrid}
+            membro={{
+              id: membro.id,
+              nome: membro.nome,
+              turma: membro.turma,
+              is_isento: !!membro.is_isento,
+              is_competicao: !!membro.is_competicao,
+            }}
+            seguro={pagamentosMembro.seguro}
+          />
+
+          {/* Detalhe histórico de pagamentos (legacy grid) */}
           <PaymentGrid membro={membro} pagamentos={pagamentos} ano={anoGrid} />
         </div>
       </div>
