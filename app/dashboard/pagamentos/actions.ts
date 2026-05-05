@@ -131,6 +131,22 @@ export async function registarSeguro(params: {
 
   const supabase = await createClient()
 
+  // 0. Dedup: rejeitar se já existir seguro deste membro para este ano.
+  //    Para registar de novo, eliminar primeiro o existente (ou usar editarPagamento).
+  const { data: existente } = await (supabase.from('pagamentos') as any)
+    .select('id, valor, descricao, data_pagamento')
+    .eq('membro_id', params.membroId)
+    .eq('tipo', 'seguro')
+    .gte('data_pagamento', `${params.ano}-01-01`)
+    .lte('data_pagamento', `${params.ano}-12-31`)
+    .limit(1)
+    .maybeSingle()
+  if (existente) {
+    return {
+      error: `Este atleta já tem seguro de ${params.ano} registado (${existente.valor}€). Apaga o existente primeiro se queres alterar.`,
+    }
+  }
+
   // 1. Insert na tabela pagamentos
   const dataPag = new Date(params.ano, 0, 1).toISOString()
   const { error: insertErr } = await (supabase.from('pagamentos') as any).insert({
