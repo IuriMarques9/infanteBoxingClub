@@ -230,19 +230,7 @@ export default function MembrosTableClient({ membros, ano }: Props) {
                       </td>
                       <td className="px-2 sm:px-6 py-4">
                         <div className="flex items-center gap-3">
-                          {membro._avatarUrl ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={membro._avatarUrl}
-                              alt={membro.nome}
-                              className="w-9 h-9 rounded-full object-cover border border-[#E8B55B]/30 shrink-0 bg-[#1A1A1A]"
-                              loading="lazy"
-                            />
-                          ) : (
-                            <div className="w-9 h-9 rounded-full bg-[#E8B55B]/10 border border-[#E8B55B]/30 flex items-center justify-center text-xs font-bold text-[#E8B55B] shrink-0">
-                              {membro.nome.charAt(0).toUpperCase()}
-                            </div>
-                          )}
+                          <Avatar nome={membro.nome} url={membro._avatarUrl ?? null} />
                           <div className="min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
                               <p className="text-white/90 font-medium truncate">{membro.nome}</p>
@@ -670,5 +658,39 @@ function MembroKebabMenu({ membro }: { membro: MembroRow }) {
         onConfirm={remove}
       />
     </div>
+  )
+}
+
+// ─── AVATAR COM FALLBACK ──────────────────────────────────────
+// <img> com onError. Se a imagem não carregar (ex: signed URL
+// expirada, 401, 404, CORS), mostra a inicial dourada em vez de
+// ficar com broken image. Útil para diagnosticar problemas de
+// avatar — se vês a inicial, a query e a signed URL podem estar
+// OK mas o browser não consegue carregar.
+function Avatar({ nome, url }: { nome: string; url: string | null }) {
+  const [failed, setFailed] = useState(false)
+  if (!url || failed) {
+    return (
+      <div className="w-9 h-9 rounded-full bg-[#E8B55B]/10 border border-[#E8B55B]/30 flex items-center justify-center text-xs font-bold text-[#E8B55B] shrink-0">
+        {nome.charAt(0).toUpperCase()}
+      </div>
+    )
+  }
+  return (
+    /* eslint-disable-next-line @next/next/no-img-element */
+    <img
+      src={url}
+      alt={nome}
+      className="w-9 h-9 rounded-full object-cover border border-[#E8B55B]/30 shrink-0 bg-[#1A1A1A]"
+      loading="lazy"
+      referrerPolicy="no-referrer"
+      onError={() => {
+        // Loga em consola para diagnóstico — útil quando o user reporta
+        // que o avatar não aparece. Vemos exactamente que URL falhou.
+        // eslint-disable-next-line no-console
+        console.warn('[Avatar] failed to load', { nome, url })
+        setFailed(true)
+      }}
+    />
   )
 }
