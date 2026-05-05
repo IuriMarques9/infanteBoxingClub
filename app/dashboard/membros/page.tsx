@@ -19,6 +19,11 @@ import MembrosTableClient, { type MembroRow } from './MembrosTableClient'
 //   INATIVO  → Mês anterior sem pagamento (vermelho)
 export const metadata = { title: 'Membros | Dashboard' }
 
+// Sempre SSR fresco — signed URLs do Storage têm TTL e não devem ser
+// cacheadas pelo Next.js Route Cache. Sem isto, avatars antigos podiam
+// servir URLs expiradas após o build inicial.
+export const dynamic = 'force-dynamic'
+
 export default async function MembrosPage({
   searchParams,
 }: {
