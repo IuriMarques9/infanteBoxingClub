@@ -12,7 +12,9 @@ import { uploadDocument } from './documents-actions'
 // Suporta drag-and-drop e mostra feedback do ficheiro a ser enviado.
 
 // `requiresMinor: true` significa que a categoria só faz sentido para
-// membros menores de 18 — escondida no dropdown se idade ≥ 18.
+// membros menores de 18 — escondida só quando confirmamos que é maior
+// de idade (idade >= 18). Se idade for desconhecida (null), MOSTRA na
+// mesma — não esconder algo útil só porque falta a data de nascimento.
 const CATEGORIAS: { value: string; label: string; requiresMinor?: boolean }[] = [
   { value: 'cc', label: '🪪 Documentos de identificação' },
   { value: 'declaracao', label: '📄 Declaração dos Pais', requiresMinor: true },
@@ -24,8 +26,10 @@ const CATEGORIAS: { value: string; label: string; requiresMinor?: boolean }[] = 
 const ACCEPTED = '.pdf,.jpg,.jpeg,.png,.doc,.docx'
 
 export default function DocumentUploader({ membroId, idade }: { membroId: string; idade?: number | null }) {
+  // Esconder só se TEMOS A CERTEZA que é maior de idade.
+  const isMaiorConfirmado = idade !== null && idade !== undefined && idade >= 18
+  const categoriasVisiveis = CATEGORIAS.filter(c => !c.requiresMinor || !isMaiorConfirmado)
   const isMinor = idade !== null && idade !== undefined && idade < 18
-  const categoriasVisiveis = CATEGORIAS.filter(c => !c.requiresMinor || isMinor)
   const defaultCategoria = isMinor ? 'declaracao' : 'cc'
   const [categoria, setCategoria] = useState(defaultCategoria)
   const [error, setError] = useState<string | null>(null)
