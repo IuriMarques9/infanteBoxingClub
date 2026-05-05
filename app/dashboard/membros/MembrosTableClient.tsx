@@ -287,8 +287,8 @@ export default function MembrosTableClient({ membros, ano }: Props) {
                             Pago
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-2 text-amber-300">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-300"></span>
+                          <span className="inline-flex items-center gap-2 text-red-400">
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-400"></span>
                             Em falta
                           </span>
                         )}
@@ -300,8 +300,8 @@ export default function MembrosTableClient({ membros, ano }: Props) {
                             Entregue
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-2 text-amber-300">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-300"></span>
+                          <span className="inline-flex items-center gap-2 text-red-400">
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-400"></span>
                             Em falta
                           </span>
                         )}
