@@ -471,6 +471,22 @@ async function main() {
     console.log(`✓ ${okUpd}/${updatesCotas.length} cotas com data_pagamento actualizada`)
   }
 
+  // 2c. Sincronizar flag legacy `seguro_ano_pago`/`seguro_pago` em `membros`
+  //     a partir dos seguros recém-inseridos (a UI de Tags usa esse flag).
+  if (insertsSeguros.length > 0) {
+    let okSync = 0
+    for (const s of insertsSeguros) {
+      const ano = new Date(s.data_pagamento).getFullYear()
+      const metodo = String(s.descricao || '').toLowerCase().includes('dinheiro') ? 'dinheiro' : 'mbway'
+      const { error } = await (admin.from('membros') as any)
+        .update({ seguro_ano_pago: ano, seguro_pago: metodo })
+        .eq('id', s.membro_id)
+      if (error) errors.push({ kind: 'sync_seguro', nome: s.membro_id, reason: error.message })
+      else okSync++
+    }
+    console.log(`✓ ${okSync}/${insertsSeguros.length} flags de seguro sincronizados em membros`)
+  }
+
   // 3. Atualizar competidores
   for (const c of competidoresAutoUpdates) {
     const { error } = await (admin.from('membros') as any)
