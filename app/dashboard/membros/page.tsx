@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import Link from 'next/link'
 import { Plus, UserCheck, UserX, Shield } from 'lucide-react'
 import { TURMA_LABELS, type Turma, type StatusMembro } from './constants'
@@ -69,17 +70,26 @@ export default async function MembrosPage({
   const avatarPaths = Array.from(avatarPathByMembro.values())
   const avatarUrlByMembro = new Map<string, string>()
   if (avatarPaths.length > 0) {
-    const { data: signed } = await supabase.storage
+    // Service role client para garantir permission em batch operations
+    // (sessão authenticated do user às vezes não tem privilégio para
+    // createSignedUrls em massa no bucket privado).
+    const admin = createAdminClient()
+    const { data: signed, error: signedErr } = await admin.storage
       .from('documentos')
       .createSignedUrls(avatarPaths, 60 * 60)  // 1h
+    if (signedErr) {
+      console.error('[avatars] createSignedUrls error:', signedErr.message)
+    }
     const urlByPath = new Map<string, string>()
     for (const s of (signed || []) as any[]) {
+      // O SDK retorna `signedUrl` (lowercase) com URL completa.
       if (s.signedUrl && s.path) urlByPath.set(s.path, s.signedUrl)
     }
     for (const [mid, path] of avatarPathByMembro) {
       const u = urlByPath.get(path)
       if (u) avatarUrlByMembro.set(mid, u)
     }
+    console.log(`[avatars] paths=${avatarPaths.length} urls=${avatarUrlByMembro.size}`)
   }
 
   // Calcular o estado de cada membro segundo a nova lógica
