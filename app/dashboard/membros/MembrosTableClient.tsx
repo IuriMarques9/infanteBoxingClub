@@ -284,7 +284,7 @@ export default function MembrosTableClient({ membros, ano }: Props) {
                         {membro._seguroOk ? (
                           <span className="inline-flex items-center gap-2 text-green-400">
                             <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
-                            Pago {ano}
+                            Pago
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-2 text-amber-300">
