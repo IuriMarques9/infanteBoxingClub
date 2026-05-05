@@ -39,6 +39,7 @@ export interface MembroRow {
   _inativo: boolean
   _inspecaoOk: boolean
   _seguroOk: boolean
+  _avatarUrl?: string | null
 }
 
 interface Props {
@@ -229,9 +230,19 @@ export default function MembrosTableClient({ membros, ano }: Props) {
                       </td>
                       <td className="px-2 sm:px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-[#E8B55B]/10 border border-[#E8B55B]/30 flex items-center justify-center text-xs font-bold text-[#E8B55B] shrink-0">
-                            {membro.nome.charAt(0).toUpperCase()}
-                          </div>
+                          {membro._avatarUrl ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={membro._avatarUrl}
+                              alt={membro.nome}
+                              className="w-9 h-9 rounded-full object-cover border border-[#E8B55B]/30 shrink-0 bg-[#1A1A1A]"
+                              loading="lazy"
+                            />
+                          ) : (
+                            <div className="w-9 h-9 rounded-full bg-[#E8B55B]/10 border border-[#E8B55B]/30 flex items-center justify-center text-xs font-bold text-[#E8B55B] shrink-0">
+                              {membro.nome.charAt(0).toUpperCase()}
+                            </div>
+                          )}
                           <div className="min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
                               <p className="text-white/90 font-medium truncate">{membro.nome}</p>

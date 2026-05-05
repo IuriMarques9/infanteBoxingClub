@@ -49,6 +49,34 @@ export default async function MembrosPage({
     .eq('categoria', 'inspecao_medica') as any)
   const comInspecao = new Set<string>((inspecoes || []).map((r: any) => r.membro_id))
 
+  // Avatars: pega o último upload com categoria='avatar' por membro e gera
+  // signed URLs em batch (1 query para todos, evita N+1).
+  const { data: avatarRows } = await (supabase
+    .from('document_metadata')
+    .select('membro_id, storage_path, uploaded_at')
+    .eq('categoria', 'avatar')
+    .order('uploaded_at', { ascending: false }) as any)
+  // Manter só o avatar mais recente por membro
+  const avatarPathByMembro = new Map<string, string>()
+  for (const r of (avatarRows || []) as any[]) {
+    if (!avatarPathByMembro.has(r.membro_id)) avatarPathByMembro.set(r.membro_id, r.storage_path)
+  }
+  const avatarPaths = Array.from(avatarPathByMembro.values())
+  const avatarUrlByMembro = new Map<string, string>()
+  if (avatarPaths.length > 0) {
+    const { data: signed } = await supabase.storage
+      .from('documentos')
+      .createSignedUrls(avatarPaths, 60 * 60)  // 1h
+    const urlByPath = new Map<string, string>()
+    for (const s of (signed || []) as any[]) {
+      if (s.signedUrl && s.path) urlByPath.set(s.path, s.signedUrl)
+    }
+    for (const [mid, path] of avatarPathByMembro) {
+      const u = urlByPath.get(path)
+      if (u) avatarUrlByMembro.set(mid, u)
+    }
+  }
+
   // Calcular o estado de cada membro segundo a nova lógica
   const membrosComStatus = await Promise.all((membros || []).map(async (m: any) => {
     const mesesPagos = (m.pagamentos || []).map((p: any) => p.mes_referencia)
@@ -57,6 +85,7 @@ export default async function MembrosPage({
       status: await calcularEstado(m) as StatusMembro,
       _inativo: membroInativo(m, mesesPagos),
       _inspecaoOk: comInspecao.has(m.id),
+      _avatarUrl: avatarUrlByMembro.get(m.id) ?? null,
     }
   }))
 
