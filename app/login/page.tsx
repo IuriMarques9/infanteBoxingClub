@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { Lock, AlertCircle } from "lucide-react";
-import { login } from "./actions";
-import LoginSubmit from "./LoginSubmit";
+import { Lock } from "lucide-react";
+import LoginForm from "./LoginForm";
 
 export const metadata = {
   title: "Login | Infante Boxing Club",
@@ -12,7 +11,7 @@ export default async function LoginPage({
 }: {
   searchParams: Promise<{ error?: string }>;
 }) {
-  const searchParamsData = await searchParams;
+  const { error: initialError } = await searchParams;
   return (
     <div className="min-h-screen bg-background flex flex-col p-4 relative z-10">
       {/* Glow Effect decorativo */}
@@ -43,58 +42,7 @@ export default async function LoginPage({
             </p>
           </div>
 
-          {searchParamsData?.error && (
-            <div className="bg-destructive/10 text-destructive text-sm font-medium px-4 py-3 rounded-lg flex items-center gap-2">
-              <AlertCircle className="w-4 h-4" />
-              {searchParamsData.error === "Invalid Credentials"
-                ? "Email ou palavra-passe incorretos."
-                : searchParamsData.error === "not_admin"
-                ? "Esta conta não tem permissões de administrador."
-                : "Ocorreu um erro ao iniciar sessão."}
-            </div>
-          )}
-
-          <form action={login} className="space-y-6">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-foreground">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="admin@infanteboxing.pt"
-                  className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent transition-all placeholder:text-zinc-500"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="text-sm font-medium text-foreground">
-                    Palavra-passe
-                  </label>
-                  <Link
-                    href="/auth/forgot-password"
-                    className="text-xs text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    Esqueci-me da minha palavra-passe
-                  </Link>
-                </div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="••••••••"
-                  className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent transition-all placeholder:text-zinc-500"
-                  required
-                />
-              </div>
-            </div>
-
-            <LoginSubmit />
-          </form>
+          <LoginForm initialError={initialError} />
 
           <div className="text-center">
             <p className="text-xs text-muted-foreground">

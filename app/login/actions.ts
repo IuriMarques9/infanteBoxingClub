@@ -4,21 +4,22 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
-export async function login(formData: FormData) {
+export type LoginState = {
+  error?: 'Invalid Credentials' | 'unknown'
+  email?: string
+  password?: string
+}
+
+export async function login(_prev: LoginState, formData: FormData): Promise<LoginState> {
   const supabase = await createClient()
 
-  // Converte form data para email / password
-  const formValues = Object.fromEntries(formData.entries())
-  const email = formValues.email as string
-  const password = formValues.password as string
+  const email = (formData.get('email') as string) ?? ''
+  const password = (formData.get('password') as string) ?? ''
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  })
+  const { error } = await supabase.auth.signInWithPassword({ email, password })
 
   if (error) {
-    return redirect('/login?error=Invalid%20Credentials')
+    return { error: 'Invalid Credentials', email, password }
   }
 
   revalidatePath('/dashboard')
