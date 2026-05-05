@@ -8,13 +8,20 @@ export default function SearchInput({ initial = '' }: { initial?: string }) {
   const router = useRouter()
   const params = useSearchParams()
   const pathname = usePathname()
+  const urlQ = params.get('q') || ''
   const [value, setValue] = useState(initial)
   const [isPending, startTransition] = useTransition()
 
+  // Quando o `q` da URL muda por fora (back/forward, restore do MembrosFiltersBar
+  // a partir do localStorage), sincroniza o estado local — caso contrário o
+  // debounce abaixo escrevia o `value` antigo por cima do valor restaurado.
+  useEffect(() => {
+    setValue(urlQ)
+  }, [urlQ])
+
   useEffect(() => {
     const handle = setTimeout(() => {
-      const current = params.get('q') || ''
-      if (value === current) return
+      if (value === urlQ) return
       const next = new URLSearchParams(params.toString())
       if (value.trim()) next.set('q', value.trim())
       else next.delete('q')
@@ -23,7 +30,7 @@ export default function SearchInput({ initial = '' }: { initial?: string }) {
       })
     }, 300)
     return () => clearTimeout(handle)
-  }, [value, params, pathname, router])
+  }, [value, urlQ, params, pathname, router])
 
   return (
     <div className="flex-1 relative">
