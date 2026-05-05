@@ -35,7 +35,7 @@ interface NavItem {
 const MAIN_LINKS: NavItem[] = [
   { href: '/dashboard', label: 'Geral', icon: LayoutDashboard },
   { href: '/dashboard/membros', label: 'Membros', icon: Users },
-  { href: '/dashboard/pagamentos', label: 'Pagamentos', icon: CreditCard, disabled: true },
+  { href: '/dashboard/pagamentos', label: 'Pagamentos', icon: CreditCard },
   { href: '/dashboard/horarios', label: 'Horários', icon: CalendarDays },
   { href: '/dashboard/eventos', label: 'Eventos', icon: CalendarDays, disabled: true },
   { href: '/dashboard/loja', label: 'Loja / Merch', icon: ShoppingBag, disabled: true },
