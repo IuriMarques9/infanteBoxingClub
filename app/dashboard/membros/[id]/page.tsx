@@ -76,12 +76,15 @@ export default async function MembroProfilePage({
   })
 
   const CATEGORIA_DISPLAY: Record<string, string> = {
+    cc: 'Documentos de Identificação',
     declaracao: 'Declaração dos Pais',
     seguro: 'Comprovativo de Seguro',
     inspecao_medica: 'Inspeção Médica',
+    autorizacao: 'Autorização',
+    contrato: 'Contrato',
     outro: 'Outro',
   }
-  const CATEGORIA_ORDER = ['declaracao', 'seguro', 'inspecao_medica', 'outro']
+  const CATEGORIA_ORDER = ['cc', 'declaracao', 'inspecao_medica', 'seguro', 'autorizacao', 'contrato', 'outro']
   const docsCategoriasOrdenadas = CATEGORIA_ORDER.filter(k => docsGrouped[k]?.length)
   const inspecaoOk = (docsGrouped['inspecao_medica']?.length || 0) > 0
 
@@ -210,20 +213,16 @@ export default async function MembroProfilePage({
                 </div>
               </div>
 
-              {/* Seguro (anual) — Inspeção Médica é derivada do upload do ficheiro */}
-              <div className="space-y-2">
-                <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Seguro Pago ({ano})</label>
-                <select
-                  name="seguro_pago"
-                  defaultValue={seguroOk ? (membro.seguro_pago || '') : ''}
-                  className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] text-sm appearance-none"
-                >
-                  <option value="">🚫 Não Pago</option>
-                  {(Object.keys(SEGURO_LABELS) as SeguroPago[]).map(s => (
-                    <option key={s} value={s}>{SEGURO_LABELS[s]}</option>
-                  ))}
-                </select>
-              </div>
+              {/* Seguro Pago — agora é gerido na coluna direita
+                  ("Seguro Anual" do MembroPagamentosSection). O dropdown
+                  duplicava com o card e baralhava os admins.
+                  Mantemos um hidden input para a action `editarMembro`
+                  receber o estado actual sem o limpar. */}
+              <input
+                type="hidden"
+                name="seguro_pago"
+                value={seguroOk ? (membro.seguro_pago || '') : ''}
+              />
 
               {/* Observações */}
               <div className="space-y-2">

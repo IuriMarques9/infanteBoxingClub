@@ -5,6 +5,8 @@ import { Toaster as SonnerToaster } from "sonner";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { BUSINESS } from "@/lib/business";
+import { Suspense } from "react";
+import RouteProgress from "@/components/shared/RouteProgress";
 
 // Fontes auto-hospedadas pelo Next.js — eliminam render-blocking dos
 // pedidos a fonts.googleapis.com e o FOIT do display=swap externo.
@@ -295,6 +297,10 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
+        {/* Top progress bar global — aparece em qualquer navegação */}
+        <Suspense fallback={null}>
+          <RouteProgress />
+        </Suspense>
         {/* O LanguageProvider passou para `app/[lang]/layout.tsx` —
             só envolve as rotas públicas multilingues. Dashboard e
             login não precisam dele. */}
