@@ -89,7 +89,6 @@ export default async function MembrosPage({
       const u = urlByPath.get(path)
       if (u) avatarUrlByMembro.set(mid, u)
     }
-    console.log(`[avatars] paths=${avatarPaths.length} urls=${avatarUrlByMembro.size}`)
   }
 
   // Calcular o estado de cada membro segundo a nova lógica
@@ -274,6 +273,7 @@ export default async function MembrosPage({
           _inativo: m._inativo,
           _inspecaoOk: m._inspecaoOk,
           _seguroOk: seguroAtivo(m),
+          _avatarUrl: m._avatarUrl ?? null,
         }))}
       />
     </div>
