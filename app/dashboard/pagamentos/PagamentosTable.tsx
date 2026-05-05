@@ -26,6 +26,7 @@ export default function PagamentosTable({ pagamentos, total, page, pageSize, mem
   const router = useRouter()
   const sp = useSearchParams()
   const [pending, start] = useTransition()
+  const [filtering, startFilter] = useTransition()
   const [editTarget, setEditTarget] = useState<PagamentoRow | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<PagamentoRow | null>(null)
 
@@ -36,7 +37,17 @@ export default function PagamentosTable({ pagamentos, total, page, pageSize, mem
     if (v) params.set(k, v)
     else params.delete(k)
     params.delete('page')
-    router.push(`/dashboard/pagamentos?${params.toString()}`)
+    // `scroll: false` mantém a posição actual do scroll — sem isto a página
+    // saltava para o topo cada vez que o admin mudava um filtro.
+    startFilter(() => {
+      router.replace(`/dashboard/pagamentos?${params.toString()}`, { scroll: false })
+    })
+  }
+
+  function clearFilters() {
+    startFilter(() => {
+      router.replace('/dashboard/pagamentos', { scroll: false })
+    })
   }
 
   function buildPageHref(p: number) {
@@ -109,17 +120,23 @@ export default function PagamentosTable({ pagamentos, total, page, pageSize, mem
           />
           {(sp.get('tipo') || sp.get('turma') || sp.get('membro') || sp.get('from') || sp.get('to')) && (
             <button
-              onClick={() => router.push('/dashboard/pagamentos')}
-              className="px-2 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white/50 hover:text-[#E8B55B] transition-colors"
+              onClick={clearFilters}
+              disabled={filtering}
+              className="px-2 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white/50 hover:text-[#E8B55B] transition-colors disabled:opacity-50"
             >
               Limpar
             </button>
           )}
+          {filtering && (
+            <span className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#E8B55B]">
+              <Loader2 className="w-3 h-3 animate-spin" /> A filtrar…
+            </span>
+          )}
           <span className="ml-auto text-[10px] text-white/40 uppercase tracking-widest">{total} entrada{total !== 1 ? 's' : ''}</span>
         </div>
 
-        {/* Tabela */}
-        <div className="overflow-x-auto">
+        {/* Tabela — opacity reduzida durante filtragem para sinalizar loading */}
+        <div className={`overflow-x-auto transition-opacity ${filtering ? 'opacity-50' : ''}`}>
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-white/10 bg-white/[0.02]">
