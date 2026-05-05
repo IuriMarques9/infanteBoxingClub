@@ -24,6 +24,7 @@ const CATEGORIAS: { value: string; label: string; requiresMinor?: boolean }[] = 
 ]
 
 const ACCEPTED = '.pdf,.jpg,.jpeg,.png,.doc,.docx'
+const MAX_BYTES = 1 * 1024 * 1024
 
 export default function DocumentUploader({ membroId, idade }: { membroId: string; idade?: number | null }) {
   // Esconder só se TEMOS A CERTEZA que é maior de idade.
@@ -40,6 +41,13 @@ export default function DocumentUploader({ membroId, idade }: { membroId: string
   const router = useRouter()
 
   function uploadFile(file: File) {
+    if (file.size > MAX_BYTES) {
+      const msg = 'Ficheiro demasiado grande (máx. 1MB).'
+      setError(msg)
+      toast.error(msg)
+      if (inputRef.current) inputRef.current.value = ''
+      return
+    }
     const fd = new FormData()
     fd.append('membro_id', membroId)
     fd.append('categoria', categoria)
@@ -132,7 +140,7 @@ export default function DocumentUploader({ membroId, idade }: { membroId: string
         />
       </label>
       <p className="text-[10px] text-white/30 uppercase tracking-wider">
-        PDF, JPG, PNG, DOC · máx. 10MB
+        PDF, JPG, PNG, DOC, DOCX · máx. 1MB
       </p>
       {error && <p className="text-red-400 text-xs">{error}</p>}
     </div>
