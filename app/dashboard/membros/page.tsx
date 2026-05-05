@@ -7,6 +7,7 @@ import { anoAtual, seguroAtivo, membroInativo } from '@/lib/membros-estado'
 import SortSelect from './SortSelect'
 import FilterSelect from './FilterSelect'
 import SearchInput from './SearchInput'
+import MembrosFiltersBar from './MembrosFiltersBar'
 import { LinkSpinner } from '@/components/dashboard/PendingLink'
 import MembrosTableClient, { type MembroRow } from './MembrosTableClient'
 
@@ -195,6 +196,9 @@ export default async function MembrosPage({
             { value: 'em_falta', label: 'Em falta' },
           ]}
         />
+        {/* Persistência (localStorage) + botão Limpar — só renderiza
+            quando há filtros activos */}
+        <MembrosFiltersBar />
         <div className="ml-auto">
           <SortSelect value={sort} />
         </div>
