@@ -246,7 +246,8 @@ function CotaForm({ membros, pending, start, onClose, router }: any) {
 // ─── SEGURO FORM ────────────────────────────────────────────────
 function SeguroForm({ membros, pending, start, onClose, router, defaultMembroId }: any) {
   const [membroId, setMembroId] = useState<string>(defaultMembroId ?? '')
-  const [valor, setValor] = useState<32 | 45>(32)
+  const [modo, setModo] = useState<'recreativo' | 'competicao' | 'parcial'>('recreativo')
+  const [valorParcial, setValorParcial] = useState('')
   const [ano, setAno] = useState(new Date().getFullYear())
   const [metodo, setMetodo] = useState<'dinheiro' | 'mbway'>('mbway')
 
@@ -254,10 +255,17 @@ function SeguroForm({ membros, pending, start, onClose, router, defaultMembroId 
     () => (membros as MembroOption[]).find(m => m.id === membroId) ?? null,
     [membros, membroId],
   )
-  const vaiMudarCompeticao = valor === 45 && membroSel && !membroSel.is_competicao
+
+  const valor =
+    modo === 'recreativo' ? SEGURO_VALORES.recreativo :
+    modo === 'competicao' ? SEGURO_VALORES.competicao :
+    parseFloat(valorParcial) || 0
+
+  const vaiMudarCompeticao = valor === SEGURO_VALORES.competicao && membroSel && !membroSel.is_competicao
 
   function submit() {
     if (!membroId) return toast.error('Selecciona um atleta.')
+    if (!valor || valor <= 0) return toast.error('Valor inválido.')
     start(async () => {
       const res = await registarSeguro({ membroId, valor, ano, metodo })
       if (res.error) toast.error(res.error)
@@ -289,12 +297,12 @@ function SeguroForm({ membros, pending, start, onClose, router, defaultMembroId 
 
       <div>
         <label className="text-[11px] font-bold uppercase tracking-wider text-white/50 block mb-2">Tipo de seguro</label>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-3 gap-3">
           <button
             type="button"
-            onClick={() => setValor(32)}
+            onClick={() => setModo('recreativo')}
             className={`p-4 rounded-xl border text-left transition-all ${
-              valor === 32
+              modo === 'recreativo'
                 ? 'bg-[#E8B55B]/10 border-[#E8B55B] text-[#E8B55B]'
                 : 'bg-[#1A1A1A] border-white/10 text-white/70 hover:border-white/30'
             }`}
@@ -304,9 +312,9 @@ function SeguroForm({ membros, pending, start, onClose, router, defaultMembroId 
           </button>
           <button
             type="button"
-            onClick={() => setValor(45)}
+            onClick={() => setModo('competicao')}
             className={`p-4 rounded-xl border text-left transition-all ${
-              valor === 45
+              modo === 'competicao'
                 ? 'bg-[#E8B55B]/10 border-[#E8B55B] text-[#E8B55B]'
                 : 'bg-[#1A1A1A] border-white/10 text-white/70 hover:border-white/30'
             }`}
@@ -314,7 +322,36 @@ function SeguroForm({ membros, pending, start, onClose, router, defaultMembroId 
             <p className="text-xl font-bold">{SEGURO_VALORES.competicao}€</p>
             <p className="text-[11px] uppercase tracking-wider mt-1 opacity-70">Competidor</p>
           </button>
+          <button
+            type="button"
+            onClick={() => setModo('parcial')}
+            className={`p-4 rounded-xl border text-left transition-all ${
+              modo === 'parcial'
+                ? 'bg-[#E8B55B]/10 border-[#E8B55B] text-[#E8B55B]'
+                : 'bg-[#1A1A1A] border-white/10 text-white/70 hover:border-white/30'
+            }`}
+          >
+            <p className="text-xl font-bold">€</p>
+            <p className="text-[11px] uppercase tracking-wider mt-1 opacity-70">Parcial</p>
+          </button>
         </div>
+        {modo === 'parcial' && (
+          <input
+            type="number"
+            step="0.01"
+            min={0.01}
+            value={valorParcial}
+            onChange={e => setValorParcial(e.target.value)}
+            placeholder="Valor parcial em €"
+            autoFocus
+            className="mt-3 w-full px-3 py-2.5 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8B55B]"
+          />
+        )}
+        {modo === 'parcial' && (
+          <p className="mt-2 text-[10px] text-white/40">
+            Pagamentos parciais somam-se ao seguro. Total tem de chegar a {SEGURO_VALORES.recreativo}€ (recreativo) ou {SEGURO_VALORES.competicao}€ (competidor).
+          </p>
+        )}
       </div>
 
       {vaiMudarCompeticao && (

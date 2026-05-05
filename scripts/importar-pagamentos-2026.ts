@@ -152,7 +152,13 @@ interface Atleta {
   turma: string
   cota: number | null
   seguro: { dia: string; mes: string; valor: number; metodo: string } | null
-  cotas: { mes: number; metodo: string; dia: string; valor: number }[]
+  /**
+   * `mes` = mês de referência (coluna do ODS, 1..12)
+   * `mesPagamento` = mês textual da célula (quando foi realmente pago)
+   * `dia` = dia textual da célula
+   * Ex: célula "MBWAY 27.01" na coluna Fevereiro → mes=2, mesPagamento=1, dia=27
+   */
+  cotas: { mes: number; mesPagamento: number; dia: number; metodo: string; valor: number }[]
 }
 
 function parseODS(absPath: string): Atleta[] {
@@ -188,7 +194,9 @@ function parseODS(absPath: string): Atleta[] {
         const cell = parseCelulaPagamento(row[idxMetodo])
         const v = parseValor(row[idxValor])
         if (cell && v !== null) {
-          cotas.push({ mes, metodo: cell.metodo, dia: cell.dia, valor: v })
+          const dia = parseInt(cell.dia, 10) || 15
+          const mesPagamento = parseInt(cell.mes, 10) || mes
+          cotas.push({ mes, mesPagamento, dia, metodo: cell.metodo, valor: v })
         }
       }
 
@@ -280,27 +288,34 @@ async function main() {
     console.log()
   }
 
-  // Carregar pagamentos existentes para idempotência
+  // Carregar pagamentos existentes para idempotência. Para cotas pode haver
+  // entradas em qualquer ano (data_pagamento pode ser 2025 para cota de Jan
+  // 2026). Carregamos pagamentos cuja `mes_referencia` aponta para 2026 ou
+  // que são seguros do ano.
   console.log('💰 A carregar pagamentos existentes do ano...')
   const { data: existingData } = await (admin.from('pagamentos') as any)
-    .select('membro_id, tipo, mes_referencia, data_pagamento')
-    .gte('data_pagamento', `${YEAR}-01-01`)
-    .lte('data_pagamento', `${YEAR}-12-31`)
-  const existing = (existingData || []) as { membro_id: string; tipo: string; mes_referencia: string | null; data_pagamento: string }[]
-  // Set de chaves (membro_id|tipo|mes ou membro_id|tipo|ano)
+    .select('id, membro_id, tipo, mes_referencia, data_pagamento')
+    .or(`mes_referencia.like.${YEAR}-%,and(tipo.eq.seguro,data_pagamento.gte.${YEAR}-01-01,data_pagamento.lte.${YEAR}-12-31)`)
+  const existing = (existingData || []) as { id: string; membro_id: string; tipo: string; mes_referencia: string | null; data_pagamento: string }[]
+  // Map de chaves → entrada (para detectar updates necessários)
   const existingKeys = new Set<string>()
+  const existingByKey = new Map<string, { id: string; data_pagamento: string }>()
   for (const e of existing) {
-    if (e.tipo === 'cota') existingKeys.add(`${e.membro_id}|cota|${e.mes_referencia}`)
-    else if (e.tipo === 'seguro') {
+    if (e.tipo === 'cota' && e.mes_referencia) {
+      const k = `${e.membro_id}|cota|${e.mes_referencia}`
+      existingKeys.add(k)
+      existingByKey.set(k, { id: e.id, data_pagamento: e.data_pagamento })
+    } else if (e.tipo === 'seguro') {
       const ano = new Date(e.data_pagamento).getFullYear()
       existingKeys.add(`${e.membro_id}|seguro|${ano}`)
     }
   }
   console.log(`   ${existing.length} pagamentos já existentes (cotas+seguros)\n`)
 
-  // Construir lista de inserts
+  // Construir lista de inserts/updates
   const insertsCotas: any[] = []
   const insertsSeguros: any[] = []
+  const updatesCotas: { id: string; data_pagamento: string }[] = []
   const competidoresAutoUpdates: { membroId: string; nome: string }[] = []
   const cotaUpdates: { membroId: string; nome: string; cota: number }[] = []
 
@@ -336,14 +351,22 @@ async function main() {
     // Cotas
     for (const c of atleta.cotas) {
       const mesRef = `${YEAR}-${String(c.mes).padStart(2, '0')}`
+      // Calcular data_pagamento real:
+      // - Se mesPagamento = 12 e mes_ref = 01, foi pago em Dez do ano anterior
+      // - Caso contrário, usar (YEAR, mesPagamento, dia)
+      let anoPagamento = YEAR
+      if (c.mesPagamento === 12 && c.mes === 1) anoPagamento = YEAR - 1
+      const dataPag = safeDate(anoPagamento, c.mesPagamento, c.dia, c.mes)
+
       const key = `${membro.id}|cota|${mesRef}`
-      if (existingKeys.has(key)) continue
-      // Validar dia — fallback para dia 15 do mês de referência quando inválido
-      // (ex: "MBWAY 0.05" → dia 0; "MBWAY 35.04" → dia 35).
-      // c.mes é a coluna do ODS = mês de referência da cota (1..12).
-      let dia = parseInt(c.dia, 10)
-      if (isNaN(dia) || dia < 1 || dia > 31) dia = 15
-      const dataPag = safeDate(YEAR, c.mes, dia, c.mes)
+      if (existingKeys.has(key)) {
+        // Já existe — verificar se a data está correcta. Se diferente, marcar para UPDATE.
+        const existing = existingByKey.get(key)
+        if (existing && existing.data_pagamento.slice(0, 10) !== dataPag.slice(0, 10)) {
+          updatesCotas.push({ id: existing.id, data_pagamento: dataPag })
+        }
+        continue
+      }
       insertsCotas.push({
         membro_id: membro.id,
         tipo: 'cota',
@@ -360,6 +383,7 @@ async function main() {
   console.log('📊 RESUMO PROPOSTO')
   console.log(`   ✅ ${insertsCotas.length} cotas mensais a inserir`)
   console.log(`   🛡️  ${insertsSeguros.length} seguros a inserir`)
+  console.log(`   📅 ${updatesCotas.length} cotas com data_pagamento a corrigir`)
   console.log(`   🏆 ${competidoresAutoUpdates.length} atletas a marcar como competidor (seguro 45€)`)
   console.log(`   ⚙️  ${cotaUpdates.length} ajustes de cota base em membros\n`)
 
@@ -432,6 +456,19 @@ async function main() {
         console.log(`✓ Inseridas ${slice.length} cotas (lote ${i / chunk + 1})`)
       }
     }
+  }
+
+  // 2b. Corrigir data_pagamento de cotas existentes
+  if (updatesCotas.length > 0) {
+    let okUpd = 0
+    for (const u of updatesCotas) {
+      const { error } = await (admin.from('pagamentos') as any)
+        .update({ data_pagamento: u.data_pagamento })
+        .eq('id', u.id)
+      if (error) errors.push({ kind: 'update_data', nome: u.id, reason: error.message })
+      else okUpd++
+    }
+    console.log(`✓ ${okUpd}/${updatesCotas.length} cotas com data_pagamento actualizada`)
   }
 
   // 3. Atualizar competidores

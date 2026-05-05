@@ -50,3 +50,7 @@ public/*.original.*
 skipped.csv
 errors.csv
 import-log.txt
+
+# Artifacts gerados por scripts/importar-pagamentos-2026.ts
+pagamentos-unmatched.csv
+pagamentos-errors.csv

@@ -115,35 +115,42 @@ export async function registarPagamentosLote(formData: FormData): Promise<void> 
 }
 
 // ─── REGISTAR SEGURO ANUAL ──────────────────────────────────────
-// Aplica a regra de negócio: 32€ recreativo / 45€ competidor.
-// Se 45€ → marca o atleta como `is_competicao = true` automaticamente
+// Valores oficiais: 32€ recreativo / 45€ competidor — mas a action
+// aceita qualquer valor positivo para suportar pagamentos parciais
+// (ex: o atleta paga 25€ agora e os restantes depois).
+// Se valor = 45€ → marca `is_competicao = true` automaticamente
 // (independente do estado anterior; o admin pode reverter manualmente
 // na ficha se for engano).
 export async function registarSeguro(params: {
   membroId: string
-  valor: number          // só aceita 32 ou 45 — validado abaixo
+  valor: number
   ano: number
   metodo?: 'dinheiro' | 'mbway'
 }): Promise<{ ok?: boolean; error?: string }> {
-  if (params.valor !== SEGURO_VALORES.recreativo && params.valor !== SEGURO_VALORES.competicao) {
-    return { error: `Valor de seguro inválido. Apenas ${SEGURO_VALORES.recreativo}€ ou ${SEGURO_VALORES.competicao}€.` }
+  if (!Number.isFinite(params.valor) || params.valor <= 0) {
+    return { error: 'Valor de seguro inválido.' }
   }
 
   const supabase = await createClient()
 
-  // 0. Dedup: rejeitar se já existir seguro deste membro para este ano.
-  //    Para registar de novo, eliminar primeiro o existente (ou usar editarPagamento).
-  const { data: existente } = await (supabase.from('pagamentos') as any)
-    .select('id, valor, descricao, data_pagamento')
+  // 0. Verificar se já existem registos do seguro deste ano. Permitir
+  //    múltiplos enquanto a soma não ultrapassar 45€ (suporta pagamento
+  //    parcial: ex 25€ + 7€ = 32€). Se já chegou ao limite, devolve erro.
+  const { data: existentes } = await (supabase.from('pagamentos') as any)
+    .select('id, valor')
     .eq('membro_id', params.membroId)
     .eq('tipo', 'seguro')
     .gte('data_pagamento', `${params.ano}-01-01`)
     .lte('data_pagamento', `${params.ano}-12-31`)
-    .limit(1)
-    .maybeSingle()
-  if (existente) {
+  const jaPago = (existentes || []).reduce((s: number, p: any) => s + Number(p.valor || 0), 0)
+  if (jaPago >= SEGURO_VALORES.competicao) {
     return {
-      error: `Este atleta já tem seguro de ${params.ano} registado (${existente.valor}€). Apaga o existente primeiro se queres alterar.`,
+      error: `Este atleta já tem ${jaPago}€ de seguro registado em ${params.ano}. Apaga primeiro se queres reformular.`,
+    }
+  }
+  if (jaPago + params.valor > SEGURO_VALORES.competicao) {
+    return {
+      error: `Soma com pagamentos anteriores (${jaPago}€ + ${params.valor}€) ultrapassa ${SEGURO_VALORES.competicao}€. Verifica os valores.`,
     }
   }
 
