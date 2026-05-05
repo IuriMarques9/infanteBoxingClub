@@ -64,18 +64,10 @@ export default function RouteProgress() {
       role="progressbar"
       aria-label="A carregar página"
     >
+      {/* Keyframe `route-progress` definido em app/globals.css para evitar
+          uma <style> tag dentro do JSX (causava "parentNode null" em
+          remontagens durante streaming). */}
       <div className="route-progress-bar h-full bg-[#E8B55B] shadow-[0_0_10px_rgba(232,181,91,0.7)]" />
-      <style>{`
-        .route-progress-bar {
-          width: 30%;
-          animation: route-progress 1s ease-in-out infinite;
-        }
-        @keyframes route-progress {
-          0%   { transform: translateX(-100%); width: 30%; }
-          50%  { width: 60%; }
-          100% { transform: translateX(350%); width: 30%; }
-        }
-      `}</style>
     </div>
   )
 }
