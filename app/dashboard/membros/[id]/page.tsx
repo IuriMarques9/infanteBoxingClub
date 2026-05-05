@@ -8,7 +8,6 @@ import { anoAtual, seguroAtivo, membroInativo, calcularIdade } from '@/lib/membr
 import DocumentUploader from './DocumentUploader'
 import FichaClienteForm from './FichaClienteForm'
 import AvatarUploader from './AvatarUploader'
-import PaymentGrid from './PaymentGrid'
 import DeleteMembroButton from './DeleteMembroButton'
 import MembroPagamentosSection from './MembroPagamentosSection'
 import { getPagamentosMembro } from '@/app/dashboard/pagamentos/actions'
@@ -342,7 +341,6 @@ export default async function MembroProfilePage({
 
         {/* Coluna Direita: Pagamentos (2/5) */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Nova secção: matriz visual + registo de seguro */}
           <MembroPagamentosSection
             membroId={membro.id}
             cotasPagas={pagamentosMembro.cotasPagas}
@@ -358,9 +356,6 @@ export default async function MembroProfilePage({
             }}
             seguro={pagamentosMembro.seguro}
           />
-
-          {/* Detalhe histórico de pagamentos (legacy grid) */}
-          <PaymentGrid membro={membro} pagamentos={pagamentos} ano={anoGrid} />
         </div>
       </div>
     </div>

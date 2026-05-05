@@ -7,9 +7,15 @@ import MemberPaymentMatrix from '@/components/dashboard/MemberPaymentMatrix'
 import PaymentRegisterModal from '@/components/dashboard/PaymentRegisterModal'
 import type { Turma } from '@/app/dashboard/membros/constants'
 
+interface CotaPaga {
+  mes: string
+  id: string
+  valor: number
+}
+
 interface Props {
   membroId: string
-  cotasPagas: string[]      // ["2026-01", ...]
+  cotasPagas: CotaPaga[]
   isIsento: boolean
   cota: number
   year: number

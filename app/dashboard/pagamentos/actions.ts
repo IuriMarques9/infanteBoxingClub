@@ -599,22 +599,24 @@ export async function getPagamentosMembro(
   membroId: string,
   year: number,
 ): Promise<{
-  cotasPagas: string[]            // ["2026-01", "2026-02", ...]
+  cotasPagas: { mes: string; id: string; valor: number }[]   // detalhe por mês
   seguro: { ano: number; valor: number; descricao: string | null } | null
 }> {
   const supabase = await createClient()
 
+  // Cotas: filtrar por mes_referencia (data_pagamento pode ser de outro ano).
+  // Seguros: filtrar por data_pagamento (não usam mes_referencia).
   const { data } = await (supabase.from('pagamentos') as any)
-    .select('tipo, mes_referencia, valor, descricao, data_pagamento')
+    .select('id, tipo, mes_referencia, valor, descricao, data_pagamento')
     .eq('membro_id', membroId)
-    .gte('data_pagamento', `${year}-01-01`)
-    .lte('data_pagamento', `${year}-12-31`)
+    .or(`mes_referencia.like.${year}-%,and(tipo.eq.seguro,data_pagamento.gte.${year}-01-01,data_pagamento.lte.${year}-12-31)`)
 
-  const cotasPagas: string[] = []
+  const cotasPagas: { mes: string; id: string; valor: number }[] = []
   let seguro: { ano: number; valor: number; descricao: string | null } | null = null
   for (const p of data || []) {
-    if (p.tipo === 'cota' && p.mes_referencia) cotasPagas.push(p.mes_referencia)
-    else if (p.tipo === 'seguro') {
+    if (p.tipo === 'cota' && p.mes_referencia) {
+      cotasPagas.push({ mes: p.mes_referencia, id: p.id, valor: Number(p.valor) || 0 })
+    } else if (p.tipo === 'seguro') {
       seguro = {
         ano: new Date(p.data_pagamento).getFullYear(),
         valor: Number(p.valor) || 0,
