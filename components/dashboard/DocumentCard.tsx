@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import { Download, Eye, Trash2, Loader2, FileText } from 'lucide-react'
 import Chip from '@/components/shared/Chip'
 import DocumentPreviewModal from './DocumentPreviewModal'
+import ConfirmDeleteDialog from './ConfirmDeleteDialog'
 import {
   deleteDocument,
   getDocumentSignedUrl,
@@ -70,7 +71,18 @@ export default function DocumentCard({
 }: DocumentCardProps) {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [downloading, startDownload] = useTransition()
+  const [deleting, startDelete] = useTransition()
+  const [confirmOpen, setConfirmOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  function handleDelete() {
+    startDelete(async () => {
+      const fd = new FormData()
+      fd.append('id', id)
+      await deleteDocument(fd)
+      setConfirmOpen(false)
+    })
+  }
 
   const key = (categoriaLabel[categoria as CategoriaKey] ? (categoria as CategoriaKey) : 'outro')
   const tone = categoriaTone[key]
@@ -132,23 +144,15 @@ export default function DocumentCard({
               <Download className="w-4 h-4" />
             )}
           </button>
-          <form
-            action={async (fd) => {
-              await deleteDocument(fd)
-            }}
-            onSubmit={(e) => {
-              if (!confirm('Eliminar documento?')) e.preventDefault()
-            }}
+          <button
+            type="button"
+            onClick={() => setConfirmOpen(true)}
+            disabled={deleting}
+            title="Eliminar"
+            className="p-2 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-400/10 transition-colors disabled:opacity-50"
           >
-            <input type="hidden" name="id" value={id} />
-            <button
-              type="submit"
-              title="Eliminar"
-              className="p-2 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-400/10 transition-colors"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
-          </form>
+            {deleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+          </button>
         </div>
       </div>
       {error && <p className="text-red-400 text-xs mt-1 pl-3">{error}</p>}
@@ -158,6 +162,14 @@ export default function DocumentCard({
         storagePath={storagePath}
         fileName={fileName}
         mimeType={mimeType}
+      />
+      <ConfirmDeleteDialog
+        open={confirmOpen}
+        onOpenChange={(o) => { if (!deleting) setConfirmOpen(o) }}
+        title={`Eliminar "${fileName}"?`}
+        description="O ficheiro é removido do storage e da base de dados. Esta acção não pode ser revertida."
+        confirmLabel={deleting ? 'A eliminar…' : 'Eliminar'}
+        onConfirm={handleDelete}
       />
     </>
   )
