@@ -11,7 +11,8 @@ const MESES_PT_CURTO = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','O
 
 interface Pagamento {
   id: string
-  mes_referencia: string
+  /** Pode ser NULL para tipos não-cota (seguro, loja, evento, outro). */
+  mes_referencia: string | null
   valor: number | string
   data_pagamento?: string
 }
@@ -37,10 +38,11 @@ export default function PaymentGrid({
   for (let y = agora; y >= agora - 5; y--) anosHistorico.push(y)
   if (!anosHistorico.includes(ano)) anosHistorico.push(ano)
 
+  // Filtrar só cotas do ano (seguros e outros tipos têm mes_referencia=NULL).
   const porMes = new Map<string, Pagamento>()
   pagamentos
-    .filter(p => p.mes_referencia.startsWith(`${anoStr}-`))
-    .forEach(p => porMes.set(p.mes_referencia, p))
+    .filter(p => p.mes_referencia?.startsWith(`${anoStr}-`))
+    .forEach(p => porMes.set(p.mes_referencia!, p))
 
   return (
     <div className="bg-[#121212] rounded-2xl border border-white/5 p-6 shadow-[0_4px_20px_rgba(0,0,0,0.5)] space-y-5">
