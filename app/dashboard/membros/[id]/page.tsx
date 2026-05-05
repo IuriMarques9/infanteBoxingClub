@@ -138,12 +138,12 @@ export default async function MembroProfilePage({
                 </span>
               )}
               {seguroOk ? (
-                <span className="text-xs px-2 py-0.5 rounded font-bold border bg-green-500/10 text-green-400 border-green-500/20">Seguro Pago {ano}</span>
+                <span className="text-xs px-2 py-0.5 rounded font-bold border bg-green-500/10 text-green-400 border-green-500/20">Seguro Pago</span>
               ) : (
                 <span className="text-xs px-2 py-0.5 rounded font-bold border bg-amber-400/10 text-amber-300 border-amber-400/20">Seguro em falta</span>
               )}
               {inspecaoOk ? (
-                <span className="text-xs px-2 py-0.5 rounded font-bold border bg-green-500/10 text-green-400 border-green-500/20">Inspeção Médica {ano}</span>
+                <span className="text-xs px-2 py-0.5 rounded font-bold border bg-green-500/10 text-green-400 border-green-500/20">Inspeção Médica</span>
               ) : (
                 <span className="text-xs px-2 py-0.5 rounded font-bold border bg-amber-400/10 text-amber-300 border-amber-400/20">Inspeção Médica em falta</span>
               )}
