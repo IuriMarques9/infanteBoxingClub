@@ -29,7 +29,7 @@ export default function SectionShell({
       {bleed ? (
         children
       ) : (
-        <div className="container mx-auto px-4 max-w-container">{children}</div>
+        <div className="mx-auto max-w-7xl px-4">{children}</div>
       )}
     </section>
   );

@@ -39,7 +39,7 @@ export default function Team() {
   const ctaLabel = language === 'pt' ? 'Marcar 1ª aula grátis' : 'Book your free 1st class';
 
   return (
-    <SectionShell id="about" surface="alt">
+    <SectionShell id="about" surface="alt" className="!pt-0">
       <SectionHeading eyebrow={eyebrow} title={C.team.title} />
 
       {/* Intro narrativa */}
@@ -78,7 +78,7 @@ export default function Team() {
       {/* Equipa Técnica — layout bento inspirado em sites desportivos:
           1 card destaque (fundador) + cards menores em coluna ao lado.
           Em mobile colapsa para uma stack vertical. */}
-      <div className="mt-20 max-w-6xl mx-auto">
+      <div className="mt-20">
         {/* Cabeçalho da secção: eyebrow + título + subtítulo + chip federação */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
           <div>

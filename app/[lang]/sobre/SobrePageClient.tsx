@@ -7,7 +7,7 @@ export default function SobrePageClient() {
   return (
     <>
       <Header />
-      <main className="pt-24 min-h-screen bg-card">
+      <main className="pt-32 pb-24 min-h-screen bg-card">
         <Sobre />
       </main>
       <Footer />

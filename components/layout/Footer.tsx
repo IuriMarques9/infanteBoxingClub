@@ -14,7 +14,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-background border-t border-zinc-800">
-      <div className="container mx-auto px-4 pt-16 pb-6">
+      <div className="mx-auto max-w-7xl px-4 pt-16 pb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Coluna 1: Marca */}
           <div className="space-y-4">

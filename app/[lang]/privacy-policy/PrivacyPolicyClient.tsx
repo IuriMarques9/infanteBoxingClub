@@ -12,8 +12,8 @@ export default function PrivacyPolicyClient() {
   return (
     <>
       <Header />
-      <main className="flex-grow bg-secondary">
-        <div className="container mx-auto max-w-4xl px-4 py-16 md:py-24">
+      <main className="pt-32 pb-24 min-h-screen bg-secondary">
+        <div className="mx-auto max-w-7xl px-4">
           <Card className="shadow-lg">
             <CardHeader>
               {/* h1 semântico da rota — o CardTitle por defeito é um <div>,
