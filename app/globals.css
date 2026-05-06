@@ -121,6 +121,12 @@
   opacity: 1;
 }
 
+/* Firefox */
+* {
+    scrollbar-color: hsl(41 55% 57%) #0a0a0a;
+    scrollbar-width: thin;
+}
+
 *::-webkit-scrollbar {
 
     width: 7px;
@@ -128,7 +134,7 @@
 }
 
 *::-webkit-scrollbar-track {
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: #0a0a0a;
 }
 
 *::-webkit-scrollbar-thumb {

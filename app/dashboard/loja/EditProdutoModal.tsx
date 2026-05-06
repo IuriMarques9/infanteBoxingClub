@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Edit, Euro } from 'lucide-react'
+import { Edit, Euro, Plus, ArrowLeft } from 'lucide-react'
 import { criarProduto, editarProduto } from './actions'
 import ImageUploader from '@/components/dashboard/ImageUploader'
 import { SubmitPrimary } from '@/components/dashboard/FormButtons'
@@ -25,6 +25,17 @@ interface Props {
 export default function EditProdutoModal({ produto, categorias = [], trigger }: Props) {
   const [open, setOpen] = useState(false)
   const isEdit = !!produto
+
+  // Categoria: dropdown se já houver categorias e a do produto pertence
+  // a essa lista (ou não há ainda). Input livre se admin quer criar
+  // nova ou se o catálogo está vazio.
+  const hasCategorias = categorias.length > 0
+  const initialCategory = produto?.category ?? ''
+  const productHasUnknownCategory =
+    !!initialCategory && !categorias.includes(initialCategory)
+  const [creatingNew, setCreatingNew] = useState(
+    !hasCategorias || productHasUnknownCategory,
+  )
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -90,17 +101,51 @@ export default function EditProdutoModal({ produto, categorias = [], trigger }: 
 
           <div className="space-y-1.5">
             <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Categoria</label>
-            <input
-              name="category"
-              list="categorias-existentes"
-              defaultValue={produto?.category || ''}
-              className="w-full px-4 py-2 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#E8B55B] text-sm"
-            />
-            <datalist id="categorias-existentes">
-              {categorias.map((cat) => (
-                <option key={cat} value={cat} />
-              ))}
-            </datalist>
+            <div className="flex gap-2">
+              {creatingNew ? (
+                <>
+                  <input
+                    key="cat-new"
+                    name="category"
+                    defaultValue={initialCategory}
+                    placeholder={hasCategorias ? 'Nova categoria' : 'Ex: Vestuário'}
+                    className="flex-1 px-4 py-2 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#E8B55B] text-sm"
+                  />
+                  {hasCategorias && (
+                    <button
+                      type="button"
+                      onClick={() => setCreatingNew(false)}
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-white/60 border border-white/10 hover:text-white hover:bg-white/5 transition-colors"
+                      aria-label="Voltar à lista de categorias"
+                    >
+                      <ArrowLeft className="w-3.5 h-3.5" /> Voltar
+                    </button>
+                  )}
+                </>
+              ) : (
+                <>
+                  <select
+                    key="cat-select"
+                    name="category"
+                    defaultValue={initialCategory}
+                    className="flex-1 px-4 py-2 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#E8B55B] text-sm appearance-none cursor-pointer [color-scheme:dark]"
+                  >
+                    <option value="">— Sem categoria —</option>
+                    {categorias.map((cat) => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                  <button
+                    type="button"
+                    onClick={() => setCreatingNew(true)}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-[#E8B55B] border border-[#E8B55B]/20 hover:bg-[#E8B55B]/10 transition-colors"
+                    aria-label="Criar nova categoria"
+                  >
+                    <Plus className="w-3.5 h-3.5" /> Nova
+                  </button>
+                </>
+              )}
+            </div>
           </div>
 
           <ImageUploader pathPrefix="produtos/" name="imageurl" currentUrl={produto?.imageurl} compact />
