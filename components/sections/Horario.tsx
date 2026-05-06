@@ -78,7 +78,7 @@ export default function Schedule() {
           <>
           <div className="card-gold-accent bg-card/40 backdrop-blur-md rounded-2xl border border-white/5 overflow-hidden shadow-2xl">
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse min-w-[640px]">
+              <table className="w-full border-collapse min-w-[760px]">
                 <thead>
                   <tr className="bg-primary/5 border-b border-white/5">
                     <th className="px-4 py-4 text-left font-headline uppercase tracking-[0.25em] text-primary text-xs font-bold w-[140px]">
@@ -118,11 +118,11 @@ export default function Schedule() {
                                       key={slot.id}
                                       className={cn(
                                         "rounded-lg border p-1.5 text-center transition-transform hover:scale-[1.03]",
-                                        slots.length === 1 ? "w-full" : "flex-1 min-w-[68px]",
+                                        slots.length === 1 ? "w-full" : "flex-1 min-w-[92px]",
                                         TURMA_AGENDA_TONES[slot.turma]
                                       )}
                                     >
-                                      <div className="uppercase tracking-wider text-[10px] font-bold leading-tight break-words">
+                                      <div className="uppercase tracking-tight text-[10px] font-bold leading-tight whitespace-nowrap">
                                         {TURMA_LABELS[slot.turma]}
                                       </div>
                                     </div>

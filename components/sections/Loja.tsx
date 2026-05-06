@@ -129,7 +129,7 @@ export default function Merch() {
           />
         ) : (
           <Carousel
-            className="w-full mx-auto px-12 md:px-0"
+            className="w-full mx-auto"
             setApi={setApi}
             opts={{
               align: "start",

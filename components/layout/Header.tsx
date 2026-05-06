@@ -93,11 +93,11 @@ const Header = () => {
               {label}
             </Link>
           ))}
-          <div className="flex items-center justify-between pt-4">
+          <div className="flex flex-col gap-4 pt-4">
              {/* Sociais — replicam EXACTAMENTE os do Footer (mesmos URLs, mesmo
                  tamanho w-10/h-10, mesmo set de 4 ícones FB/IG/WA/Mail).
                  O LanguageSwitcher já está disponível na barra do topo do navbar. */}
-             <div className="flex items-center gap-2 flex-wrap">
+             <div className="flex items-center gap-2">
                 <a
                    href={BUSINESS.social.facebook}
                    target="_blank"
