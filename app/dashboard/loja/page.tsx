@@ -51,18 +51,20 @@ export default async function LojaPage({
         />
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {[
-          { label: 'Total', value: produtos.length, icon: ShoppingBag, color: 'text-[#E8B55B]' },
-          { label: 'Activos', value: activos.length, icon: PackageCheck, color: 'text-green-400' },
-          { label: 'Arquivados', value: arquivados.length, icon: Archive, color: 'text-white/40' },
-          { label: 'Categorias', value: categorias.length, icon: Tag, color: 'text-blue-400' },
+          { label: 'Total', value: produtos.length, icon: ShoppingBag, iconCls: 'text-[#E8B55B] bg-[#E8B55B]/10' },
+          { label: 'Activos', value: activos.length, icon: PackageCheck, iconCls: 'text-green-400 bg-green-400/10' },
+          { label: 'Arquivados', value: arquivados.length, icon: Archive, iconCls: 'text-white/60 bg-white/5' },
+          { label: 'Categorias', value: categorias.length, icon: Tag, iconCls: 'text-blue-400 bg-blue-400/10' },
         ].map(s => (
-          <div key={s.label} className="bg-[#1A1A1A] rounded-xl border border-white/5 p-4 flex items-center gap-4">
-            <s.icon className={`w-8 h-8 ${s.color}`} />
-            <div>
-              <p className="text-2xl font-bold text-white">{s.value}</p>
-              <p className="text-xs text-white/40 uppercase tracking-wider">{s.label}</p>
+          <div key={s.label} className="bg-[#1A1A1A] rounded-xl border border-white/5 p-3 sm:p-4 flex items-center gap-3 min-w-0">
+            <span className={`shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${s.iconCls}`}>
+              <s.icon className="w-5 h-5" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-xl sm:text-2xl font-bold text-white leading-tight">{s.value}</p>
+              <p className="text-[10px] sm:text-xs text-white/40 uppercase tracking-wider truncate">{s.label}</p>
             </div>
           </div>
         ))}

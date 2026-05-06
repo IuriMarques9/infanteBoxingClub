@@ -52,20 +52,22 @@ export default async function EventosPage({
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {[
-          { label: 'Futuros', value: futuros.length, icon: CalendarDays, color: 'text-green-400' },
-          { label: 'Passados', value: passados.length, icon: History, color: 'text-white/40' },
-          { label: 'Total', value: eventos.length, icon: Calendar, color: 'text-[#E8B55B]' },
+          { label: 'Futuros', value: futuros.length, icon: CalendarDays, iconCls: 'text-green-400 bg-green-400/10' },
+          { label: 'Passados', value: passados.length, icon: History, iconCls: 'text-white/60 bg-white/5' },
+          { label: 'Total', value: eventos.length, icon: Calendar, iconCls: 'text-[#E8B55B] bg-[#E8B55B]/10' },
         ].map(s => (
           <div
             key={s.label}
-            className="bg-[#1A1A1A] rounded-xl border border-white/5 p-4 flex items-center gap-4"
+            className="bg-[#1A1A1A] rounded-xl border border-white/5 p-3 sm:p-4 flex items-center gap-3 min-w-0"
           >
-            <s.icon className={`w-8 h-8 ${s.color}`} />
-            <div>
-              <p className="text-2xl font-bold text-white">{s.value}</p>
-              <p className="text-xs text-white/40 uppercase tracking-wider">{s.label}</p>
+            <span className={`shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${s.iconCls}`}>
+              <s.icon className="w-5 h-5" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-xl sm:text-2xl font-bold text-white leading-tight">{s.value}</p>
+              <p className="text-[10px] sm:text-xs text-white/40 uppercase tracking-wider truncate">{s.label}</p>
             </div>
           </div>
         ))}
