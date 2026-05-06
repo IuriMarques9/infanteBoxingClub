@@ -242,7 +242,7 @@ export default async function MembrosPage({
         {/* Persistência (localStorage) + botão Limpar — só renderiza
             quando há filtros activos */}
         <MembrosFiltersBar />
-        <div className="ml-auto">
+        <div className="md:ml-auto">
           <SortSelect value={sort} />
         </div>
       </div>

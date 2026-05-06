@@ -184,8 +184,8 @@ export default function Merch() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="left-0 md:-left-10 bg-[#E8B55B] text-black border-none hover:bg-[#E8B55B]/90 [&>svg]:text-black" />
-            <CarouselNext className="right-0 md:-right-10 bg-[#E8B55B] text-black border-none hover:bg-[#E8B55B]/90 [&>svg]:text-black" />
+            <CarouselPrevious className="hidden md:flex md:-left-10 bg-[#E8B55B] text-black border-none hover:bg-[#E8B55B]/90 [&>svg]:text-black" />
+            <CarouselNext className="hidden md:flex md:-right-10 bg-[#E8B55B] text-black border-none hover:bg-[#E8B55B]/90 [&>svg]:text-black" />
           </Carousel>
         )}
 
