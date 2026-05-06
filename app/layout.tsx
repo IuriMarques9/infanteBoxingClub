@@ -296,7 +296,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       </head>
-      <body className="font-body antialiased">
+      <body className="font-body antialiased bg-background">
         {/* Top progress bar global — aparece em qualquer navegação */}
         <Suspense fallback={null}>
           <RouteProgress />
