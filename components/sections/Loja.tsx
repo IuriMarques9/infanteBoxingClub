@@ -8,10 +8,11 @@ import {
   CarouselItem,
 } from "../ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import Link from "next/link";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
 import { createClient } from "@/lib/supabase/client";
-import { ShoppingBag } from "lucide-react";
+import { Mail, ShoppingBag } from "lucide-react";
 import SectionShell from "../shared/SectionShell";
 import SectionHeading from "../shared/SectionHeading";
 import EmptyState from "../shared/EmptyState";
@@ -115,9 +116,9 @@ export default function Merch() {
           >
             <CarouselContent>
               {produtosFiltrados.map(produto => (
-                <CarouselItem key={produto.id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                <CarouselItem key={produto.id} className="basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                   <div className="card-gold-accent bg-card/60 backdrop-blur-md rounded-2xl overflow-hidden border border-white/5 text-start h-full hover:border-[#E8B55B]/40 transition-all duration-300 group shadow-2xl">
-                    <div className="overflow-hidden relative aspect-square m-4 rounded-xl">
+                    <div className="overflow-hidden relative aspect-square m-2 md:m-4 rounded-xl">
                       {produto.imageurl ? (
                         <Image
                           src={produto.imageurl}
@@ -132,9 +133,9 @@ export default function Merch() {
                         </div>
                       )}
                     </div>
-                    <CardHeader className="pt-2 px-6">
+                    <CardHeader className="pt-2 px-3 md:px-6">
                       <div className="space-y-1">
-                        <CardTitle className="font-headline text-2xl uppercase tracking-wider text-foreground group-hover:text-[#E8B55B] transition-colors">
+                        <CardTitle className="font-headline text-base md:text-2xl uppercase tracking-wider text-foreground group-hover:text-[#E8B55B] transition-colors">
                           {produto.name}
                         </CardTitle>
                         <p className="text-[10px] text-white/40 uppercase tracking-[0.1em] font-medium">
@@ -142,8 +143,15 @@ export default function Merch() {
                         </p>
                       </div>
                     </CardHeader>
-                    <CardContent className="px-6 pb-6 pt-2">
-                      <p className="text-2xl font-black text-[#E8B55B]">{produto.price}€</p>
+                    <CardContent className="px-3 md:px-6 pb-4 md:pb-6 pt-2 space-y-3">
+                      <p className="text-lg md:text-2xl font-black text-[#E8B55B]">{produto.price}€</p>
+                      <Link
+                        href={`/${language}/contacto?assunto=produto&produto=${encodeURIComponent(produto.name)}`}
+                        className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg border border-[#E8B55B]/30 text-[#E8B55B] text-[10px] md:text-xs font-bold uppercase tracking-wider hover:bg-[#E8B55B]/10 transition-colors"
+                      >
+                        <Mail className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                        {C.merchExtra.askButton}
+                      </Link>
                     </CardContent>
                   </div>
                 </CarouselItem>

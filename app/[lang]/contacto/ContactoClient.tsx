@@ -1,12 +1,18 @@
 'use client';
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
-import Contacto from "@/components/layout/Contacto";
+import Contacto, { SUBJECT_KEYS, type SubjectKey } from "@/components/layout/Contacto";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { useLanguage } from "@/contexts/language-context";
 import { content } from "@/lib/content";
 
-export default function ContactoClient({ modalidade }: { modalidade?: string }) {
+interface ContactoClientProps {
+  modalidade?: string;
+  assunto?: string;
+  produto?: string;
+}
+
+export default function ContactoClient({ modalidade, assunto, produto }: ContactoClientProps) {
   const { language } = useLanguage();
   const C = content[language];
 
@@ -14,9 +20,19 @@ export default function ContactoClient({ modalidade }: { modalidade?: string }) 
     ? C.boxingStyles.styles.find((s) => s.slug === modalidade)?.title
     : undefined;
 
-  const defaultMessage = modalidadeLabel
-    ? `${C.contact.prefillModalidade} ${modalidadeLabel}.`
-    : "";
+  // Valida o ?assunto= contra a lista conhecida; caso contrário cai
+  // no default de "Outras dúvidas". Se vier `produto`, força o
+  // assunto para "produto" mesmo que não tenha sido passado.
+  const validSubject: SubjectKey | undefined = SUBJECT_KEYS.includes(assunto as SubjectKey)
+    ? (assunto as SubjectKey)
+    : undefined;
+  const defaultSubject: SubjectKey = produto ? 'produto' : (validSubject ?? 'geral');
+
+  const defaultMessage = produto
+    ? `${C.contact.prefillProduto} ${produto}.`
+    : modalidadeLabel
+      ? `${C.contact.prefillModalidade} ${modalidadeLabel}.`
+      : "";
 
   const infoItems = [
     { icon: Phone, label: C.contact.infoLabels.phone, value: C.contact.phone, href: `tel:${C.contact.phone.replace(/\s+/g, '')}` },
@@ -89,7 +105,7 @@ export default function ContactoClient({ modalidade }: { modalidade?: string }) 
 
             {/* Direita: formulário */}
             <div className="card-gold-accent rounded-2xl border border-zinc-800 bg-background p-6 md:p-8 self-start">
-              <Contacto defaultMessage={defaultMessage} />
+              <Contacto defaultMessage={defaultMessage} defaultSubject={defaultSubject} />
             </div>
           </div>
         </div>

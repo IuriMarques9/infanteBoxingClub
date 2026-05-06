@@ -42,7 +42,7 @@ export default async function ContactoPage({
   searchParams,
 }: {
   params: Promise<{ lang: string }>;
-  searchParams?: Promise<{ modalidade?: string }>;
+  searchParams?: Promise<{ modalidade?: string; assunto?: string; produto?: string }>;
 }) {
   const { lang } = await params
   const resolved = (await searchParams) ?? {};
@@ -57,7 +57,11 @@ export default async function ContactoPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
       />
-      <ContactoClient modalidade={resolved.modalidade} />
+      <ContactoClient
+        modalidade={resolved.modalidade}
+        assunto={resolved.assunto}
+        produto={resolved.produto}
+      />
     </>
   );
 }

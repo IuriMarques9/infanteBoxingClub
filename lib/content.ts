@@ -50,6 +50,7 @@ export const content = {
       },
       soldOut: "Sold out",
       noImage: "No image available",
+      askButton: "Ask about this product",
     },
     modalidadesExtra: {
       noImagePlaceholder: "Photo coming soon",
@@ -211,12 +212,20 @@ export const content = {
         mapTitle: "Where to find us",
       },
       prefillModalidade: "Hello, I would like to know more about",
+      prefillProduto: "Hello, I have a question about the product:",
       form: {
         name: "Your Name",
         email: "Your Email",
         message: "Your Message",
+        subject: "Subject",
         submit: "Send Message",
         submitLoader: "Sending...",
+        subjects: {
+          aula_gratis: "Free trial class",
+          produto: "Store / product question",
+          evento: "Event question",
+          geral: "Other question",
+        },
         privacyPolicy: {
           preLink: "I accept the",
           linkText: "Privacy Policy"
@@ -321,6 +330,7 @@ export const content = {
       },
       soldOut: "Esgotado",
       noImage: "Imagem indisponível",
+      askButton: "Pedir info",
     },
     modalidadesExtra: {
       noImagePlaceholder: "Fotografia em breve",
@@ -482,12 +492,20 @@ export const content = {
         mapTitle: "Onde nos encontrar",
       },
       prefillModalidade: "Olá, gostaria de saber mais sobre",
+      prefillProduto: "Olá, tenho uma dúvida sobre o produto:",
       form: {
         name: "O seu Nome",
         email: "O seu Email",
         message: "A sua Mensagem",
+        subject: "Assunto",
         submit: "Enviar Mensagem",
         submitLoader: "A Enviar...",
+        subjects: {
+          aula_gratis: "1ª aula grátis",
+          produto: "Dúvidas sobre a loja / produto",
+          evento: "Dúvidas sobre eventos",
+          geral: "Outras dúvidas",
+        },
         privacyPolicy: {
           preLink: "Eu aceito a",
           linkText: "Política de Privacidade"

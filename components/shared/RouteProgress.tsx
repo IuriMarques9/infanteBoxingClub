@@ -46,9 +46,15 @@ export default function RouteProgress() {
           || href.startsWith('mailto:') || href.startsWith('tel:')) return
       // target=_blank ou download → o browser abre nova tab/janela
       if (anchor.target === '_blank' || anchor.hasAttribute('download')) return
-      // Mesmo path (sem mudança real) → ignorar
+      // Mesmo path (sem mudança real) → ignorar. Inclui links com hash
+      // que apontem para a mesma página (ex: /pt#visit estando em /pt) —
+      // o browser apenas scrolla, não há navegação.
       const currentFull = pathname + (searchParams?.toString() ? `?${searchParams}` : '')
       if (href === pathname || href === currentFull) return
+      try {
+        const url = new URL(href, window.location.origin)
+        if (url.pathname === pathname && url.hash) return
+      } catch {}
 
       setActive(true)
     }
