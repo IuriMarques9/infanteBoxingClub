@@ -112,16 +112,13 @@ export default function Schedule() {
                           return (
                             <td key={day} className="px-2 py-2 align-middle">
                               {slots.length > 0 ? (
-                                <div className={cn(
-                                  "gap-1",
-                                  slots.length === 1 ? "flex" : "grid grid-cols-2"
-                                )}>
+                                <div className="flex gap-1 flex-nowrap">
                                   {slots.map(slot => (
                                     <div
                                       key={slot.id}
                                       className={cn(
-                                        "rounded-lg border p-1.5 text-center transition-transform hover:scale-[1.03] min-w-0",
-                                        slots.length === 1 && "w-full",
+                                        "rounded-lg border p-1.5 text-center transition-transform hover:scale-[1.03]",
+                                        slots.length === 1 ? "w-full" : "flex-1 min-w-[68px]",
                                         TURMA_AGENDA_TONES[slot.turma]
                                       )}
                                     >

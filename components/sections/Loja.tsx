@@ -133,8 +133,9 @@ export default function Merch() {
             setApi={setApi}
             opts={{
               align: "start",
-              slidesToScroll: 2,
+              slidesToScroll: 1,
               breakpoints: {
+                '(min-width: 768px)': { slidesToScroll: 2 },
                 '(min-width: 1024px)': { slidesToScroll: 3 },
                 '(min-width: 1280px)': { slidesToScroll: 4 },
               },
@@ -142,7 +143,7 @@ export default function Merch() {
           >
             <CarouselContent className={produtosFiltrados.length <= 4 ? "justify-center" : undefined}>
               {produtosFiltrados.map(produto => (
-                <CarouselItem key={produto.id} className="basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                <CarouselItem key={produto.id} className="basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                   <div className="card-gold-accent bg-card/60 backdrop-blur-md rounded-2xl overflow-hidden border border-white/5 text-start h-full flex flex-col hover:border-[#E8B55B]/40 transition-all duration-300 group shadow-2xl">
                     <div className="overflow-hidden relative aspect-square m-2 md:m-4 rounded-xl">
                       {produto.imageurl ? (
