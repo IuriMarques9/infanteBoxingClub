@@ -29,7 +29,7 @@ export default function Team() {
   const roleFor = (idx: number) =>
     idx === 0
       ? (language === 'pt' ? 'Fundador · Head Coach' : 'Founder · Head Coach')
-      : (language === 'pt' ? 'Treinador Oficial' : 'Official Coach');
+      : (language === 'pt' ? 'Treinador' : 'Coach');
 
   const eyebrow = language === 'pt' ? 'SOBRE NÓS' : 'ABOUT US';
   const teamEyebrow = language === 'pt' ? 'EQUIPA TÉCNICA' : 'CHAMPIONSHIP TRAINERS';
@@ -112,15 +112,12 @@ export default function Team() {
               />
               {/* Gradient overlay para legibilidade do texto */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-              {/* Badge top-left "FOUNDER" */}
+              {/* Badge top-left "FOUNDER · HEAD COACH" */}
               <div className="absolute top-5 left-5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-black text-[10px] font-black uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(232,181,91,0.5)]">
-                <Trophy className="w-3 h-3" /> {language === 'pt' ? 'Fundador' : 'Founder'}
+                <Trophy className="w-3 h-3" /> {language === 'pt' ? 'Fundador · Head Coach' : 'Founder · Head Coach'}
               </div>
               {/* Texto bottom */}
               <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-2">
-                  {roleFor(0)}
-                </p>
                 <h4 className="font-headline text-3xl md:text-5xl uppercase tracking-wider text-white leading-none mb-3">
                   {coaches[0].name}
                 </h4>

@@ -1,6 +1,6 @@
 'use client';
 import Image from "next/image";
-import { CalendarDays, MapPin, ArrowRight, CalendarCheck2, CalendarX2 } from "lucide-react";
+import { CalendarDays, MapPin, ArrowRight, CalendarX2 } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { useLanguage } from "../../../contexts/language-context";
 import { content } from "../../../lib/content";
@@ -24,7 +24,6 @@ export default function ProximoEvento() {
         const supabase = createClient();
         const today = new Date().toISOString();
 
-        // Puxar o próximo evento futuro mais breve
         const { data } = await supabase
            .from('eventos')
            .select('*')
@@ -34,18 +33,6 @@ export default function ProximoEvento() {
 
         if (data && data.length > 0) {
           setEvento(data[0]);
-        } else {
-          // Fallback se não há eventos futuros, tenta pegar o mais recente do passado
-          const { data: pastData } = await supabase
-           .from('eventos')
-           .select('*')
-           .lt('date', today)
-           .order('date', { ascending: false })
-           .limit(1);
-
-          if (pastData && pastData.length > 0) {
-             setEvento(pastData[0]);
-          }
         }
       } catch (e) {
          console.error('Erro a carregar evento', e);
@@ -65,7 +52,6 @@ export default function ProximoEvento() {
     );
   }
 
-  // Se a DB não tiver mesmo nada
   if (!evento) {
     return (
       <SectionShell surface="default">
@@ -80,41 +66,19 @@ export default function ProximoEvento() {
   }
 
   const eventDate = new Date(evento.date);
-  const actualDate = new Date();
-  const hasEventPassed = eventDate < actualDate;
 
-  // Formatar data simpática
   const formattedDate = new Intl.DateTimeFormat(language === 'pt'? 'pt-PT' : 'en-GB', {
     day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
   }).format(eventDate);
 
   return (
     <SectionShell surface="default">
-      {/* Background Glow sutil para manter premium look */}
       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full z-0 pointer-events-none -translate-y-1/2 -translate-x-1/2" />
 
       <div className="relative z-10">
         <SectionHeading title={C.nextEvent.title} />
 
         <div className={`card-gold-accent grid md:grid-cols-2 overflow-hidden relative bg-card/60 backdrop-blur-md rounded-2xl shadow-xl transition-all duration-300 hover:shadow-[0_0_20px_hsl(41_55%_57%/0.15)] border border-primary/20`}>
-          {hasEventPassed &&
-            <div className="absolute bg-black/85 backdrop-blur-md z-[99] inset-0 flex flex-col items-center justify-center text-center p-4">
-              <CalendarCheck2 size={64} className="text-primary mb-4 drop-shadow-md" />
-                <h3 className="font-headline text-5xl md:text-6xl uppercase tracking-wider text-primary">
-                  {C.nextEvent.passedEventTitle}
-                </h3>
-                <p className="mt-2 text-lg text-muted-foreground max-w-md">
-                  {C.nextEvent.passedEventMessage}
-                </p>
-              <Button size="lg" className="mt-8 font-bold group uppercase tracking-wider shadow-lg" asChild>
-                  <a href="#passedEvents">
-                    {C.nextEvent.passedEventCta}
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                  </a>
-                </Button>
-            </div>
-          }
-
           <div className="relative aspect-[4/3] md:aspect-auto md:h-full">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card z-10 hidden md:block" />
             <Image
@@ -146,7 +110,7 @@ export default function ProximoEvento() {
             <Button
               size="lg"
               variant="default"
-              className="mt-8 self-start font-bold group uppercase tracking-wider shadow-[0_0_15px_hsl(41_55%_57%/0.4)] transition-all hover:scale-105"
+              className="mt-8 self-start font-extrabold uppercase tracking-widest text-black hover:bg-primary/90 group shadow-[0_0_15px_hsl(41_55%_57%/0.4)] transition-all hover:scale-105"
             >
               {C.nextEvent.cta}
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />

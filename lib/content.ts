@@ -86,9 +86,6 @@ export const content = {
       date: "October 26, 2024",
       time: "8:00 PM",
       location: "Pavilhão Multiusos de Odivelas",
-      passedEventTitle: "Event Concluded",
-      passedEventMessage: "The event has concluded. Check out the highlights in our past events section!",
-      passedEventCta: "Passed Events Gallery",
       cta: "See more",
     },
     partnerships: {
@@ -143,14 +140,6 @@ export const content = {
         { name: "Hand Wraps", price: "€9.99" },
       ]
     },
-    pastEvents: {
-      title: "Event Gallery",
-      subtitle: "Relive the best moments from our past events.",
-      collections: [
-        { name: "2023 Highlights", id: "2023" },
-        { name: "2024 Highlights", id: "2024" },
-      ]
-    },
     schedule: {
       title: "Schedule",
       subtitle: "Find the perfect class to fit your goals and schedule.",
@@ -202,7 +191,7 @@ export const content = {
           name: "Ricardo Infante",
         },
         {
-          name: "Rafael",
+          name: "Rafael Ruiz",
         },
       ],
     },
@@ -368,9 +357,6 @@ export const content = {
       date: "26 de Outubro de 2024",
       time: "20:00",
       location: "Pavilhão Multiusos de Odivelas",
-      passedEventTitle: "Evento Concluido",
-      passedEventMessage: "O evento já foi concluido. Vê os melhores momentos na galeria de eventos!",
-      passedEventCta: "Galeria de Eventos",
       cta: "Saber Mais",
     },
     partnerships: {
@@ -425,14 +411,6 @@ export const content = {
         { name: "Ligas de Mãos", price: "€9,99" },
       ]
     },
-    pastEvents: {
-      title: "Galeria de Eventos",
-      subtitle: "Reviva os melhores momentos dos eventos passados com as nossas coleções de fotografias.",
-      collections: [
-        { name: "Destaques 2023", id: "2023" },
-        { name: "Destaques 2024", id: "2024" },
-      ]
-    },
     schedule: {
       title: "Horário",
       subtitle: "Encontre a aula perfeita para os seus objetivos e horário.",
@@ -484,7 +462,7 @@ export const content = {
           name: "Ricardo Infante",
         },
         {
-          name: "Sérgio Infante",
+          name: "Rafael Ruiz",
         },
       ],
     },
