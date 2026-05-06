@@ -108,7 +108,7 @@ export default async function HorariosPage({
       {/* MATRIX PREVIEW — same as landing */}
       <div className="bg-[#121212] rounded-2xl border border-white/5 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse min-w-[720px]">
+          <table className="w-full border-collapse min-w-[820px]">
             <thead>
               <tr className="bg-[#E8B55B]/5 border-b border-white/5">
                 <th className="px-4 py-4 text-left font-headline uppercase tracking-[0.25em] text-[#E8B55B] text-xs font-bold w-[140px]">
@@ -142,20 +142,17 @@ export default async function HorariosPage({
                       return (
                         <td key={day} className="px-2 py-2 align-middle">
                           {slots.length > 0 ? (
-                            <div className={cn(
-                              "gap-1",
-                              slots.length === 1 ? "flex" : "grid grid-cols-2"
-                            )}>
+                            <div className="flex gap-1 flex-nowrap">
                               {slots.map(slot => (
                                 <div
                                   key={slot.id}
                                   className={cn(
-                                    "rounded-lg border p-1.5 text-center group/slot relative min-w-0",
-                                    slots.length === 1 && "w-full",
+                                    "rounded-lg border p-1.5 text-center group/slot relative",
+                                    slots.length === 1 ? "w-full" : "flex-1 min-w-[92px]",
                                     TURMA_AGENDA_TONES[slot.turma]
                                   )}
                                 >
-                                  <div className="uppercase tracking-wider text-[10px] font-bold leading-tight break-words">
+                                  <div className="uppercase tracking-tight text-[10px] font-bold leading-tight whitespace-nowrap">
                                     {TURMA_LABELS[slot.turma]}
                                   </div>
                                   <div className="absolute top-0.5 right-0.5 flex items-center gap-0.5 opacity-0 group-hover/slot:opacity-100 focus-within:opacity-100 transition-opacity">
