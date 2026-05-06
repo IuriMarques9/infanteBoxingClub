@@ -26,9 +26,9 @@ export const BUSINESS = {
   phoneDigits: '351910389071',
   address: {
     /** Linha única, formato pt-PT — usar para apresentação humana. */
-    full: 'Rua Dâmaso da Encarnação Nº 5, 8700-247 Olhão',
+    full: 'Rua Dâmaso da Encarnação Nº 5, 8700-247 Quelfes',
     street: 'Rua Dâmaso da Encarnação Nº 5',
-    locality: 'Olhão',
+    locality: 'Quelfes',
     region: 'Faro',
     postalCode: '8700-247',
     /** ISO 3166-1 alpha-2. */
@@ -72,7 +72,7 @@ export const BUSINESS = {
 
 /** URL do mapa do Google embebido no site. Aponta à morada exacta. */
 export const MAPS_EMBED_URL =
-  'https://www.google.com/maps?q=Rua+D%C3%A2maso+da+Encarna%C3%A7%C3%A3o+5+8700-247+Olh%C3%A3o&output=embed'
+  'https://www.google.com/maps?q=Rua+D%C3%A2maso+da+Encarna%C3%A7%C3%A3o+5+8700-247+Quelfes&output=embed'
 
 /** Link wa.me directo para WhatsApp. */
 export const WHATSAPP_URL = `https://wa.me/${BUSINESS.phoneDigits}`
