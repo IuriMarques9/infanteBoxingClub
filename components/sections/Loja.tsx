@@ -22,6 +22,7 @@ export default function Merch() {
   const C = content[language];
   const [produtos, setProdutos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [categoriaAtiva, setCategoriaAtiva] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -31,6 +32,7 @@ export default function Merch() {
         const { data } = await (supabase
           .from('store_products')
           .select('*')
+          .eq('published', true)
           .order('created_at', { ascending: false }) as any);
 
         if (data) setProdutos(data);
@@ -43,6 +45,11 @@ export default function Merch() {
     fetchProducts();
   }, []);
 
+  const categorias = [...new Set(produtos.map((p: any) => p.category).filter(Boolean))] as string[]
+  const produtosFiltrados = categoriaAtiva
+    ? produtos.filter((p: any) => p.category === categoriaAtiva)
+    : produtos
+
   return (
     <SectionShell id="merch" surface="alt">
       {/* Background decoration */}
@@ -54,11 +61,39 @@ export default function Merch() {
           subtitle={C.merch.subtitle}
         />
 
+        {categorias.length > 0 && (
+          <div className="flex gap-2 mb-8 overflow-x-auto scrollbar-hide pb-2">
+            <button
+              onClick={() => setCategoriaAtiva(null)}
+              className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border transition-all ${
+                categoriaAtiva === null
+                  ? 'bg-[#E8B55B] text-black border-[#E8B55B]'
+                  : 'bg-transparent text-white/50 border-white/10 hover:border-[#E8B55B]/50 hover:text-[#E8B55B]'
+              }`}
+            >
+              Todos
+            </button>
+            {categorias.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setCategoriaAtiva(cat)}
+                className={`shrink-0 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border transition-all ${
+                  categoriaAtiva === cat
+                    ? 'bg-[#E8B55B] text-black border-[#E8B55B]'
+                    : 'bg-transparent text-white/50 border-white/10 hover:border-[#E8B55B]/50 hover:text-[#E8B55B]'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
+
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
             <Skeleton variant="card" count={4} />
           </div>
-        ) : produtos.length === 0 ? (
+        ) : produtosFiltrados.length === 0 ? (
           <EmptyState
             icon={ShoppingBag}
             title={C.merchExtra.empty.title}
@@ -79,13 +114,13 @@ export default function Merch() {
             ]}
           >
             <CarouselContent>
-              {produtos.map(produto => (
+              {produtosFiltrados.map(produto => (
                 <CarouselItem key={produto.id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
                   <div className="card-gold-accent bg-card/60 backdrop-blur-md rounded-2xl overflow-hidden border border-white/5 text-start h-full hover:border-[#E8B55B]/40 transition-all duration-300 group shadow-2xl">
                     <div className="overflow-hidden relative aspect-square m-4 rounded-xl">
-                      {produto.imageUrl ? (
+                      {produto.imageurl ? (
                         <Image
-                          src={produto.imageUrl}
+                          src={produto.imageurl}
                           alt={produto.name}
                           fill
                           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -94,13 +129,6 @@ export default function Merch() {
                       ) : (
                         <div className="w-full h-full bg-zinc-800 flex items-center justify-center text-white/20 uppercase text-xs tracking-widest font-headline">
                           {C.merchExtra.noImage}
-                        </div>
-                      )}
-                      {!produto.in_stock && (
-                        <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px] z-20 flex items-center justify-center">
-                          <span className="px-3 py-1 rounded-full bg-white/10 text-white/70 text-[10px] font-bold uppercase tracking-widest backdrop-blur-sm ring-1 ring-white/20">
-                            {C.merchExtra.soldOut}
-                          </span>
                         </div>
                       )}
                     </div>

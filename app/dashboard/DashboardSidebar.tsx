@@ -5,7 +5,7 @@ import Link, { useLinkStatus } from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
-  LayoutDashboard, Users, CreditCard, CalendarDays, LogOut,
+  LayoutDashboard, Users, CreditCard, CalendarDays, Clock, LogOut,
   ShoppingBag, Activity, ChevronLeft, ChevronRight, Lock, Loader2,
   Menu, X, ShieldCheck,
 } from 'lucide-react'
@@ -36,9 +36,9 @@ const MAIN_LINKS: NavItem[] = [
   { href: '/dashboard', label: 'Geral', icon: LayoutDashboard },
   { href: '/dashboard/membros', label: 'Membros', icon: Users },
   { href: '/dashboard/pagamentos', label: 'Pagamentos', icon: CreditCard },
-  { href: '/dashboard/horarios', label: 'Horários', icon: CalendarDays },
-  { href: '/dashboard/eventos', label: 'Eventos', icon: CalendarDays, disabled: true },
-  { href: '/dashboard/loja', label: 'Loja / Merch', icon: ShoppingBag, disabled: true },
+  { href: '/dashboard/horarios', label: 'Horários', icon: Clock },
+  { href: '/dashboard/eventos', label: 'Eventos', icon: CalendarDays },
+  { href: '/dashboard/loja', label: 'Loja / Merch', icon: ShoppingBag },
 ]
 
 // Item Administradores só aparece para o super admin (filtrado em runtime)

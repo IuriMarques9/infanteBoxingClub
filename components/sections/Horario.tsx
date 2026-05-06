@@ -88,10 +88,7 @@ export default function Schedule() {
                         key={day}
                         className="px-3 py-4 text-center font-headline uppercase tracking-[0.25em] text-primary text-xs font-bold"
                       >
-                        <div>{WEEKDAY_LABELS_SHORT[language][day]}</div>
-                        <div className="text-[10px] font-normal tracking-wider text-white/40 mt-0.5 normal-case">
-                          {WEEKDAY_LABELS_LONG[language][day]}
-                        </div>
+                        {WEEKDAY_LABELS_SHORT[language][day]}
                       </th>
                     ))}
                   </tr>

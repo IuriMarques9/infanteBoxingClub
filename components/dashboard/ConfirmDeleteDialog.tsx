@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { AlertTriangle } from 'lucide-react'
+import { AlertTriangle, Loader2 } from 'lucide-react'
 
 import {
   AlertDialog,
@@ -29,6 +29,7 @@ interface Props {
   title: string
   description?: React.ReactNode
   confirmLabel?: string
+  pendingLabel?: string
   cancelLabel?: string
   onConfirm: () => void | Promise<void>
   trigger?: React.ReactNode
@@ -40,12 +41,14 @@ export default function ConfirmDeleteDialog({
   title,
   description = 'Esta ação não pode ser revertida.',
   confirmLabel = 'Eliminar',
+  pendingLabel = 'A eliminar…',
   cancelLabel = 'Cancelar',
   onConfirm,
   trigger,
   open,
   onOpenChange,
 }: Props) {
+  const [pending, setPending] = React.useState(false)
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       {trigger ? <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger> : null}
@@ -58,14 +61,30 @@ export default function ConfirmDeleteDialog({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>{cancelLabel}</AlertDialogCancel>
+          <AlertDialogCancel disabled={pending}>{cancelLabel}</AlertDialogCancel>
           <AlertDialogAction
-            onClick={(e) => {
+            disabled={pending}
+            className="disabled:opacity-60 disabled:cursor-wait"
+            onClick={async (e) => {
               e.preventDefault()
-              void onConfirm()
+              if (pending) return
+              setPending(true)
+              try {
+                await onConfirm()
+              } finally {
+                // Em redirects o componente é unmount, mas mantemos
+                // o reset para casos onde a action volta sem redirect.
+                setPending(false)
+              }
             }}
           >
-            {confirmLabel}
+            {pending ? (
+              <span className="flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" /> {pendingLabel}
+              </span>
+            ) : (
+              confirmLabel
+            )}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

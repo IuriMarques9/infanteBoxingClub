@@ -46,7 +46,10 @@ export default function FilterSelect({
           ))}
         </select>
         {pending && (
-          <Loader2 className="absolute right-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#E8B55B] animate-spin pointer-events-none" />
+          // Wrapper span isola o translate do animate-spin (transform colide).
+          <span className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
+            <Loader2 className="w-3.5 h-3.5 text-[#E8B55B] animate-spin" />
+          </span>
         )}
       </div>
     </div>

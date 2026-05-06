@@ -1,69 +1,113 @@
 'use client'
 
 import { useState } from 'react'
+import type { ReactNode } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Edit, DollarSign, Image as ImageIcon } from 'lucide-react'
-import { editarProduto } from './actions'
+import { Edit, Euro } from 'lucide-react'
+import { criarProduto, editarProduto } from './actions'
+import ImageUploader from '@/components/dashboard/ImageUploader'
+import { SubmitPrimary } from '@/components/dashboard/FormButtons'
 
-export default function EditProdutoModal({ produto }: { produto: any }) {
+interface Props {
+  produto?: {
+    id: string
+    name: string
+    price: number
+    description: string | null
+    imageurl: string | null
+    published: boolean
+    category: string | null
+  } | null
+  categorias?: string[]
+  trigger?: ReactNode
+}
+
+export default function EditProdutoModal({ produto, categorias = [], trigger }: Props) {
   const [open, setOpen] = useState(false)
+  const isEdit = !!produto
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-[#E8B55B]/70 hover:text-[#E8B55B] hover:bg-[#E8B55B]/10 transition-all">
-          <Edit className="w-3.5 h-3.5" /> Editar
-        </button>
+        {trigger ?? (
+          <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider text-[#E8B55B]/70 hover:text-[#E8B55B] hover:bg-[#E8B55B]/10 transition-all">
+            <Edit className="w-3.5 h-3.5" /> Editar
+          </button>
+        )}
       </DialogTrigger>
-      <DialogContent className="bg-[#121212] border border-white/10 text-white max-w-lg">
+      <DialogContent className="bg-[#121212] border border-white/10 text-white max-w-lg max-h-[85vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-[#E8B55B] font-headline tracking-wider">Editar Artigo</DialogTitle>
+          <DialogTitle className="text-[#E8B55B] font-headline tracking-wider">
+            {isEdit ? 'Editar Artigo' : 'Novo Artigo'}
+          </DialogTitle>
         </DialogHeader>
-        <form action={editarProduto} className="space-y-4">
-          <input type="hidden" name="id" value={produto.id} />
+        <form
+          action={isEdit ? editarProduto : criarProduto}
+          onSubmit={() => setOpen(false)}
+          className="space-y-3"
+        >
+          {isEdit && <input type="hidden" name="id" value={produto.id} />}
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Nome</label>
-            <input name="name" defaultValue={produto.name} required
+            <label className="text-xs font-medium text-white/50 uppercase tracking-wider">
+              Nome <span className="text-[#E8B55B]/70">*</span>
+            </label>
+            <input name="name" defaultValue={produto?.name} required
               className="w-full px-4 py-2 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#E8B55B] text-sm" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Preço (€)</label>
+              <label className="text-xs font-medium text-white/50 uppercase tracking-wider">
+                Preço <span className="text-[#E8B55B]/70">*</span>
+              </label>
               <div className="relative">
-                <input name="price" type="number" step="0.01" defaultValue={produto.price} required
-                  className="w-full pl-8 pr-4 py-2 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#E8B55B] text-sm" />
-                <DollarSign className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+                <input name="price" type="number" step="0.01" defaultValue={produto?.price} required
+                  className="w-full pl-9 pr-4 py-2 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#E8B55B] text-sm" />
+                <Euro className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
               </div>
             </div>
             <div className="space-y-1.5 flex flex-col justify-end">
-              <div className="flex items-center gap-3 p-2 bg-white/5 rounded-xl border border-white/5 h-[38px]">
-                <input name="in_stock" type="checkbox" defaultChecked={produto.in_stock} className="w-4 h-4 accent-[#E8B55B]" />
-                <span className="text-xs text-white/70">Em Stock</span>
-              </div>
+              <label className="flex items-center gap-3 p-2 bg-white/5 rounded-xl border border-white/5 h-[38px] cursor-pointer hover:bg-white/[0.07] transition-colors">
+                <input type="hidden" name="archived" value="off" />
+                <input
+                  name="archived"
+                  type="checkbox"
+                  defaultChecked={produto ? !produto.published : false}
+                  value="on"
+                  className="w-4 h-4 accent-[#E8B55B]"
+                />
+                <span className="text-xs text-white/70">Arquivar artigo</span>
+              </label>
             </div>
           </div>
 
           <div className="space-y-1.5">
             <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Descrição</label>
-            <input name="description" defaultValue={produto.description || ''}
+            <input name="description" defaultValue={produto?.description || ''}
               className="w-full px-4 py-2 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#E8B55B] text-sm" />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-white/50 uppercase tracking-wider">URL da Imagem</label>
-            <div className="relative">
-              <input name="imageurl" defaultValue={produto.imageUrl || ''} placeholder="https://..."
-                className="w-full pl-10 pr-4 py-2 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#E8B55B] text-sm" />
-              <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
-            </div>
+            <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Categoria</label>
+            <input
+              name="category"
+              list="categorias-existentes"
+              defaultValue={produto?.category || ''}
+              className="w-full px-4 py-2 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-1 focus:ring-[#E8B55B] text-sm"
+            />
+            <datalist id="categorias-existentes">
+              {categorias.map((cat) => (
+                <option key={cat} value={cat} />
+              ))}
+            </datalist>
           </div>
 
-          <button type="submit"
-            className="w-full py-3 rounded-xl bg-[#E8B55B] text-black font-bold uppercase tracking-widest text-xs hover:bg-[#C99C4A] transition-all mt-2">
-            Guardar Alterações
-          </button>
+          <ImageUploader pathPrefix="produtos/" name="imageurl" currentUrl={produto?.imageurl} compact />
+
+          <SubmitPrimary>
+            {isEdit ? 'Guardar Alterações' : 'Criar Artigo'}
+          </SubmitPrimary>
         </form>
       </DialogContent>
     </Dialog>

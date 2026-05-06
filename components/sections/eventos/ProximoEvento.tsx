@@ -6,10 +6,10 @@ import { useLanguage } from "../../../contexts/language-context";
 import { content } from "../../../lib/content";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import SectionShell from "../../shared/SectionShell";
 import SectionHeading from "../../shared/SectionHeading";
 import EmptyState from "../../shared/EmptyState";
 import Skeleton from "../../shared/Skeleton";
+import { formatEventDateRange } from "@/lib/eventos";
 
 export default function ProximoEvento() {
   const { language } = useLanguage();
@@ -24,15 +24,21 @@ export default function ProximoEvento() {
         const supabase = createClient();
         const today = new Date().toISOString();
 
+        // Evento "actual" = ainda não terminou. Inclui os que começaram
+        // mas têm date_end no futuro (em curso), e os que ainda nem
+        // começaram. Filtra client-side por causa do COALESCE.
         const { data } = await supabase
            .from('eventos')
            .select('*')
-           .gte('date', today)
-           .order('date', { ascending: true })
-           .limit(1);
+           .order('date', { ascending: true });
 
-        if (data && data.length > 0) {
-          setEvento(data[0]);
+        const futuros = (data || []).filter((e: any) => {
+          const ref = e.date_end ?? e.date;
+          return new Date(ref) >= new Date(today);
+        });
+
+        if (futuros.length > 0) {
+          setEvento(futuros[0]);
         }
       } catch (e) {
          console.error('Erro a carregar evento', e);
@@ -45,34 +51,30 @@ export default function ProximoEvento() {
 
   if (loading) {
     return (
-      <SectionShell surface="default">
+      <div>
         <SectionHeading title={C.nextEvent.title} />
         <Skeleton variant="card" className="h-96" />
-      </SectionShell>
+      </div>
     );
   }
 
   if (!evento) {
     return (
-      <SectionShell surface="default">
+      <div>
         <SectionHeading title={C.nextEvent.title} />
         <EmptyState
           icon={CalendarX2}
           title={C.events.empty.title}
           description={C.events.empty.description}
         />
-      </SectionShell>
+      </div>
     );
   }
 
-  const eventDate = new Date(evento.date);
-
-  const formattedDate = new Intl.DateTimeFormat(language === 'pt'? 'pt-PT' : 'en-GB', {
-    day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
-  }).format(eventDate);
+  const formattedDate = formatEventDateRange(evento.date, evento.date_end, language, evento.all_day);
 
   return (
-    <SectionShell surface="default">
+    <div className="relative">
       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 blur-[120px] rounded-full z-0 pointer-events-none -translate-y-1/2 -translate-x-1/2" />
 
       <div className="relative z-10">
@@ -96,7 +98,7 @@ export default function ProximoEvento() {
 
             <p className="text-muted-foreground mt-4 leading-relaxed">{evento.description}</p>
 
-            <div className="space-y-4 mt-8 text-lg bg-black/50 p-6 rounded-xl border border-primary/10 shadow-inner">
+            <div className="space-y-4 mt-8 text-lg bg-black/50 p-6 rounded-xl border border-primary/10 shadow-inner text-foreground">
               <div className="flex items-center gap-3">
                 <CalendarDays className="h-6 w-6 text-primary" />
                 <span className="font-medium">{formattedDate}</span>
@@ -107,17 +109,22 @@ export default function ProximoEvento() {
               </div>
             </div>
 
-            <Button
-              size="lg"
-              variant="default"
-              className="mt-8 self-start font-extrabold uppercase tracking-widest text-black hover:bg-primary/90 group shadow-[0_0_15px_hsl(41_55%_57%/0.4)] transition-all hover:scale-105"
-            >
-              {C.nextEvent.cta}
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </Button>
+            {evento.cta_url && (
+              <Button
+                asChild
+                size="lg"
+                variant="default"
+                className="mt-8 self-start font-extrabold uppercase tracking-widest text-black hover:bg-primary/90 group shadow-[0_0_15px_hsl(41_55%_57%/0.4)] transition-all hover:scale-105"
+              >
+                <a href={evento.cta_url} target="_blank" rel="noopener noreferrer">
+                  {C.nextEvent.cta}
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </a>
+              </Button>
+            )}
           </div>
         </div>
       </div>
-    </SectionShell>
+    </div>
   );
 }

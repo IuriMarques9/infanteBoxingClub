@@ -119,10 +119,7 @@ export default async function HorariosPage({
                     key={day}
                     className="px-3 py-4 text-center font-headline uppercase tracking-[0.25em] text-[#E8B55B] text-xs font-bold"
                   >
-                    <div>{WEEKDAY_LABELS_SHORT.pt[day]}</div>
-                    <div className="text-[10px] font-normal tracking-wider text-white/40 mt-0.5 normal-case">
-                      {WEEKDAY_LABELS_LONG.pt[day]}
-                    </div>
+                    {WEEKDAY_LABELS_SHORT.pt[day]}
                   </th>
                 ))}
               </tr>

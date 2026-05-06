@@ -33,9 +33,9 @@ export default function HomeClient() {
 
           <Modalidades />
 
-          <Loja />
-
           <Eventos />
+
+          <Loja />
 
           <Horario />
 
