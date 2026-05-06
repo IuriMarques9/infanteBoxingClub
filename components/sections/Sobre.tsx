@@ -165,7 +165,7 @@ export default function Team() {
               vazio com um CTA "Marcar 1ª aula grátis" para evitar buraco. */}
           {coaches.length < 3 && (
             <Link
-              href="#contact"
+              href={`/${language}/contacto?assunto=aula_gratis`}
               className="group relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-primary/5 hover:border-primary hover:from-primary/15 transition-all min-h-[260px] flex flex-col justify-end p-5"
             >
               <div className="absolute top-5 right-5 w-10 h-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all">
