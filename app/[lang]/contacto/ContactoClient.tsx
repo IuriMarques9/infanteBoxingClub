@@ -20,13 +20,13 @@ export default function ContactoClient({ modalidade, assunto, produto }: Contact
     ? C.boxingStyles.styles.find((s) => s.slug === modalidade)?.title
     : undefined;
 
-  // Valida o ?assunto= contra a lista conhecida; caso contrário cai
-  // no default de "Outras dúvidas". Se vier `produto`, força o
-  // assunto para "produto" mesmo que não tenha sido passado.
+  // Valida o ?assunto= contra a lista conhecida. Se vier `produto`,
+  // força o assunto para "produto". Caso contrário deixa em branco
+  // para mostrar o placeholder "Assunto" no dropdown.
   const validSubject: SubjectKey | undefined = SUBJECT_KEYS.includes(assunto as SubjectKey)
     ? (assunto as SubjectKey)
     : undefined;
-  const defaultSubject: SubjectKey = produto ? 'produto' : (validSubject ?? 'geral');
+  const defaultSubject: SubjectKey | undefined = produto ? 'produto' : validSubject;
 
   const defaultMessage = produto
     ? `${C.contact.prefillProduto} ${produto}.`

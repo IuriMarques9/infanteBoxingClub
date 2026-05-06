@@ -214,9 +214,9 @@ export const content = {
       prefillModalidade: "Hello, I would like to know more about",
       prefillProduto: "Hello, I have a question about the product:",
       form: {
-        name: "Your Name",
-        email: "Your Email",
-        message: "Your Message",
+        name: "Name",
+        email: "Email",
+        message: "Message",
         subject: "Subject",
         submit: "Send Message",
         submitLoader: "Sending...",
@@ -224,7 +224,7 @@ export const content = {
           aula_gratis: "Free trial class",
           produto: "Store / product question",
           evento: "Event question",
-          geral: "Other question",
+          geral: "General inquiry",
         },
         privacyPolicy: {
           preLink: "I accept the",
@@ -494,9 +494,9 @@ export const content = {
       prefillModalidade: "Olá, gostaria de saber mais sobre",
       prefillProduto: "Olá, tenho uma dúvida sobre o produto:",
       form: {
-        name: "O seu Nome",
-        email: "O seu Email",
-        message: "A sua Mensagem",
+        name: "Nome",
+        email: "Email",
+        message: "Mensagem",
         subject: "Assunto",
         submit: "Enviar Mensagem",
         submitLoader: "A Enviar...",
@@ -504,7 +504,7 @@ export const content = {
           aula_gratis: "1ª aula grátis",
           produto: "Dúvidas sobre a loja / produto",
           evento: "Dúvidas sobre eventos",
-          geral: "Outras dúvidas",
+          geral: "Diversos",
         },
         privacyPolicy: {
           preLink: "Eu aceito a",
