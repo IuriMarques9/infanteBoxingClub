@@ -100,11 +100,11 @@ export default function ProximoEvento() {
 
             <div className="space-y-4 mt-8 text-lg bg-black/50 p-6 rounded-xl border border-primary/10 shadow-inner text-foreground">
               <div className="flex items-center gap-3">
-                <CalendarDays className="h-6 w-6 text-primary" />
+                <CalendarDays className="h-7 w-7 text-primary shrink-0" />
                 <span className="font-medium">{formattedDate}</span>
               </div>
               <div className="flex items-center gap-3">
-                <MapPin className="h-6 w-6 text-primary" />
+                <MapPin className="h-7 w-7 text-primary shrink-0" />
                 <span className="font-medium">{evento.location}</span>
               </div>
             </div>
