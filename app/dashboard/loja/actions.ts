@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { translateFields } from '@/lib/translate'
 
 // ─── CRIAR PRODUTO ──────────────────────────────────────────────
 export async function criarProduto(formData: FormData) {
@@ -19,14 +20,23 @@ export async function criarProduto(formData: FormData) {
   const published = !archived
   const category = (formData.get('category') as string) || null
 
+  const { name: name_en, description: description_en, category: category_en } = await translateFields({
+    name,
+    description: description || null,
+    category,
+  })
+
   const { data, error } = await (supabase.from('store_products') as any).insert({
     name,
     description: description || null,
+    name_en,
+    description_en,
     price,
     imageurl: imageurl || null,
     in_stock: true,
     published,
     category,
+    category_en,
   }).select('id').single()
 
   if (error) {
@@ -61,14 +71,23 @@ export async function editarProduto(formData: FormData) {
   const published = !archived
   const category = (formData.get('category') as string) || null
 
+  const { name: name_en, description: description_en, category: category_en } = await translateFields({
+    name,
+    description: description || null,
+    category,
+  })
+
   const { error } = await (supabase.from('store_products') as any)
     .update({
       name,
       description: description || null,
+      name_en,
+      description_en,
       price,
       imageurl: imageurl || null,
       published,
       category,
+      category_en,
     })
     .eq('id', id)
 

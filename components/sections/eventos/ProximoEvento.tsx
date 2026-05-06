@@ -72,6 +72,9 @@ export default function ProximoEvento() {
   }
 
   const formattedDate = formatEventDateRange(evento.date, evento.date_end, language, evento.all_day);
+  const title = (language === 'en' && evento.title_en) || evento.title;
+  const description = (language === 'en' && evento.description_en) || evento.description;
+  const location = (language === 'en' && evento.location_en) || evento.location;
 
   return (
     <div className="relative">
@@ -85,7 +88,7 @@ export default function ProximoEvento() {
             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card z-10 hidden md:block" />
             <Image
               src={evento.imageurl ?? "/placeholder-boxing.jpg"}
-              alt={evento.title}
+              alt={title}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
@@ -94,9 +97,9 @@ export default function ProximoEvento() {
           </div>
 
           <div className="flex flex-col p-8 md:p-12 z-20 bg-card/40 md:bg-transparent">
-            <h3 className="font-headline text-4xl uppercase text-foreground text-glow">{evento.title}</h3>
+            <h3 className="font-headline text-4xl uppercase text-foreground text-glow">{title}</h3>
 
-            <p className="text-muted-foreground mt-4 leading-relaxed">{evento.description}</p>
+            <p className="text-muted-foreground mt-4 leading-relaxed">{description}</p>
 
             <div className="space-y-4 mt-8 text-lg bg-black/50 p-6 rounded-xl border border-primary/10 shadow-inner text-foreground">
               <div className="flex items-center gap-3">
@@ -105,7 +108,7 @@ export default function ProximoEvento() {
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="h-7 w-7 text-primary shrink-0" />
-                <span className="font-medium">{evento.location}</span>
+                <span className="font-medium">{location}</span>
               </div>
             </div>
 

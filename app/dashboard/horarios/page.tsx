@@ -142,16 +142,20 @@ export default async function HorariosPage({
                       return (
                         <td key={day} className="px-2 py-2 align-middle">
                           {slots.length > 0 ? (
-                            <div className="space-y-1">
+                            <div className={cn(
+                              "gap-1",
+                              slots.length === 1 ? "flex" : "grid grid-cols-2"
+                            )}>
                               {slots.map(slot => (
                                 <div
                                   key={slot.id}
                                   className={cn(
-                                    "rounded-lg border p-2 text-center group/slot relative",
+                                    "rounded-lg border p-1.5 text-center group/slot relative min-w-0",
+                                    slots.length === 1 && "w-full",
                                     TURMA_AGENDA_TONES[slot.turma]
                                   )}
                                 >
-                                  <div className="uppercase tracking-wider text-[10px] font-bold leading-tight">
+                                  <div className="uppercase tracking-wider text-[10px] font-bold leading-tight break-words">
                                     {TURMA_LABELS[slot.turma]}
                                   </div>
                                   <div className="absolute top-0.5 right-0.5 flex items-center gap-0.5 opacity-0 group-hover/slot:opacity-100 focus-within:opacity-100 transition-opacity">

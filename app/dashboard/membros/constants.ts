@@ -9,6 +9,19 @@ export const TURMA_LABELS: Record<Turma, string> = {
   mulheres: '👩 Mulheres',
 }
 
+export const TURMA_LABELS_EN: Record<Turma, string> = {
+  gatinhos: '🐱 Kittens',
+  suricatas: '🦦 Meerkats',
+  leoes: '🦁 Lions',
+  adultos: '🥊 Adults',
+  mulheres: "👩 Women's",
+}
+
+export const TURMA_LABELS_BY_LANG: Record<'pt' | 'en', Record<Turma, string>> = {
+  pt: TURMA_LABELS,
+  en: TURMA_LABELS_EN,
+}
+
 // ─── ESTADOS DO MEMBRO ─────────────────────────────────────────
 export type StatusMembro = 'isento' | 'pago' | 'nao_pago' | 'inativo'
 

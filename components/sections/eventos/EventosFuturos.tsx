@@ -52,6 +52,8 @@ export default function EventosFuturos() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {eventos.map(evento => {
           const formattedDate = formatEventDateRange(evento.date, evento.date_end, language, evento.all_day)
+          const title = (language === 'en' && evento.title_en) || evento.title
+          const location = (language === 'en' && evento.location_en) || evento.location
 
           return (
             <div
@@ -61,7 +63,7 @@ export default function EventosFuturos() {
               <div className="relative aspect-video">
                 <Image
                   src={evento.imageurl ?? '/placeholder-boxing.jpg'}
-                  alt={evento.title}
+                  alt={title}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -69,16 +71,16 @@ export default function EventosFuturos() {
               </div>
               <div className="p-4 space-y-2">
                 <h4 className="font-headline text-lg uppercase tracking-wider text-foreground group-hover:text-[#E8B55B] transition-colors line-clamp-1">
-                  {evento.title}
+                  {title}
                 </h4>
                 <div className="flex items-center gap-2 text-sm text-white/50">
                   <CalendarDays className="w-4 h-4 text-[#E8B55B]/60" />
                   <span>{formattedDate}</span>
                 </div>
-                {evento.location && (
+                {location && (
                   <div className="flex items-center gap-2 text-sm text-white/50">
                     <MapPin className="w-4 h-4 text-[#E8B55B]/60" />
-                    <span>{evento.location}</span>
+                    <span>{location}</span>
                   </div>
                 )}
               </div>

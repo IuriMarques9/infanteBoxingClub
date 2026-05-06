@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { translateFields } from '@/lib/translate'
 
 // ─── CRIAR EVENTO ───────────────────────────────────────────────
 export async function criarEvento(formData: FormData) {
@@ -17,9 +18,18 @@ export async function criarEvento(formData: FormData) {
   const cta_url = formData.get('cta_url') as string
   const all_day = formData.getAll('all_day').includes('on')
 
+  const { title: title_en, description: description_en, location: location_en } = await translateFields({
+    title,
+    description,
+    location,
+  }, { keepAsIs: ['location'] })
+
   const { data, error } = await (supabase.from('eventos') as any).insert({
     title,
     description,
+    title_en,
+    description_en,
+    location_en,
     date,
     date_end: date_end || null,
     all_day,
@@ -61,10 +71,19 @@ export async function editarEvento(formData: FormData) {
   const cta_url = formData.get('cta_url') as string
   const all_day = formData.getAll('all_day').includes('on')
 
+  const { title: title_en, description: description_en, location: location_en } = await translateFields({
+    title,
+    description,
+    location,
+  }, { keepAsIs: ['location'] })
+
   const { error } = await (supabase.from('eventos') as any)
     .update({
       title,
       description,
+      title_en,
+      description_en,
+      location_en,
       date,
       date_end: date_end || null,
       all_day,

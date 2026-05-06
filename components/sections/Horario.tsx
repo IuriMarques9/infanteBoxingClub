@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "../../contexts/language-context";
 import { content } from "../../lib/content";
-import { TURMA_LABELS, type Turma } from "@/app/dashboard/membros/constants";
+import { TURMA_LABELS_BY_LANG, type Turma } from "@/app/dashboard/membros/constants";
 import SectionShell from "../shared/SectionShell";
 import SectionHeading from "../shared/SectionHeading";
 import Skeleton from "../shared/Skeleton";
@@ -33,6 +33,7 @@ const DEFAULT_DAYS: WeekDay[] = ['mon', 'tue', 'wed', 'thu', 'fri'];
 export default function Schedule() {
   const { language } = useLanguage();
   const C = content[language];
+  const TURMA_LABELS = TURMA_LABELS_BY_LANG[language];
   const [horarios, setHorarios] = useState<HorarioRow[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -111,16 +112,20 @@ export default function Schedule() {
                           return (
                             <td key={day} className="px-2 py-2 align-middle">
                               {slots.length > 0 ? (
-                                <div className="space-y-1">
+                                <div className={cn(
+                                  "gap-1",
+                                  slots.length === 1 ? "flex" : "grid grid-cols-2"
+                                )}>
                                   {slots.map(slot => (
                                     <div
                                       key={slot.id}
                                       className={cn(
-                                        "rounded-lg border p-2 text-center transition-transform hover:scale-[1.03]",
+                                        "rounded-lg border p-1.5 text-center transition-transform hover:scale-[1.03] min-w-0",
+                                        slots.length === 1 && "w-full",
                                         TURMA_AGENDA_TONES[slot.turma]
                                       )}
                                     >
-                                      <div className="uppercase tracking-wider text-[10px] font-bold leading-tight">
+                                      <div className="uppercase tracking-wider text-[10px] font-bold leading-tight break-words">
                                         {TURMA_LABELS[slot.turma]}
                                       </div>
                                     </div>
