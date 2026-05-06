@@ -181,7 +181,7 @@ export default async function MembrosPage({
       </div>
 
       {/* Cartões de estado */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
         <Link href="/dashboard/membros" className={`bg-[#121212] p-3 sm:p-4 rounded-2xl border transition-all ${!searchParamsData.status ? 'border-[#E8B55B]/30' : 'border-white/5 hover:border-white/10'}`}>
           <p className="text-white/50 text-[10px] sm:text-xs uppercase tracking-wider mb-1">Total</p>
           <p className="text-xl sm:text-2xl font-bold text-[#E8B55B]">{membrosComStatus.length}</p>
@@ -198,7 +198,7 @@ export default async function MembrosPage({
           <p className="text-white/50 text-[10px] sm:text-xs uppercase tracking-wider mb-1 flex items-center gap-1"><UserX className="w-3 h-3 text-red-400" /> Inativos</p>
           <p className="text-xl sm:text-2xl font-bold text-red-400">{totalInativo}</p>
         </Link>
-        <Link href="/dashboard/membros?status=isento" className={`bg-[#121212] p-3 sm:p-4 rounded-2xl border transition-all col-span-2 sm:col-span-1 ${searchParamsData.status === 'isento' ? 'border-blue-400/30' : 'border-white/5 hover:border-white/10'}`}>
+        <Link href="/dashboard/membros?status=isento" className={`bg-[#121212] p-3 sm:p-4 rounded-2xl border transition-all ${searchParamsData.status === 'isento' ? 'border-blue-400/30' : 'border-white/5 hover:border-white/10'}`}>
           <p className="text-white/50 text-[10px] sm:text-xs uppercase tracking-wider mb-1 flex items-center gap-1"><Shield className="w-3 h-3 text-blue-400" /> Isentos</p>
           <p className="text-xl sm:text-2xl font-bold text-blue-400">{totalIsento}</p>
         </Link>

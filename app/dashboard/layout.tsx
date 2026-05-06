@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 import DashboardSidebar from "./DashboardSidebar";
 import CommandPaletteServer from "./CommandPaletteServer";
+import ScrollResetOnRoute from "./ScrollResetOnRoute";
 import { currentUserIsSuperAdmin } from "@/lib/auth";
 
 // Toda a área administrativa fora dos motores de busca.
@@ -28,6 +29,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
         <div className="p-4 pt-20 sm:p-6 sm:pt-20 md:p-8 md:pt-8 lg:p-10 max-w-7xl mx-auto relative z-10">
           {children}
         </div>
+        <ScrollResetOnRoute />
       </main>
 
       {/* Command Palette (Ctrl/⌘+K) — global em toda a dashboard */}
