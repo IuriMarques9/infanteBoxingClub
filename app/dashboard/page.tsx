@@ -5,15 +5,9 @@ import { type StatusMembro } from "./membros/constants";
 import { anoAtual, membroInativo } from "@/lib/membros-estado";
 import Link from "next/link";
 import StatCard from "@/components/shared/StatCard";
-import dynamic from "next/dynamic";
+import MonthlyRevenueChart from "@/components/dashboard/MonthlyRevenueChartLazy";
 import { getActivityLabel, getEntityHref, formatRelativeTime } from "@/lib/activity-log-labels";
 import { getRelatorioMensal } from "./pagamentos/actions";
-
-// Carregamento dinâmico — recharts (~45KB) só entra no bundle quando
-// o utilizador chega à página geral, e não bloqueia o First Load JS.
-const MonthlyRevenueChart = dynamic(() => import("@/components/dashboard/MonthlyRevenueChart"), {
-  loading: () => <div className="h-[300px] bg-white/[0.02] rounded-lg animate-pulse" />,
-});
 
 export const metadata = {
   title: "Dashboard | Infante Boxing Club",

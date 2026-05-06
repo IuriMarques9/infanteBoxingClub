@@ -8,6 +8,7 @@ import { anoAtual, seguroAtivo, membroInativo, calcularIdade } from '@/lib/membr
 import DocumentUploader from './DocumentUploader'
 import FichaClienteForm from './FichaClienteForm'
 import AvatarUploader from './AvatarUploader'
+import PhoneInput from '@/components/dashboard/PhoneInput'
 import DeleteMembroButton from './DeleteMembroButton'
 import MembroPagamentosSection from './MembroPagamentosSection'
 import { getPagamentosMembro } from '@/app/dashboard/pagamentos/actions'
@@ -176,6 +177,58 @@ export default async function MembroProfilePage({
               <div className="space-y-2">
                 <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Nome Completo</label>
                 <input name="nome" defaultValue={membro.nome} required className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] text-sm" />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Email</label>
+                <input
+                  name="email"
+                  type="email"
+                  defaultValue={membro.email ?? ''}
+                  placeholder="email@exemplo.com"
+                  className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] text-sm"
+                />
+                {membro.email && (
+                  <a
+                    href={`mailto:${membro.email}`}
+                    className="inline-flex items-center gap-1 text-[11px] text-[#E8B55B]/70 hover:text-[#E8B55B] transition-colors"
+                  >
+                    ✉️ Enviar email
+                  </a>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Telemóvel</label>
+                <PhoneInput name="telefone" defaultValue={membro.telefone} />
+                {membro.telefone && (
+                  <div className="flex items-center gap-3 text-[11px]">
+                    <a
+                      href={`tel:${membro.telefone.replace(/\s+/g, '')}`}
+                      className="inline-flex items-center gap-1 text-[#E8B55B]/70 hover:text-[#E8B55B] transition-colors"
+                    >
+                      📞 Ligar
+                    </a>
+                    <a
+                      href={`https://wa.me/${membro.telefone.replace(/\D/g, '').replace(/^00/, '').replace(/^(?!\d)/, '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-emerald-400/70 hover:text-emerald-400 transition-colors"
+                    >
+                      💬 WhatsApp
+                    </a>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Data de Nascimento</label>
+                <input
+                  name="data_nascimento"
+                  type="date"
+                  defaultValue={membro.data_nascimento ?? ''}
+                  className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] text-sm [color-scheme:dark]"
+                />
               </div>
 
               <div className="space-y-2">

@@ -4,6 +4,7 @@ import { TURMA_LABELS, COTAS_SUGERIDAS, SEGURO_LABELS, type Turma, type SeguroPa
 import { anoAtual } from '@/lib/membros-estado'
 import { SubmitPrimary } from '@/components/dashboard/FormButtons'
 import { BackLink } from '@/components/dashboard/PendingLink'
+import PhoneInput from '@/components/dashboard/PhoneInput'
 
 // ─── FORMULÁRIO DE CRIAÇÃO DE NOVO MEMBRO ──────────────────────
 // Este formulário utiliza Server Actions para enviar dados
@@ -43,6 +44,35 @@ export default function NovoMembroPage() {
               required
               placeholder="Ex: João Silva"
               className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent placeholder:text-white/20 text-sm"
+            />
+          </div>
+
+          {/* Email */}
+          <div className="space-y-2">
+            <label htmlFor="email" className="text-sm font-medium text-white/70">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="email@exemplo.com"
+              className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent placeholder:text-white/20 text-sm"
+            />
+          </div>
+
+          {/* Telemóvel */}
+          <div className="space-y-2">
+            <label htmlFor="telefone" className="text-sm font-medium text-white/70">Telemóvel</label>
+            <PhoneInput name="telefone" />
+          </div>
+
+          {/* Data de Nascimento */}
+          <div className="space-y-2">
+            <label htmlFor="data_nascimento" className="text-sm font-medium text-white/70">Data de Nascimento</label>
+            <input
+              id="data_nascimento"
+              name="data_nascimento"
+              type="date"
+              className="w-full px-4 py-3 bg-[#1A1A1A] text-white border border-[#333333] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#E8B55B] focus:border-transparent text-sm [color-scheme:dark]"
             />
           </div>
 

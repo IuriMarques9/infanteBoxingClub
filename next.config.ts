@@ -5,6 +5,14 @@ const nextConfig: NextConfig = {
     // Lint é executado em dev. O build não bloqueia por warnings.
     ignoreDuringBuilds: true,
   },
+  // Default Next.js para Server Actions é 1MB. Avatares e documentos
+  // chegam facilmente aos 2-3MB (PNG, fotos do telemóvel) — sem isto
+  // o upload falhava silenciosamente.
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '5mb',
+    },
+  },
   images: {
     // O Next serve as imagens em AVIF (mais compacto) com fallback
     // automático para WebP — reduz peso ~50% face ao PNG/JPEG original.

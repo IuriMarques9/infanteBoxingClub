@@ -11,6 +11,13 @@ import { uploadDocument } from './documents-actions'
 // Reutiliza `uploadDocument` com `categoria=avatar` (bucket
 // `documentos` partilhado). A lista de membros continua a usar
 // iniciais — gerar signed URLs em massa para cada linha sai caro.
+//
+// Formatos aceites: JPG, PNG, WEBP. HEIC fica de fora porque
+// browsers não-Apple não o renderizam nativamente; SVG fica de
+// fora por risco de XSS (scripts dentro do SVG).
+
+const ACCEPTED_AVATAR_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+const ACCEPTED_AVATAR_ATTR = ACCEPTED_AVATAR_TYPES.join(',')
 
 export default function AvatarUploader({
   membroId,
@@ -29,8 +36,8 @@ export default function AvatarUploader({
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    if (!file.type.startsWith('image/')) {
-      toast.error('Escolhe um ficheiro de imagem.')
+    if (!ACCEPTED_AVATAR_TYPES.includes(file.type)) {
+      toast.error('Formato não suportado. Usa JPG, PNG ou WEBP.')
       return
     }
     if (file.size > 5 * 1024 * 1024) {
@@ -85,7 +92,7 @@ export default function AvatarUploader({
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept={ACCEPTED_AVATAR_ATTR}
         onChange={handleFile}
         className="hidden"
         disabled={pending}

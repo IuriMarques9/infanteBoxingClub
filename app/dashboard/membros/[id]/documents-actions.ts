@@ -20,6 +20,17 @@ const ALLOWED_CATEGORIAS = [
 
 export type DocCategoria = (typeof ALLOWED_CATEGORIAS)[number]
 
+const CATEGORIA_LABEL: Record<DocCategoria, string> = {
+  cc: 'Documento de Identificação',
+  declaracao: 'Declaração dos Pais',
+  inspecao_medica: 'Inspeção Médica',
+  seguro: 'Comprovativo de Seguro',
+  autorizacao: 'Autorização',
+  contrato: 'Contrato',
+  avatar: 'Avatar',
+  outro: 'Documento',
+}
+
 export async function uploadDocument(formData: FormData) {
   const supabase = await createClient()
   const membroId = formData.get('membro_id') as string
@@ -30,6 +41,16 @@ export async function uploadDocument(formData: FormData) {
     return { error: 'Categoria inválida' }
   }
   if (!file || file.size === 0) return { error: 'Ficheiro vazio' }
+
+  // Avatar: só JPG/PNG/WEBP. Defesa em profundidade — o cliente já
+  // restringe via accept, mas validamos no servidor para evitar SVG
+  // (XSS) ou HEIC (não renderiza em browsers não-Apple).
+  if (categoria === 'avatar') {
+    const ALLOWED_AVATAR_MIME = ['image/jpeg', 'image/png', 'image/webp']
+    if (!ALLOWED_AVATAR_MIME.includes(file.type)) {
+      return { error: 'Formato de avatar não suportado. Usa JPG, PNG ou WEBP.' }
+    }
+  }
 
   const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
   const storagePath = `membros/${membroId}/${Date.now()}_${safeName}`
@@ -53,10 +74,13 @@ export async function uploadDocument(formData: FormData) {
     return { error: metaError.message }
   }
 
-  // log
+  const { data: membro } = await (supabase.from('membros').select('nome').eq('id', membroId).single() as any)
+  const nomeMembro = membro?.nome || 'membro'
+  const categoriaLabel = CATEGORIA_LABEL[categoria] ?? 'Documento'
+
   await (supabase.from('activity_log') as any).insert({
     action: 'UPLOAD_DOCUMENTO',
-    description: `Enviou documento "${file.name}" (${categoria}) para o membro`,
+    description: `Enviou ${categoriaLabel} de ${nomeMembro}`,
     entity_type: 'documento',
     entity_id: membroId,
   })
@@ -71,7 +95,7 @@ export async function deleteDocument(formData: FormData) {
 
   const { data: meta } = await (supabase
     .from('document_metadata')
-    .select('storage_path, file_name, membro_id')
+    .select('storage_path, categoria, membro_id')
     .eq('id', id)
     .single() as any)
 
@@ -80,9 +104,13 @@ export async function deleteDocument(formData: FormData) {
   await supabase.storage.from('documentos').remove([meta.storage_path])
   await supabase.from('document_metadata').delete().eq('id', id)
 
+  const { data: membro } = await (supabase.from('membros').select('nome').eq('id', meta.membro_id).single() as any)
+  const nomeMembro = membro?.nome || 'membro'
+  const categoriaLabel = CATEGORIA_LABEL[meta.categoria as DocCategoria] ?? 'Documento'
+
   await (supabase.from('activity_log') as any).insert({
     action: 'ELIMINAR_DOCUMENTO',
-    description: `Eliminou o documento "${meta.file_name}"`,
+    description: `Eliminou ${categoriaLabel} de ${nomeMembro}`,
     entity_type: 'documento',
     entity_id: meta.membro_id,
   })
